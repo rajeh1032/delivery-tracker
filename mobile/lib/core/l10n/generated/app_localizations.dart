@@ -487,6 +487,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delivery Tracker v1.0.0'**
   String get aboutVersion;
+
+  /// No description provided for @deliveryNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery not found'**
+  String get deliveryNotFound;
+
+  /// No description provided for @copyPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Phone'**
+  String get copyPhone;
+
+  /// No description provided for @phoneCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number copied to clipboard'**
+  String get phoneCopied;
+
+  /// No description provided for @callCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get callCustomer;
+
+  /// No description provided for @deliveredBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered by'**
+  String get deliveredBy;
+
+  /// No description provided for @deliveredOrderBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This order has been successfully delivered.'**
+  String get deliveredOrderBanner;
+
+  /// No description provided for @failedOrderBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This delivery was marked as failed.'**
+  String get failedOrderBanner;
 }
 
 class _AppLocalizationsDelegate

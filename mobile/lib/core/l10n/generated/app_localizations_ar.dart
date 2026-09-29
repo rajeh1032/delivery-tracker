@@ -206,4 +206,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get aboutVersion => 'متتبع التوصيل v1.0.0';
+
+  @override
+  String get deliveryNotFound => 'لم يتم العثور على الطلب';
+
+  @override
+  String get copyPhone => 'نسخ رقم الهاتف';
+
+  @override
+  String get phoneCopied => 'تم نسخ رقم الهاتف للحافظة';
+
+  @override
+  String get callCustomer => 'اتصال';
+
+  @override
+  String get deliveredBy => 'تم الاستلام بواسطة';
+
+  @override
+  String get deliveredOrderBanner => 'تم تسليم هذا الطلب بنجاح.';
+
+  @override
+  String get failedOrderBanner => 'تم تحديد هذا الطلب كفاشل.';
 }

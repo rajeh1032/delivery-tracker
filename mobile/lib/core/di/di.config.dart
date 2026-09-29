@@ -42,6 +42,8 @@ import '../../features/delivery/domain/use_case/retry_action_use_case.dart'
     as _i397;
 import '../../features/delivery/presentation/cubits/deliveries_list/deliveries_list_cubit.dart'
     as _i227;
+import '../../features/delivery/presentation/cubits/delivery_details/delivery_details_cubit.dart'
+    as _i550;
 import '../database/local_storage_service.dart' as _i824;
 import '../general_cubits/connectivity_cubit.dart' as _i20;
 import '../general_cubits/locale_cubit.dart' as _i959;
@@ -140,6 +142,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i963.GetDeliveriesUseCase>(),
         gh<_i1007.DeliveryRepository>(),
         gh<_i47.ConnectivityService>(),
+      ),
+    );
+    gh.factory<_i550.DeliveryDetailsCubit>(
+      () => _i550.DeliveryDetailsCubit(
+        gh<_i497.GetDeliveryByIdUseCase>(),
+        gh<_i1007.DeliveryRepository>(),
       ),
     );
     return this;

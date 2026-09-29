@@ -206,4 +206,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutVersion => 'Delivery Tracker v1.0.0';
+
+  @override
+  String get deliveryNotFound => 'Delivery not found';
+
+  @override
+  String get copyPhone => 'Copy Phone';
+
+  @override
+  String get phoneCopied => 'Phone number copied to clipboard';
+
+  @override
+  String get callCustomer => 'Call';
+
+  @override
+  String get deliveredBy => 'Delivered by';
+
+  @override
+  String get deliveredOrderBanner =>
+      'This order has been successfully delivered.';
+
+  @override
+  String get failedOrderBanner => 'This delivery was marked as failed.';
 }
