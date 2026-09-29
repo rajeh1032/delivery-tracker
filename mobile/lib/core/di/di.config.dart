@@ -13,6 +13,11 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../features/delivery/data/sources/local/delivery_local_ds.dart'
+    as _i1;
+import '../../features/delivery/data/sources/local/delivery_local_ds_impl.dart'
+    as _i724;
+import '../database/local_storage_service.dart' as _i824;
 import '../general_cubits/locale_cubit.dart' as _i959;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -22,7 +27,13 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.lazySingleton<_i824.LocalStorageService>(
+      () => _i824.LocalStorageService(),
+    );
     gh.lazySingleton<_i959.LocaleCubit>(() => _i959.LocaleCubit());
+    gh.factory<_i1.DeliveryLocalDataSource>(
+      () => _i724.DeliveryLocalDataSourceImpl(gh<_i824.LocalStorageService>()),
+    );
     return this;
   }
 }
