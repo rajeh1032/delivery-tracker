@@ -111,6 +111,8 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
         if (request.note != null) NetworkConstants.keyNote: request.note,
         if (request.baseVersion != null)
           NetworkConstants.keyBaseVersion: request.baseVersion,
+        if (request.localPhotoPath != null)
+          NetworkConstants.keyLocalPhotoPath: request.localPhotoPath,
       },
       status: SyncStatus.waitingToSync,
       createdAt: DateTime.now(),
