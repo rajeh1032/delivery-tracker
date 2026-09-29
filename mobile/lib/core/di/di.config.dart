@@ -41,6 +41,7 @@ import '../../features/delivery/domain/use_case/get_delivery_by_id_use_case.dart
 import '../../features/delivery/domain/use_case/retry_action_use_case.dart'
     as _i397;
 import '../database/local_storage_service.dart' as _i824;
+import '../general_cubits/connectivity_cubit.dart' as _i20;
 import '../general_cubits/locale_cubit.dart' as _i959;
 import '../helpers/shared_pref.dart' as _i42;
 import '../network/api_services.dart' as _i804;
@@ -99,6 +100,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i356.DeliveryRemoteDs>(
       () => _i187.DeliveryRemoteDsImpl(gh<_i804.ApiServices>()),
+    );
+    gh.factory<_i20.ConnectivityCubit>(
+      () => _i20.ConnectivityCubit(gh<_i47.ConnectivityService>()),
     );
     gh.lazySingleton<_i892.SyncManager>(
       () => _i892.SyncManager(

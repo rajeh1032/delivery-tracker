@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'app_text_styles.dart';
+import 'app_theme_extension.dart';
 import 'colors.dart';
 
 /// Application theme configurations adhering to Material 3 standards.
@@ -25,6 +27,10 @@ abstract final class AppTheme {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppColors.background,
       fontFamilyFallback: const ['Roboto', 'Noto Sans Arabic', 'Arial'],
+      extensions: const [
+        AppThemeColors.light,
+        AppTextStyles.light,
+      ],
 
       // App Bar
       appBarTheme: const AppBarTheme(
