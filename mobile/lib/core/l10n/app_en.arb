@@ -71,5 +71,10 @@
   "callCustomer": "Call",
   "deliveredBy": "Delivered by",
   "deliveredOrderBanner": "This order has been successfully delivered.",
-  "failedOrderBanner": "This delivery was marked as failed."
+  "failedOrderBanner": "This delivery was marked as failed.",
+  "deliveryCompletedLocally": "Delivery recorded and queued for sync.",
+  "deliveryFailedLocally": "Delivery failure recorded and queued for sync.",
+  "removePhoto": "Remove photo",
+  "chooseSource": "Choose image source",
+  "photoAttachSuccess": "Photo attached successfully"
 }

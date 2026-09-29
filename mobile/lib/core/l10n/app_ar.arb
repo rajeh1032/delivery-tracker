@@ -71,5 +71,10 @@
   "callCustomer": "اتصال",
   "deliveredBy": "تم الاستلام بواسطة",
   "deliveredOrderBanner": "تم تسليم هذا الطلب بنجاح.",
-  "failedOrderBanner": "تم تحديد هذا الطلب كفاشل."
+  "failedOrderBanner": "تم تحديد هذا الطلب كفاشل.",
+  "deliveryCompletedLocally": "تم تسجيل التوصيل بنجاح وجدولة المزامنة.",
+  "deliveryFailedLocally": "تم تسجيل فشل التوصيل وجدولة المزامنة.",
+  "removePhoto": "حذف الصورة",
+  "chooseSource": "اختر مصدر الصورة",
+  "photoAttachSuccess": "تم إرفاق الصورة بنجاح"
 }

@@ -529,6 +529,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This delivery was marked as failed.'**
   String get failedOrderBanner;
+
+  /// No description provided for @deliveryCompletedLocally.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery recorded and queued for sync.'**
+  String get deliveryCompletedLocally;
+
+  /// No description provided for @deliveryFailedLocally.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery failure recorded and queued for sync.'**
+  String get deliveryFailedLocally;
+
+  /// No description provided for @removePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get removePhoto;
+
+  /// No description provided for @chooseSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose image source'**
+  String get chooseSource;
+
+  /// No description provided for @photoAttachSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo attached successfully'**
+  String get photoAttachSuccess;
 }
 
 class _AppLocalizationsDelegate

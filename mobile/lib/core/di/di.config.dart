@@ -12,11 +12,13 @@
 
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
+import 'package:image_picker/image_picker.dart' as _i183;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart'
     as _i161;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
+import 'package:uuid/uuid.dart' as _i706;
 
 import '../../features/delivery/data_sources/repositories/delivery_repo_impl.dart'
     as _i99;
@@ -40,10 +42,14 @@ import '../../features/delivery/domain/use_case/get_delivery_by_id_use_case.dart
     as _i497;
 import '../../features/delivery/domain/use_case/retry_action_use_case.dart'
     as _i397;
+import '../../features/delivery/presentation/cubits/complete_delivery/complete_delivery_cubit.dart'
+    as _i140;
 import '../../features/delivery/presentation/cubits/deliveries_list/deliveries_list_cubit.dart'
     as _i227;
 import '../../features/delivery/presentation/cubits/delivery_details/delivery_details_cubit.dart'
     as _i550;
+import '../../features/delivery/presentation/cubits/fail_delivery/fail_delivery_cubit.dart'
+    as _i939;
 import '../database/local_storage_service.dart' as _i824;
 import '../general_cubits/connectivity_cubit.dart' as _i20;
 import '../general_cubits/locale_cubit.dart' as _i959;
@@ -76,6 +82,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i161.InternetConnection>(
       () => externalModules.provideInternetConnection(),
+    );
+    gh.lazySingleton<_i706.Uuid>(() => externalModules.provideUuid());
+    gh.lazySingleton<_i183.ImagePicker>(
+      () => externalModules.provideImagePicker(),
     );
     gh.lazySingleton<_i698.ProofStorageService>(
       () => _i698.ProofStorageService(),
@@ -137,11 +147,27 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i397.RetryActionUseCase>(
       () => _i397.RetryActionUseCase(gh<_i1007.DeliveryRepository>()),
     );
+    gh.factory<_i140.CompleteDeliveryCubit>(
+      () => _i140.CompleteDeliveryCubit(
+        gh<_i43.CompleteDeliveryUseCase>(),
+        gh<_i698.ProofStorageService>(),
+        gh<_i892.SyncManager>(),
+        imagePicker: gh<_i183.ImagePicker>(),
+        uuid: gh<_i706.Uuid>(),
+      ),
+    );
     gh.factory<_i227.DeliveriesListCubit>(
       () => _i227.DeliveriesListCubit(
         gh<_i963.GetDeliveriesUseCase>(),
         gh<_i1007.DeliveryRepository>(),
         gh<_i47.ConnectivityService>(),
+      ),
+    );
+    gh.factory<_i939.FailDeliveryCubit>(
+      () => _i939.FailDeliveryCubit(
+        gh<_i77.FailDeliveryUseCase>(),
+        gh<_i892.SyncManager>(),
+        uuid: gh<_i706.Uuid>(),
       ),
     );
     gh.factory<_i550.DeliveryDetailsCubit>(
