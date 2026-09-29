@@ -1,3 +1,7 @@
+import 'package:dio/dio.dart';
+import 'failures.dart';
+import 'network_constants.dart';
+
 /// Sealed hierarchy representing either a successful API operation or an error result.
 sealed class ApiResult<T> {
   const ApiResult();
@@ -7,6 +11,7 @@ sealed class ApiResult<T> {
     String message, {
     String? code,
     int? statusCode,
+    Failure? failure,
   }) = ApiErrorResult<T>;
 
   bool get isSuccess => this is ApiSuccessResult<T>;
@@ -16,6 +21,12 @@ sealed class ApiResult<T> {
         ApiSuccessResult<T>(data: final data) => data,
         ApiErrorResult<T>() => null,
       };
+
+  Failure? get failureOrNull => switch (this) {
+        ApiSuccessResult<T>() => null,
+        ApiErrorResult<T>(failure: final failure) => failure,
+      };
+
 
   R when<R>({
     required R Function(T data) success,
@@ -53,17 +64,41 @@ final class ApiSuccessResult<T> extends ApiResult<T> {
   String toString() => 'ApiSuccessResult(data: $data)';
 }
 
-/// Failure result holding error [message], optional server error [code], and HTTP [statusCode].
+/// Failure result holding error [message], optional server error [code], HTTP [statusCode],
+/// and a strongly-typed [failure].
 final class ApiErrorResult<T> extends ApiResult<T> {
   final String message;
   final String? code;
   final int? statusCode;
+  final Failure? _rawFailure;
 
   const ApiErrorResult(
     this.message, {
     this.code,
     this.statusCode,
-  });
+    Failure? failure,
+  }) : _rawFailure = failure;
+
+  /// Underlying domain/data failure.
+  Failure get failure =>
+      _rawFailure ??
+      Failure(
+        errorMessage: message,
+        code: code ?? NetworkConstants.defaultErrorCode,
+      );
+
+
+  factory ApiErrorResult.fromFailure(
+    Failure failure, {
+    int? statusCode,
+  }) {
+    return ApiErrorResult(
+      failure.errorMessage,
+      code: failure.code,
+      statusCode: statusCode,
+      failure: failure,
+    );
+  }
 
   @override
   bool operator ==(Object other) =>
@@ -80,4 +115,49 @@ final class ApiErrorResult<T> extends ApiResult<T> {
   @override
   String toString() =>
       'ApiErrorResult(message: $message, code: $code, statusCode: $statusCode)';
+}
+
+/// Safely executes a remote API network call, catching [DioException] and generic errors
+/// and wrapping them into an [ApiResult].
+Future<ApiResult<T>> safeApiCall<T>(Future<T> Function() apiCall) async {
+  try {
+    final result = await apiCall();
+    return ApiSuccessResult<T>(result);
+  } on DioException catch (dioError) {
+    final failure = ServerFailure.fromDioError(dioException: dioError);
+    return ApiErrorResult<T>(
+      failure.errorMessage,
+      code: failure.code,
+      statusCode: dioError.response?.statusCode,
+      failure: failure,
+    );
+  } catch (error) {
+    final failure = Failure(
+      errorMessage: error.toString(),
+      code: NetworkConstants.unknownError,
+    );
+    return ApiErrorResult<T>(
+      failure.errorMessage,
+      code: failure.code,
+      failure: failure,
+    );
+  }
+}
+
+/// Safely executes a local database call, capturing any unexpected exceptions into an [ApiResult].
+Future<ApiResult<T>> safeLocalCall<T>(Future<T> Function() localCall) async {
+  try {
+    final result = await localCall();
+    return ApiSuccessResult<T>(result);
+  } catch (error) {
+    final failure = Failure(
+      errorMessage: error.toString(),
+      code: NetworkConstants.unknownError,
+    );
+    return ApiErrorResult<T>(
+      failure.errorMessage,
+      code: failure.code,
+      failure: failure,
+    );
+  }
 }
