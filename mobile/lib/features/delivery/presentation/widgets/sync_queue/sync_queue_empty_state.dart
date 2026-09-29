@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:delivery_tracker/config/theme/app_dimensions.dart';
 import 'package:delivery_tracker/config/theme/colors.dart';
 import 'package:delivery_tracker/core/extensions/context_extensions.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/sync_queue/sync_queue_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/sync_queue/sync_queue_state.dart';
 
 /// Clean empty state message displayed when a sync queue tab has no entries.
 class SyncQueueEmptyState extends StatelessWidget {

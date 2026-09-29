@@ -8,8 +8,8 @@ import 'package:delivery_tracker/core/di/di.dart';
 import 'package:delivery_tracker/core/extensions/context_extensions.dart';
 import 'package:delivery_tracker/core/helpers/snackbar_utils.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_entity.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/fail_delivery/fail_delivery_cubit.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/fail_delivery/fail_delivery_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/delivery_action/delivery_action_cubit.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/delivery_action/delivery_action_state.dart';
 import 'failure_reason_dropdown.dart';
 import 'note_field.dart';
 
@@ -19,7 +19,7 @@ class FailDeliverySheet extends StatefulWidget {
 
   const FailDeliverySheet({super.key, required this.delivery});
 
-  /// Displays the bottom sheet with an injected [FailDeliveryCubit].
+  /// Displays the bottom sheet with an injected [DeliveryActionCubit].
   static Future<bool?> show(BuildContext context, DeliveryEntity delivery) {
     return showModalBottomSheet<bool>(
       context: context,
@@ -31,8 +31,8 @@ class FailDeliverySheet extends StatefulWidget {
           top: Radius.circular(AppDimensions.radiusBottomSheet),
         ),
       ),
-      builder: (_) => BlocProvider<FailDeliveryCubit>(
-        create: (_) => getIt<FailDeliveryCubit>(),
+      builder: (_) => BlocProvider<DeliveryActionCubit>(
+        create: (_) => getIt<DeliveryActionCubit>(),
         child: FailDeliverySheet(delivery: delivery),
       ),
     );
@@ -47,13 +47,13 @@ class _FailDeliverySheetState extends State<FailDeliverySheet> {
 
   void _handleSubmit(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
-      context.read<FailDeliveryCubit>().confirm(widget.delivery);
+      context.read<DeliveryActionCubit>().failDelivery(widget.delivery);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<FailDeliveryCubit, FailDeliveryState>(
+    return BlocConsumer<DeliveryActionCubit, DeliveryActionState>(
       listenWhen: (prev, curr) => prev.status != curr.status,
       listener: (context, state) {
         if (state.isSuccess) {
@@ -62,12 +62,12 @@ class _FailDeliverySheetState extends State<FailDeliverySheet> {
             context,
             context.tr.deliveryFailedLocally,
           );
-        } else if (state.isFailure && state.submissionError != null) {
-          SnackBarUtils.showError(context, state.submissionError!);
+        } else if (state.isFailure && state.errorMessage != null) {
+          SnackBarUtils.showError(context, state.errorMessage!);
         }
       },
       builder: (context, state) {
-        final cubit = context.read<FailDeliveryCubit>();
+        final cubit = context.read<DeliveryActionCubit>();
 
         return PopScope(
           canPop: !state.isSubmitting,

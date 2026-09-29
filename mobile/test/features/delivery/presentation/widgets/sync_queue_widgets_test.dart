@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:delivery_tracker/core/l10n/generated/app_localizations.dart';
 import 'package:delivery_tracker/core/utils/enums.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_action.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/sync_queue/sync_queue_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/sync_queue/sync_queue_state.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/sync_queue/sync_action_card.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/sync_queue/sync_queue_empty_state.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/sync_queue/sync_queue_retry_all_button.dart';

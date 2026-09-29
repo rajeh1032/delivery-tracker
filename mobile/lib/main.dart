@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'config/routing/app_routes.dart';
 import 'config/routing/route_generator.dart';
 import 'config/theme/app_theme.dart';
@@ -13,11 +15,18 @@ import 'core/services/sync_manager.dart';
 import 'features/delivery/data_sources/sources/local/delivery_local_ds.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  try {
+    await dotenv.load(fileName: '.env');
+  } catch (e) {
+    debugPrint('Dotenv failed to load: $e');
+  }
   await configureDependencies();
   await getIt<LocalStorageService>().init();
   await getIt<DeliveryLocalDataSource>().reconcileStrandedSyncStates();
   getIt<SyncManager>().startListening();
+  FlutterNativeSplash.remove();
   runApp(const DeliveryTrackerApp());
 }
 

@@ -643,6 +643,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Information'**
   String get snackbarInfo;
+
+  /// No description provided for @viewOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'View on Map'**
+  String get viewOnMap;
+
+  /// No description provided for @openInGoogleMaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Google Maps'**
+  String get openInGoogleMaps;
+
+  /// No description provided for @customerLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer Location'**
+  String get customerLocation;
 }
 
 class _AppLocalizationsDelegate

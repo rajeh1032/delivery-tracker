@@ -73,13 +73,16 @@ class _HomeShellPageState extends State<HomeShellPage> {
             const SizedBox(width: AppDimensions.spaceXS),
           ],
         ),
-        body: const Column(
-          children: [
-            OfflineBanner(),
-            Expanded(
-              child: DeliveriesListPage(),
-            ),
-          ],
+        body: const SafeArea(
+          top: false,
+          child: Column(
+            children: [
+              OfflineBanner(),
+              Expanded(
+                child: DeliveriesListPage(),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -6,22 +6,22 @@ import 'package:delivery_tracker/core/services/connectivity_service.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_entity.dart';
 import 'package:delivery_tracker/features/delivery/domain/repositories/delivery_repository.dart';
 import 'package:delivery_tracker/features/delivery/domain/use_case/get_deliveries_use_case.dart';
-import 'deliveries_list_state.dart';
+import 'deliveries_state.dart';
 
 /// Cubit managing deliveries list fetching, local cache updates, searching, and filtering.
 @injectable
-class DeliveriesListCubit extends Cubit<DeliveriesListState> {
+class DeliveriesCubit extends Cubit<DeliveriesState> {
   final GetDeliveriesUseCase _getDeliveriesUseCase;
   final DeliveryRepository _deliveryRepository;
   final ConnectivityService connectivityService;
 
   StreamSubscription<List<DeliveryEntity>>? _deliveriesSubscription;
 
-  DeliveriesListCubit(
+  DeliveriesCubit(
     this._getDeliveriesUseCase,
     this._deliveryRepository,
     this.connectivityService,
-  ) : super(const DeliveriesListState()) {
+  ) : super(const DeliveriesState()) {
     _startWatchingDeliveries();
   }
 
@@ -34,20 +34,20 @@ class DeliveriesListCubit extends Cubit<DeliveriesListState> {
   void _onDeliveriesUpdated(List<DeliveryEntity> updatedList) {
     if (isClosed) return;
 
-    if (state.status == DeliveriesListStatus.initial ||
-        state.status == DeliveriesListStatus.loading) {
+    if (state.status == DeliveriesStatus.initial ||
+        state.status == DeliveriesStatus.loading) {
       emit(state.copyWith(
         status: updatedList.isEmpty
-            ? DeliveriesListStatus.empty
-            : DeliveriesListStatus.loaded,
+            ? DeliveriesStatus.empty
+            : DeliveriesStatus.loaded,
         deliveries: updatedList,
       ));
     } else {
       emit(state.copyWith(
         deliveries: updatedList,
         status: updatedList.isEmpty
-            ? DeliveriesListStatus.empty
-            : DeliveriesListStatus.loaded,
+            ? DeliveriesStatus.empty
+            : DeliveriesStatus.loaded,
       ));
     }
   }
@@ -55,7 +55,7 @@ class DeliveriesListCubit extends Cubit<DeliveriesListState> {
   /// Initial load of deliveries from repository (cache-first policy).
   Future<void> loadDeliveries() async {
     if (state.deliveries.isEmpty) {
-      emit(state.copyWith(status: DeliveriesListStatus.loading));
+      emit(state.copyWith(status: DeliveriesStatus.loading));
     }
 
     final result = await _getDeliveriesUseCase.invoke();
@@ -65,21 +65,20 @@ class DeliveriesListCubit extends Cubit<DeliveriesListState> {
     if (result case ApiSuccessResult<List<DeliveryEntity>>(:final data)) {
       emit(state.copyWith(
         status: data.isEmpty
-            ? DeliveriesListStatus.empty
-            : DeliveriesListStatus.loaded,
+            ? DeliveriesStatus.empty
+            : DeliveriesStatus.loaded,
         deliveries: data,
         errorMessage: null,
       ));
     } else if (result case ApiErrorResult<List<DeliveryEntity>>(:final failure)) {
-      // If cache has items, remain loaded and display no blocking error
       if (state.deliveries.isNotEmpty) {
         emit(state.copyWith(
-          status: DeliveriesListStatus.loaded,
+          status: DeliveriesStatus.loaded,
           errorMessage: failure.errorMessage,
         ));
       } else {
         emit(state.copyWith(
-          status: DeliveriesListStatus.error,
+          status: DeliveriesStatus.error,
           errorMessage: failure.errorMessage,
         ));
       }
@@ -95,8 +94,8 @@ class DeliveriesListCubit extends Cubit<DeliveriesListState> {
       emit(state.copyWith(
         deliveries: data,
         status: data.isEmpty
-            ? DeliveriesListStatus.empty
-            : DeliveriesListStatus.loaded,
+            ? DeliveriesStatus.empty
+            : DeliveriesStatus.loaded,
         errorMessage: null,
       ));
     }
@@ -118,3 +117,6 @@ class DeliveriesListCubit extends Cubit<DeliveriesListState> {
     return super.close();
   }
 }
+
+/// Backwards compatibility alias
+typedef DeliveriesListCubit = DeliveriesCubit;

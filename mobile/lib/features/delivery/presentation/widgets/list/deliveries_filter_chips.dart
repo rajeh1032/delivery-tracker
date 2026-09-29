@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:delivery_tracker/config/theme/app_dimensions.dart';
 import 'package:delivery_tracker/config/theme/colors.dart';
 import 'package:delivery_tracker/core/extensions/context_extensions.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/deliveries_list/deliveries_list_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/deliveries/deliveries_state.dart';
 
 /// Premium segmented pill tab bar ported from done_app trips selector.
 class DeliveriesFilterChips extends StatelessWidget {
