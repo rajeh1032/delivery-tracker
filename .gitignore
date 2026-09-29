@@ -6,6 +6,9 @@ references/
 rules/
 *.pdf
 *.pages
+.agent
+.agent*
+AGENTS.md
 
 # Ignore all markdown files (specs, docs, instructions, readmes)
 *.md
