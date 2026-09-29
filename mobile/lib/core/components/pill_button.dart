@@ -9,16 +9,18 @@ class PillButton extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final bool isLoading;
+  final EdgeInsetsGeometry? padding;
   final Widget? icon;
 
   const PillButton({
     super.key,
     required this.text,
     this.onPressed,
-    this.backgroundColor = AppColors.primary,
+    this.backgroundColor = AppColors.buttonDark,
     this.textColor = Colors.white,
     this.isLoading = false,
     this.icon,
+    this.padding,
   });
 
   @override
@@ -29,6 +31,8 @@ class PillButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
+          padding: padding ??
+              const EdgeInsets.symmetric(horizontal: AppDimensions.spaceSM),
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
           disabledBackgroundColor: backgroundColor.withValues(alpha: 0.5),
@@ -52,14 +56,18 @@ class PillButton extends StatelessWidget {
                 children: [
                   if (icon != null) ...[
                     icon!,
-                    const SizedBox(width: AppDimensions.spaceSM),
+                    const SizedBox(width: AppDimensions.spaceXS),
                   ],
-                  Text(
-                    text,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: textColor,
+                  Flexible(
+                    child: Text(
+                      text,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: textColor,
+                      ),
                     ),
                   ),
                 ],

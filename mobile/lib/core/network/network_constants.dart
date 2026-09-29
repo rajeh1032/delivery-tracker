@@ -1,11 +1,19 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 /// Network configuration constants, endpoints, timeouts, and error codes.
 abstract final class NetworkConstants {
   /// Base API URL configurable dynamically at build/run time via:
   /// `--dart-define=BASE_URL=http://...`
-  static const String baseUrl = String.fromEnvironment(
-    'BASE_URL',
-    defaultValue: 'http://10.0.2.2:3000',
-  );
+  /// Defaults to 10.0.2.2:3000 on Android emulator and 127.0.0.1:3000 on iOS simulator / desktop.
+  static String get baseUrl {
+    const fromEnv = String.fromEnvironment('BASE_URL');
+    if (fromEnv.isNotEmpty) return fromEnv;
+    if (!kIsWeb && Platform.isAndroid) {
+      return 'http://10.0.2.2:3000';
+    }
+    return 'http://127.0.0.1:3000';
+  }
 
   // Endpoints & Path Formats
   static const String deliveries = '/deliveries';
@@ -86,6 +94,6 @@ abstract final class NetworkConstants {
       'Delivery has already been finalized';
 }
 
-/// Global convenience constant for quick access matching plan specification.
-const String kBaseUrl = NetworkConstants.baseUrl;
+/// Global convenience getter for quick access matching plan specification.
+String get kBaseUrl => NetworkConstants.baseUrl;
 

@@ -9,7 +9,6 @@ import '../../../../core/helpers/snackbar_utils.dart';
 import '../widgets/offline/connectivity_pill.dart';
 import '../widgets/offline/offline_banner.dart';
 import 'deliveries_list_page.dart';
-import 'settings_page.dart';
 
 /// Root shell page hosting the bottom navigation bar and reactive offline banner.
 class HomeShellPage extends StatefulWidget {
@@ -20,8 +19,6 @@ class HomeShellPage extends StatefulWidget {
 }
 
 class _HomeShellPageState extends State<HomeShellPage> {
-  int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<ConnectivityCubit, ConnectivityState>(
@@ -32,8 +29,11 @@ class _HomeShellPageState extends State<HomeShellPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            _resolveTitle(context),
-            style: const TextStyle(fontWeight: FontWeight.w700),
+            context.tr.appTitle,
+            style: const TextStyle(
+              fontWeight: FontWeight.w800,
+              fontSize: 18,
+            ),
           ),
           actions: [
             const Padding(
@@ -48,52 +48,15 @@ class _HomeShellPageState extends State<HomeShellPage> {
             const SizedBox(width: AppDimensions.spaceXS),
           ],
         ),
-        body: Column(
+        body: const Column(
           children: [
-            const OfflineBanner(),
+            OfflineBanner(),
             Expanded(
-              child: IndexedStack(
-                index: _currentIndex,
-                children: const [
-                  DeliveriesListPage(),
-                  SettingsPage(),
-                ],
-              ),
-            ),
-          ],
-        ),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: _currentIndex,
-          onDestinationSelected: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          destinations: [
-            NavigationDestination(
-              icon: const Icon(Icons.local_shipping_outlined),
-              selectedIcon: const Icon(Icons.local_shipping),
-              label: context.tr.navDeliveries,
-            ),
-            NavigationDestination(
-              icon: const Icon(Icons.settings_outlined),
-              selectedIcon: const Icon(Icons.settings),
-              label: context.tr.navSettings,
+              child: DeliveriesListPage(),
             ),
           ],
         ),
       ),
     );
-  }
-
-  String _resolveTitle(BuildContext context) {
-    switch (_currentIndex) {
-      case 0:
-        return context.tr.appTitle;
-      case 1:
-        return context.tr.settingsTitle;
-      default:
-        return context.tr.appTitle;
-    }
   }
 }
