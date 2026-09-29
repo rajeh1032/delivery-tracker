@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:delivery_tracker/core/database/adapters/delivery_adapter.dart';
+import 'package:delivery_tracker/core/utils/constants.dart';
 import 'package:delivery_tracker/core/utils/enums.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_entity.dart';
 
@@ -39,7 +40,7 @@ void main() {
         phone: '+96590000001',
         address: 'Kuwait City, Block 1, Street 2, Building 3',
         amountDue: 24.500,
-        paymentMethod: 'knet',
+        paymentMethod: AppConstants.paymentMethodInstapay,
         status: DeliveryStatus.delivered,
         syncStatus: SyncStatus.synced,
         recipientName: 'Mona Salem',
