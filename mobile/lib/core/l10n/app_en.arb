@@ -81,5 +81,14 @@
   "actionTypeFail": "Delivery Failure",
   "retries": "Retries",
   "orderPrefix": "Order #",
-  "viewDetails": "View Details"
+  "viewDetails": "View Details",
+  "phoneInvalid": "Invalid phone number",
+  "viewPhoto": "View Photo",
+  "cannotMakeCall": "Cannot make calls on this device",
+  "orderSummary": "Order Details",
+  "compressingImage": "Optimizing image...",
+  "snackbarSuccess": "Success",
+  "snackbarError": "Something went wrong",
+  "snackbarWarning": "Attention",
+  "snackbarInfo": "Information"
 }

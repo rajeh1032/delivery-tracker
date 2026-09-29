@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/theme/app_dimensions.dart';
+import '../../../../config/theme/colors.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/general_cubits/connectivity_cubit.dart';
 import '../../../../core/general_cubits/connectivity_state.dart';
@@ -28,6 +29,8 @@ class _HomeShellPageState extends State<HomeShellPage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
+          surfaceTintColor: Colors.transparent,
           title: Text(
             context.tr.appTitle,
             style: const TextStyle(
@@ -48,13 +51,16 @@ class _HomeShellPageState extends State<HomeShellPage> {
             const SizedBox(width: AppDimensions.spaceXS),
           ],
         ),
-        body: const Column(
-          children: [
-            OfflineBanner(),
-            Expanded(
-              child: DeliveriesListPage(),
-            ),
-          ],
+        body: const SafeArea(
+          top: false,
+          child: Column(
+            children: [
+              OfflineBanner(),
+              Expanded(
+                child: DeliveriesListPage(),
+              ),
+            ],
+          ),
         ),
       ),
     );
