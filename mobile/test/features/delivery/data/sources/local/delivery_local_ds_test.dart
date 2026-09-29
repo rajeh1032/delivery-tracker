@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:delivery_tracker/core/database/local_storage_service.dart';
+import 'package:delivery_tracker/core/utils/constants.dart';
 import 'package:delivery_tracker/core/utils/enums.dart';
 import 'package:delivery_tracker/features/delivery/data/sources/local/delivery_local_ds.dart';
 import 'package:delivery_tracker/features/delivery/data/sources/local/delivery_local_ds_impl.dart';
@@ -20,7 +21,7 @@ void main() {
     phone: '+96590000001',
     address: 'Kuwait City, Block 1',
     amountDue: 25.500,
-    paymentMethod: 'knet',
+    paymentMethod: AppConstants.paymentMethodInstapay,
     status: DeliveryStatus.pending,
     syncStatus: SyncStatus.synced,
     version: 1,

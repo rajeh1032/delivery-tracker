@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:delivery_tracker/core/database/adapters/delivery_action_adapter.dart';
+import 'package:delivery_tracker/core/utils/constants.dart';
 import 'package:delivery_tracker/core/utils/enums.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_action.dart';
 
@@ -39,7 +40,7 @@ void main() {
         payload: {
           'recipient_name': 'Khaled Al-Otaibi',
           'note': 'Customer received and signed',
-          'nested_meta': {'channel': 'knet', 'cash_received': 0},
+          'nested_meta': {'channel': AppConstants.paymentMethodInstapay, 'cash_received': 0},
         },
         status: SyncStatus.waitingToSync,
         createdAt: DateTime.utc(2026, 9, 29, 14, 0),
