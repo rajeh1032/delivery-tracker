@@ -243,4 +243,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get photoAttachSuccess => 'تم إرفاق الصورة بنجاح';
+
+  @override
+  String get actionTypeComplete => 'إتمام التوصيل';
+
+  @override
+  String get actionTypeFail => 'تعذر التوصيل';
+
+  @override
+  String get retries => 'محاولات';
+
+  @override
+  String get orderPrefix => 'طلب #';
 }

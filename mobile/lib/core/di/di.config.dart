@@ -50,6 +50,8 @@ import '../../features/delivery/presentation/cubits/delivery_details/delivery_de
     as _i550;
 import '../../features/delivery/presentation/cubits/fail_delivery/fail_delivery_cubit.dart'
     as _i939;
+import '../../features/delivery/presentation/cubits/sync_queue/sync_queue_cubit.dart'
+    as _i220;
 import '../database/local_storage_service.dart' as _i824;
 import '../general_cubits/connectivity_cubit.dart' as _i20;
 import '../general_cubits/locale_cubit.dart' as _i959;
@@ -130,6 +132,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i99.DeliveryRepositoryImpl(
         gh<_i336.DeliveryLocalDataSource>(),
         gh<_i356.DeliveryRemoteDs>(),
+      ),
+    );
+    gh.factory<_i220.SyncQueueCubit>(
+      () => _i220.SyncQueueCubit(
+        gh<_i1007.DeliveryRepository>(),
+        gh<_i892.SyncManager>(),
       ),
     );
     gh.factory<_i43.CompleteDeliveryUseCase>(

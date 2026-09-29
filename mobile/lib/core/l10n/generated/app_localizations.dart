@@ -559,6 +559,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Photo attached successfully'**
   String get photoAttachSuccess;
+
+  /// No description provided for @actionTypeComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Completion'**
+  String get actionTypeComplete;
+
+  /// No description provided for @actionTypeFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Failure'**
+  String get actionTypeFail;
+
+  /// No description provided for @retries.
+  ///
+  /// In en, this message translates to:
+  /// **'Retries'**
+  String get retries;
+
+  /// No description provided for @orderPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Order #'**
+  String get orderPrefix;
 }
 
 class _AppLocalizationsDelegate
