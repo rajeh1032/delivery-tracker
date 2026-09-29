@@ -9,11 +9,14 @@ extension DeliveryResponseDtoToEntity on DeliveryResponseDto {
   /// Converts [DeliveryResponseDto] to domain [DeliveryEntity].
   DeliveryEntity toEntity() {
     DateTime? parsedDate;
-    if (completedAt != null && completedAt!.isNotEmpty) {
+    if (updatedAt != null && updatedAt!.isNotEmpty) {
+      parsedDate = DateTime.tryParse(updatedAt!);
+    } else if (completedAt != null && completedAt!.isNotEmpty) {
       parsedDate = DateTime.tryParse(completedAt!);
     } else if (failedAt != null && failedAt!.isNotEmpty) {
       parsedDate = DateTime.tryParse(failedAt!);
     }
+
 
     return DeliveryEntity(
       id: id,

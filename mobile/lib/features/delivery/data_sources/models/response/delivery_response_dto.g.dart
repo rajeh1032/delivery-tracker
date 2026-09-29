@@ -24,6 +24,7 @@ DeliveryResponseDto _$DeliveryResponseDtoFromJson(Map<String, dynamic> json) =>
       clientActionId: json['client_action_id'] as String?,
       completedAt: json['completed_at'] as String?,
       failedAt: json['failed_at'] as String?,
+      updatedAt: json['updated_at'] as String?,
     );
 
 Map<String, dynamic> _$DeliveryResponseDtoToJson(
@@ -45,6 +46,7 @@ Map<String, dynamic> _$DeliveryResponseDtoToJson(
   'client_action_id': instance.clientActionId,
   'completed_at': instance.completedAt,
   'failed_at': instance.failedAt,
+  'updated_at': instance.updatedAt,
 };
 
 DeliveryActionResponseDto _$DeliveryActionResponseDtoFromJson(

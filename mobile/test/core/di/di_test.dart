@@ -68,8 +68,14 @@ void main() {
       expect(getIt.isRegistered<DeliveryRemoteDs>(), isTrue);
 
       final dio = getIt<Dio>();
-      expect(dio.interceptors.whereType<PrettyDioLogger>().length, 1);
       expect(dio.interceptors.whereType<LanguageInterceptor>().length, 1);
+      expect(dio.interceptors.whereType<PrettyDioLogger>().length, 1);
+      final langIndex =
+          dio.interceptors.indexWhere((i) => i is LanguageInterceptor);
+      final loggerIndex =
+          dio.interceptors.indexWhere((i) => i is PrettyDioLogger);
+      expect(langIndex, lessThan(loggerIndex));
     });
+
   });
 }

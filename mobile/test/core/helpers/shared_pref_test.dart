@@ -65,5 +65,13 @@ void main() {
       expect(helper.getData(key: 'k1'), isNull);
       expect(helper.getData(key: 'k2'), isNull);
     });
+
+    test('saveData throws ArgumentError for unsupported types', () {
+      expect(
+        () => helper.saveData(key: 'invalid_key', val: DateTime.now()),
+        throwsA(isA<ArgumentError>()),
+      );
+    });
+
   });
 }

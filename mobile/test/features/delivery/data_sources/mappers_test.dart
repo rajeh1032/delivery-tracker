@@ -94,6 +94,24 @@ void main() {
       expect(entity.updatedAt, DateTime.parse('2026-09-29T12:30:00.000Z'));
     });
 
+    test('toEntity prioritizes updatedAt when present', () {
+      const dto = DeliveryResponseDto(
+        id: 1004,
+        orderNumber: 'ORD-1004',
+        customerName: 'Sara',
+        phone: '55543210',
+        address: 'Farwaniya',
+        amountDue: 25.0,
+        status: 'delivered',
+        completedAt: '2026-09-29T10:00:00.000Z',
+        updatedAt: '2026-09-29T14:45:00.000Z',
+      );
+
+      final entity = dto.toEntity();
+      expect(entity.updatedAt, DateTime.parse('2026-09-29T14:45:00.000Z'));
+    });
+
+
     test('toEntities maps list of DTOs to list of entities', () {
       const list = [
         DeliveryResponseDto(

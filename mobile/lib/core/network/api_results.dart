@@ -131,7 +131,14 @@ Future<ApiResult<T>> safeApiCall<T>(Future<T> Function() apiCall) async {
       statusCode: dioError.response?.statusCode,
       failure: failure,
     );
+  } on Failure catch (failure) {
+    return ApiErrorResult<T>(
+      failure.errorMessage,
+      code: failure.code,
+      failure: failure,
+    );
   } catch (error) {
+
     final failure = Failure(
       errorMessage: error.toString(),
       code: NetworkConstants.unknownError,

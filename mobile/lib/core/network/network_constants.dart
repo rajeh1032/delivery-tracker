@@ -37,10 +37,17 @@ abstract final class NetworkConstants {
   static const String acceptLanguage = 'Accept-Language';
   static const String multipartFormData = 'multipart/form-data';
 
-  // Error Response Keys
+  // Error & Payload Keys
   static const String keyError = 'error';
   static const String keyMessage = 'message';
   static const String keyCode = 'code';
+  static const String keyRecipientName = 'recipient_name';
+  static const String keyNote = 'note';
+  static const String keyReason = 'reason';
+  static const String keyBaseVersion = 'base_version';
+  static const String keyClientActionId = 'client_action_id';
+  static const String keyUpdatedAt = 'updated_at';
+
 
   // Machine-Readable Error Codes
   static const String deliveryNotFound = 'DELIVERY_NOT_FOUND';
