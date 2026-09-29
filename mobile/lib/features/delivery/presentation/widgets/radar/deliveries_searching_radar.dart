@@ -36,12 +36,11 @@ class _DeliveriesSearchingRadarState extends State<DeliveriesSearchingRadar>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    const brandRed = AppColors.primary;
     final beamColors = [
-      colorScheme.primary.withValues(alpha: 0),
-      colorScheme.primary.withValues(alpha: 0.08),
-      colorScheme.primary.withValues(alpha: 0.20),
+      brandRed.withValues(alpha: 0),
+      brandRed.withValues(alpha: 0.15),
+      brandRed.withValues(alpha: 0.50),
     ];
 
     return LayoutBuilder(
@@ -55,8 +54,8 @@ class _DeliveriesSearchingRadarState extends State<DeliveriesSearchingRadar>
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      colorScheme.surface,
-                      AppColors.mapBackdrop,
+                      AppColors.surface,
+                      brandRed.withValues(alpha: 0.04),
                     ],
                   ),
                 ),
@@ -67,7 +66,7 @@ class _DeliveriesSearchingRadarState extends State<DeliveriesSearchingRadar>
               bottom: -constraints.maxHeight * 0.06,
               child: RadarZoneGlow(
                 size: constraints.maxWidth * 0.72,
-                color: colorScheme.primary.withValues(alpha: 0.08),
+                color: brandRed.withValues(alpha: 0.14),
               ),
             ),
             Positioned(
@@ -75,7 +74,7 @@ class _DeliveriesSearchingRadarState extends State<DeliveriesSearchingRadar>
               top: constraints.maxHeight * 0.20,
               child: RadarZoneGlow(
                 size: constraints.maxWidth * 0.42,
-                color: colorScheme.primary.withValues(alpha: 0.05),
+                color: brandRed.withValues(alpha: 0.10),
               ),
             ),
             Positioned.fill(
@@ -86,8 +85,8 @@ class _DeliveriesSearchingRadarState extends State<DeliveriesSearchingRadar>
                   painter: RadarSweepPainter(
                     sweepAngle: _controller.value * math.pi * 2,
                     beamColors: beamColors,
-                    dotColor: colorScheme.primary,
-                    ringColor: colorScheme.primary.withValues(alpha: 0.25),
+                    dotColor: brandRed,
+                    ringColor: brandRed.withValues(alpha: 0.35),
                   ),
                 ),
               ),
@@ -102,7 +101,7 @@ class _DeliveriesSearchingRadarState extends State<DeliveriesSearchingRadar>
                   textAlign: TextAlign.center,
                   style: context.textStyles.titleSmall.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: brandRed,
                   ),
                 ),
               ),
