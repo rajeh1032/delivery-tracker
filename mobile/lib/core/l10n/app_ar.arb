@@ -64,5 +64,12 @@
   "language": "اللغة",
   "arabic": "العربية",
   "english": "English",
-  "aboutVersion": "متتبع التوصيل v1.0.0"
+  "aboutVersion": "متتبع التوصيل v1.0.0",
+  "deliveryNotFound": "لم يتم العثور على الطلب",
+  "copyPhone": "نسخ رقم الهاتف",
+  "phoneCopied": "تم نسخ رقم الهاتف للحافظة",
+  "callCustomer": "اتصال",
+  "deliveredBy": "تم الاستلام بواسطة",
+  "deliveredOrderBanner": "تم تسليم هذا الطلب بنجاح.",
+  "failedOrderBanner": "تم تحديد هذا الطلب كفاشل."
 }
