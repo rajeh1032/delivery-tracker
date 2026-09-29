@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:delivery_tracker/core/helpers/app_snackbar_card.dart';
 import 'package:delivery_tracker/core/helpers/phone_launcher_utils.dart';
-import 'package:delivery_tracker/core/helpers/snackbar_animated_icon.dart';
 import 'package:delivery_tracker/core/helpers/snackbar_utils.dart';
 import 'package:delivery_tracker/core/l10n/generated/app_localizations.dart';
 
