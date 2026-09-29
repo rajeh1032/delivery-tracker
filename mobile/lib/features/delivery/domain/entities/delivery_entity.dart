@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import '../../../../core/helpers/customer_location_helper.dart';
 import '../../../../core/utils/enums.dart';
 
 /// Domain entity representing a delivery order with offline synchronization metadata.
@@ -19,6 +20,8 @@ class DeliveryEntity extends Equatable {
   final String? clientActionId;
   final int version;
   final DateTime? updatedAt;
+  final double? latitude;
+  final double? longitude;
 
   const DeliveryEntity({
     required this.id,
@@ -37,7 +40,23 @@ class DeliveryEntity extends Equatable {
     this.clientActionId,
     this.version = 1,
     this.updatedAt,
+    this.latitude,
+    this.longitude,
   });
+
+  /// Resolved latitude for customer location (with address fallback).
+  double get customerLatitude => CustomerLocationHelper.getCoordinates(
+        address: address,
+        latitude: latitude,
+        longitude: longitude,
+      ).latitude;
+
+  /// Resolved longitude for customer location (with address fallback).
+  double get customerLongitude => CustomerLocationHelper.getCoordinates(
+        address: address,
+        latitude: latitude,
+        longitude: longitude,
+      ).longitude;
 
   bool get isDelivered => status == DeliveryStatus.delivered;
   bool get isFailed => status == DeliveryStatus.failed;
@@ -64,6 +83,8 @@ class DeliveryEntity extends Equatable {
     String? clientActionId,
     int? version,
     DateTime? updatedAt,
+    double? latitude,
+    double? longitude,
   }) {
     return DeliveryEntity(
       id: id ?? this.id,
@@ -82,6 +103,8 @@ class DeliveryEntity extends Equatable {
       clientActionId: clientActionId ?? this.clientActionId,
       version: version ?? this.version,
       updatedAt: updatedAt ?? this.updatedAt,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
     );
   }
 
@@ -103,5 +126,7 @@ class DeliveryEntity extends Equatable {
         clientActionId,
         version,
         updatedAt,
+        latitude,
+        longitude,
       ];
 }

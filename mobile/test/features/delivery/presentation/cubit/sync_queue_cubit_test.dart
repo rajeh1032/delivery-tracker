@@ -6,8 +6,8 @@ import 'package:delivery_tracker/core/services/sync_manager.dart';
 import 'package:delivery_tracker/core/utils/enums.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_action.dart';
 import 'package:delivery_tracker/features/delivery/domain/repositories/delivery_repository.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/sync_queue/sync_queue_cubit.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/sync_queue/sync_queue_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/sync_queue/sync_queue_cubit.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/sync_queue/sync_queue_state.dart';
 
 class MockDeliveryRepository extends Mock implements DeliveryRepository {}
 

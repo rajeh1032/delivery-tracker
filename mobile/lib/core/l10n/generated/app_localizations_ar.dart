@@ -285,4 +285,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get snackbarInfo => 'معلومة';
+
+  @override
+  String get viewOnMap => 'عرض على الخريطة';
+
+  @override
+  String get openInGoogleMaps => 'فتح في خرائط جوجل';
+
+  @override
+  String get customerLocation => 'موقع العميل';
 }

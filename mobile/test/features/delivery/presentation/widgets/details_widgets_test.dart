@@ -7,6 +7,7 @@ import 'package:delivery_tracker/features/delivery/presentation/widgets/details/
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_address_card.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_amount_card.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_customer_card.dart';
+import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_customer_location_card.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_map_header.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_note_card.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_status_chips.dart';
@@ -221,6 +222,28 @@ void main() {
         find.text('This delivery was marked as failed.'),
         findsOneWidget,
       );
+    });
+  });
+
+  group('DetailsCustomerLocationCard', () {
+    testWidgets('renders customer name, phone, address, and view on map button',
+        (tester) async {
+      await tester.pumpWidget(
+        createLocalizedApp(
+          const DetailsCustomerLocationCard(
+            customerName: 'Ahmed Ali',
+            phone: '55512345',
+            address: 'Salmiya, Block 4, Street 12',
+            latitude: 29.3344,
+            longitude: 48.0828,
+          ),
+        ),
+      );
+
+      expect(find.text('Ahmed Ali'), findsOneWidget);
+      expect(find.text('55512345'), findsOneWidget);
+      expect(find.text('Salmiya, Block 4, Street 12'), findsOneWidget);
+      expect(find.text('View on Map'), findsOneWidget);
     });
   });
 }
