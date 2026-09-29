@@ -20,22 +20,26 @@ class DeliveriesSearchBar extends StatefulWidget {
 
 class _DeliveriesSearchBarState extends State<DeliveriesSearchBar> {
   late final TextEditingController _controller;
+  late final FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initialQuery);
+    _focusNode = FocusNode();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
   void _onClear() {
     _controller.clear();
     widget.onChanged('');
+    _focusNode.unfocus();
     setState(() {});
   }
 
@@ -56,6 +60,8 @@ class _DeliveriesSearchBarState extends State<DeliveriesSearchBar> {
       ),
       child: TextField(
         controller: _controller,
+        focusNode: _focusNode,
+        onTapOutside: (_) => _focusNode.unfocus(),
         onChanged: (value) {
           widget.onChanged(value);
           setState(() {});

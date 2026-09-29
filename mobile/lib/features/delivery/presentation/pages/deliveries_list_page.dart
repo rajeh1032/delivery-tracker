@@ -5,8 +5,8 @@ import 'package:delivery_tracker/config/routing/routing_extensions.dart';
 import 'package:delivery_tracker/config/theme/app_dimensions.dart';
 import 'package:delivery_tracker/core/di/di.dart';
 import 'package:delivery_tracker/core/helpers/snackbar_utils.dart';
-import '../cubits/deliveries_list/deliveries_list_cubit.dart';
-import '../cubits/deliveries_list/deliveries_list_state.dart';
+import '../cubit/deliveries/deliveries_cubit.dart';
+import '../cubit/deliveries/deliveries_state.dart';
 import '../widgets/list/deliveries_empty_state.dart';
 import '../widgets/list/deliveries_error_state.dart';
 import '../widgets/list/deliveries_filter_chips.dart';
@@ -44,8 +44,11 @@ class _DeliveriesListViewWrapper extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return Column(
-          children: [
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Column(
+            children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppDimensions.spaceMD,
@@ -73,8 +76,9 @@ class _DeliveriesListViewWrapper extends StatelessWidget {
               child: _buildListBody(context, state),
             ),
           ],
-        );
-      },
+        ),
+      );
+    },
     );
   }
 

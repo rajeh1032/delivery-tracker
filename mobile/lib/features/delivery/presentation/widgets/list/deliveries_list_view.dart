@@ -26,6 +26,7 @@ class DeliveriesListView extends StatelessWidget {
       backgroundColor: AppColors.surface,
       onRefresh: onRefresh,
       child: ListView.separated(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         physics: const AlwaysScrollableScrollPhysics(
           parent: BouncingScrollPhysics(),
         ),

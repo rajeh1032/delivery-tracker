@@ -35,6 +35,8 @@ extension DeliveryResponseDtoToEntity on DeliveryResponseDto {
       clientActionId: clientActionId,
       version: version ?? 1,
       updatedAt: parsedDate,
+      latitude: latitude,
+      longitude: longitude,
     );
   }
 }

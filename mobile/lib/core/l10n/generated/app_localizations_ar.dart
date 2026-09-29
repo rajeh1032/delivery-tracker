@@ -15,9 +15,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get navDeliveries => 'الطلبات';
 
   @override
-  String get navSyncQueue => 'طابور المزامنة';
-
-  @override
   String get navSettings => 'الإعدادات';
 
   @override
@@ -178,21 +175,6 @@ class AppLocalizationsAr extends AppLocalizations {
       'جاري مزامنة العملية حالياً. يرجى الانتظار.';
 
   @override
-  String get syncQueueTitle => 'طابور المزامنة';
-
-  @override
-  String get syncQueuePendingTab => 'معلق';
-
-  @override
-  String get syncQueueFailedTab => 'فشل';
-
-  @override
-  String get emptyPendingQueue => 'لا توجد عمليات معلقة بانتظار المزامنة 🎉';
-
-  @override
-  String get emptyFailedQueue => 'لا توجد عمليات فاشلة في المزامنة';
-
-  @override
   String get settingsTitle => 'الإعدادات';
 
   @override
@@ -285,4 +267,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get snackbarInfo => 'معلومة';
+
+  @override
+  String get viewOnMap => 'عرض على الخريطة';
+
+  @override
+  String get openInGoogleMaps => 'فتح في خرائط جوجل';
+
+  @override
+  String get customerLocation => 'موقع العميل';
 }

@@ -15,9 +15,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navDeliveries => 'Deliveries';
 
   @override
-  String get navSyncQueue => 'Sync Queue';
-
-  @override
   String get navSettings => 'Settings';
 
   @override
@@ -178,21 +175,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Action is currently syncing. Please wait.';
 
   @override
-  String get syncQueueTitle => 'Sync Queue';
-
-  @override
-  String get syncQueuePendingTab => 'Pending';
-
-  @override
-  String get syncQueueFailedTab => 'Failed';
-
-  @override
-  String get emptyPendingQueue => 'No pending sync actions 🎉';
-
-  @override
-  String get emptyFailedQueue => 'No failed sync actions';
-
-  @override
   String get settingsTitle => 'Settings';
 
   @override
@@ -287,4 +269,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get snackbarInfo => 'Information';
+
+  @override
+  String get viewOnMap => 'View on Map';
+
+  @override
+  String get openInGoogleMaps => 'Open in Google Maps';
+
+  @override
+  String get customerLocation => 'Customer Location';
 }

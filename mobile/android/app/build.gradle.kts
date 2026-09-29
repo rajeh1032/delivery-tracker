@@ -4,6 +4,22 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+import java.util.Properties
+import java.io.FileInputStream
+
+val envFile = if (rootProject.file("../.env").exists()) {
+    rootProject.file("../.env")
+} else {
+    rootProject.file("../../.env")
+}
+val envProperties = Properties()
+if (envFile.exists()) {
+    FileInputStream(envFile).use { envProperties.load(it) }
+}
+val mapsApiKey: String = envProperties.getProperty("GOOGLE_MAPS_API_KEY") 
+    ?: System.getenv("GOOGLE_MAPS_API_KEY") 
+    ?: ""
+
 android {
     namespace = "com.alshamel.delivery.delivery_tracker"
     compileSdk = flutter.compileSdkVersion
@@ -15,14 +31,15 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.alshamel.delivery.delivery_tracker"
+        // Must match Google Maps API Key console restriction
+        applicationId = "com.donemobile.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders["GOOGLE_MAPS_API_KEY"] = mapsApiKey
     }
 
     buildTypes {
