@@ -6,6 +6,7 @@ class CompleteDeliveryRequestEntity extends Equatable {
   final String? note;
   final String clientActionId;
   final int? baseVersion;
+  final String? localPhotoPath;
 
   const CompleteDeliveryRequestEntity({
     required this.deliveryId,
@@ -13,6 +14,7 @@ class CompleteDeliveryRequestEntity extends Equatable {
     this.note,
     required this.clientActionId,
     this.baseVersion,
+    this.localPhotoPath,
   });
 
   @override
@@ -22,5 +24,6 @@ class CompleteDeliveryRequestEntity extends Equatable {
         note,
         clientActionId,
         baseVersion,
+        localPhotoPath,
       ];
 }
