@@ -16,6 +16,7 @@ abstract final class AppDimensions {
   static const double radiusLG = 16.0;
   static const double radiusXL = 20.0;
   static const double radiusXXL = 24.0;
+  static const double radiusBottomSheet = 28.0;
   static const double radiusFull = 999.0;
 
   // Icon Sizes
@@ -25,7 +26,7 @@ abstract final class AppDimensions {
   static const double iconXL = 36.0;
 
   // Standard Element Heights
-  static const double buttonHeight = 50.0;
+  static const double buttonHeight = 48.0;
   static const double inputHeight = 48.0;
   static const double cardMinHeight = 110.0;
   static const double mapHeaderHeight = 132.0;

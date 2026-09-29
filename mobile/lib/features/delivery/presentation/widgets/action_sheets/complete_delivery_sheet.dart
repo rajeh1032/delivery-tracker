@@ -27,6 +27,12 @@ class CompleteDeliverySheet extends StatefulWidget {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
+      clipBehavior: Clip.antiAlias,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppDimensions.radiusBottomSheet),
+        ),
+      ),
       builder: (_) => BlocProvider<CompleteDeliveryCubit>(
         create: (_) => getIt<CompleteDeliveryCubit>(),
         child: CompleteDeliverySheet(delivery: delivery),
@@ -99,7 +105,7 @@ class _CompleteDeliverySheetState extends State<CompleteDeliverySheet> {
                   const SizedBox(height: AppDimensions.spaceLG),
                   PillButton(
                     text: context.tr.confirmDelivery,
-                    backgroundColor: AppColors.synced,
+                    backgroundColor: AppColors.primary,
                     isLoading: state.isSubmitting,
                     icon: const Icon(
                       Icons.check_circle_outline,

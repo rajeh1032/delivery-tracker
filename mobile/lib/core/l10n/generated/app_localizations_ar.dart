@@ -258,4 +258,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get viewDetails => 'عرض التفاصيل';
+
+  @override
+  String get phoneInvalid => 'رقم الهاتف غير صالح';
+
+  @override
+  String get viewPhoto => 'عرض الصورة';
+
+  @override
+  String get cannotMakeCall => 'لا يمكن إجراء المكالمات من هذا الجهاز';
+
+  @override
+  String get orderSummary => 'تفاصيل المنتج والطلب';
+
+  @override
+  String get compressingImage => 'جارٍ ضغط وتحسين الصورة...';
+
+  @override
+  String get snackbarSuccess => 'تم بنجاح';
+
+  @override
+  String get snackbarError => 'حدث خطأ';
+
+  @override
+  String get snackbarWarning => 'تنبيه';
+
+  @override
+  String get snackbarInfo => 'معلومة';
 }

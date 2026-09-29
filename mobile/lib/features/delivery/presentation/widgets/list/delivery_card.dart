@@ -146,12 +146,15 @@ class DeliveryCard extends StatelessWidget {
         alignment: AlignmentDirectional.centerEnd,
         padding: const EdgeInsetsDirectional.only(end: AppDimensions.spaceLG),
         decoration: BoxDecoration(
-          color: AppColors.failed.withValues(alpha: 0.15),
+          color: const Color(0xFFFDECEB),
           borderRadius: BorderRadius.circular(AppDimensions.radiusXL),
+          border: Border.all(
+            color: AppColors.primary.withValues(alpha: 0.12),
+          ),
         ),
         child: const Icon(
           Icons.close_rounded,
-          color: AppColors.failed,
+          color: AppColors.primary,
           size: AppDimensions.iconLG,
         ),
       ),

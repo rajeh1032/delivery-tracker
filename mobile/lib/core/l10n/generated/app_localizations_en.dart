@@ -260,4 +260,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewDetails => 'View Details';
+
+  @override
+  String get phoneInvalid => 'Invalid phone number';
+
+  @override
+  String get viewPhoto => 'View Photo';
+
+  @override
+  String get cannotMakeCall => 'Cannot make calls on this device';
+
+  @override
+  String get orderSummary => 'Order Details';
+
+  @override
+  String get compressingImage => 'Optimizing image...';
+
+  @override
+  String get snackbarSuccess => 'Success';
+
+  @override
+  String get snackbarError => 'Something went wrong';
+
+  @override
+  String get snackbarWarning => 'Attention';
+
+  @override
+  String get snackbarInfo => 'Information';
 }

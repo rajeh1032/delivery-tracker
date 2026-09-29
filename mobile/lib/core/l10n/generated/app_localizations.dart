@@ -589,6 +589,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View Details'**
   String get viewDetails;
+
+  /// No description provided for @phoneInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid phone number'**
+  String get phoneInvalid;
+
+  /// No description provided for @viewPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'View Photo'**
+  String get viewPhoto;
+
+  /// No description provided for @cannotMakeCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot make calls on this device'**
+  String get cannotMakeCall;
+
+  /// No description provided for @orderSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Details'**
+  String get orderSummary;
+
+  /// No description provided for @compressingImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Optimizing image...'**
+  String get compressingImage;
+
+  /// No description provided for @snackbarSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get snackbarSuccess;
+
+  /// No description provided for @snackbarError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get snackbarError;
+
+  /// No description provided for @snackbarWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Attention'**
+  String get snackbarWarning;
+
+  /// No description provided for @snackbarInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get snackbarInfo;
 }
 
 class _AppLocalizationsDelegate

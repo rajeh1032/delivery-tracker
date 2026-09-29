@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:delivery_tracker/config/theme/app_dimensions.dart';
 import 'package:delivery_tracker/config/theme/colors.dart';
+import 'package:delivery_tracker/core/components/image_preview_dialog.dart';
 import 'package:delivery_tracker/core/extensions/context_extensions.dart';
 
 /// Photo proof capture section ported from Mumayaz delivery proof architecture.
@@ -64,13 +65,19 @@ class PhotoProofPicker extends StatelessWidget {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(AppDimensions.radiusLG),
-                child: Image.file(
-                  File(photoPath!),
-                  width: 76,
-                  height: 76,
-                  fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () => ImagePreviewDialog.show(
+                  context,
+                  imagePath: photoPath!,
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(AppDimensions.radiusLG),
+                  child: Image.file(
+                    File(photoPath!),
+                    width: 76,
+                    height: 76,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               PositionedDirectional(

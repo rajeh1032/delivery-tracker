@@ -25,6 +25,12 @@ class FailDeliverySheet extends StatefulWidget {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
+      clipBehavior: Clip.antiAlias,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppDimensions.radiusBottomSheet),
+        ),
+      ),
       builder: (_) => BlocProvider<FailDeliveryCubit>(
         create: (_) => getIt<FailDeliveryCubit>(),
         child: FailDeliverySheet(delivery: delivery),
