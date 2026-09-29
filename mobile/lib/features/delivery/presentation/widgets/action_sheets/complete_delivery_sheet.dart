@@ -8,8 +8,8 @@ import 'package:delivery_tracker/core/di/di.dart';
 import 'package:delivery_tracker/core/extensions/context_extensions.dart';
 import 'package:delivery_tracker/core/helpers/snackbar_utils.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_entity.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/complete_delivery/complete_delivery_cubit.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/complete_delivery/complete_delivery_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/delivery_action/delivery_action_cubit.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/delivery_action/delivery_action_state.dart';
 import 'image_source_sheet.dart';
 import 'note_field.dart';
 import 'photo_proof_picker.dart';
@@ -21,7 +21,7 @@ class CompleteDeliverySheet extends StatefulWidget {
 
   const CompleteDeliverySheet({super.key, required this.delivery});
 
-  /// Displays the bottom sheet with an injected [CompleteDeliveryCubit].
+  /// Displays the bottom sheet with an injected [DeliveryActionCubit].
   static Future<bool?> show(BuildContext context, DeliveryEntity delivery) {
     return showModalBottomSheet<bool>(
       context: context,
@@ -33,8 +33,8 @@ class CompleteDeliverySheet extends StatefulWidget {
           top: Radius.circular(AppDimensions.radiusBottomSheet),
         ),
       ),
-      builder: (_) => BlocProvider<CompleteDeliveryCubit>(
-        create: (_) => getIt<CompleteDeliveryCubit>(),
+      builder: (_) => BlocProvider<DeliveryActionCubit>(
+        create: (_) => getIt<DeliveryActionCubit>(),
         child: CompleteDeliverySheet(delivery: delivery),
       ),
     );
@@ -50,19 +50,19 @@ class _CompleteDeliverySheetState extends State<CompleteDeliverySheet> {
   Future<void> _handlePickPhoto(BuildContext context) async {
     final source = await ImageSourceSheet.show(context);
     if (source != null && context.mounted) {
-      await context.read<CompleteDeliveryCubit>().pickPhoto(source);
+      await context.read<DeliveryActionCubit>().pickPhoto(source);
     }
   }
 
   void _handleSubmit(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
-      context.read<CompleteDeliveryCubit>().confirm(widget.delivery);
+      context.read<DeliveryActionCubit>().completeDelivery(widget.delivery);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CompleteDeliveryCubit, CompleteDeliveryState>(
+    return BlocConsumer<DeliveryActionCubit, DeliveryActionState>(
       listenWhen: (prev, curr) => prev.status != curr.status,
       listener: (context, state) {
         if (state.isSuccess) {
@@ -71,12 +71,12 @@ class _CompleteDeliverySheetState extends State<CompleteDeliverySheet> {
             context,
             context.tr.deliveryCompletedLocally,
           );
-        } else if (state.isFailure && state.submissionError != null) {
-          SnackBarUtils.showError(context, state.submissionError!);
+        } else if (state.isFailure && state.errorMessage != null) {
+          SnackBarUtils.showError(context, state.errorMessage!);
         }
       },
       builder: (context, state) {
-        final cubit = context.read<CompleteDeliveryCubit>();
+        final cubit = context.read<DeliveryActionCubit>();
 
         return PopScope(
           canPop: !state.isSubmitting,

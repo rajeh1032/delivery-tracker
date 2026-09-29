@@ -287,4 +287,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get snackbarInfo => 'Information';
+
+  @override
+  String get viewOnMap => 'View on Map';
+
+  @override
+  String get openInGoogleMaps => 'Open in Google Maps';
+
+  @override
+  String get customerLocation => 'Customer Location';
 }

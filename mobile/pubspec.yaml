@@ -43,6 +43,9 @@ dependencies:
   intl: ^0.20.2
   shared_preferences: ^2.3.5
   url_launcher: ^6.3.2
+  flutter_native_splash: ^2.4.8
+  google_maps_flutter: ^2.18.1
+  flutter_dotenv: ^6.0.1
 
 dev_dependencies:
   flutter_test:
@@ -57,8 +60,6 @@ dev_dependencies:
   mocktail: ^1.0.4
   path_provider_platform_interface: ^2.1.2
   flutter_launcher_icons: ^0.14.4
-
-
 flutter:
   generate: true
 
@@ -66,6 +67,7 @@ flutter:
 
   assets:
     - assets/images/
+    - .env
 
 flutter_launcher_icons:
   android: "launcher_icon"

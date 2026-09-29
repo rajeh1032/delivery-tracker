@@ -5,10 +5,10 @@ import 'package:delivery_tracker/core/di/di.dart';
 import 'package:delivery_tracker/core/general_cubits/connectivity_cubit.dart';
 import 'package:delivery_tracker/core/general_cubits/locale_cubit.dart';
 import 'package:delivery_tracker/core/services/connectivity_service.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/deliveries_list/deliveries_list_cubit.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/deliveries_list/deliveries_list_state.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/sync_queue/sync_queue_cubit.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/sync_queue/sync_queue_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/deliveries/deliveries_cubit.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/deliveries/deliveries_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/sync_queue/sync_queue_cubit.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/sync_queue/sync_queue_state.dart';
 import 'package:delivery_tracker/main.dart';
 
 class MockConnectivityService extends Mock implements ConnectivityService {}

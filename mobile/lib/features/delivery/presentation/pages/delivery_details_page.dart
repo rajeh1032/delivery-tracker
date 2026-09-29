@@ -4,17 +4,16 @@ import 'package:delivery_tracker/config/theme/app_dimensions.dart';
 import 'package:delivery_tracker/config/theme/colors.dart';
 import 'package:delivery_tracker/core/di/di.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_entity.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/delivery_details/delivery_details_cubit.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/delivery_details/delivery_details_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/delivery_details/delivery_details_cubit.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/delivery_details/delivery_details_state.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/action_sheets/complete_delivery_sheet.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/action_sheets/fail_delivery_sheet.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/delivery_details_error_state.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/delivery_details_not_found_state.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/delivery_details_skeleton.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_actions_bar.dart';
-import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_address_card.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_amount_card.dart';
-import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_customer_card.dart';
+import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_customer_location_card.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_map_header.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_note_card.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/details_status_chips.dart';
@@ -98,12 +97,13 @@ class _DeliveryDetailsView extends StatelessWidget {
                         syncStatus: delivery.syncStatus,
                       ),
                       const SizedBox(height: AppDimensions.spaceMD),
-                      DetailsCustomerCard(
+                      DetailsCustomerLocationCard(
                         customerName: delivery.customerName,
                         phone: delivery.phone,
+                        address: delivery.address,
+                        latitude: delivery.customerLatitude,
+                        longitude: delivery.customerLongitude,
                       ),
-                      const SizedBox(height: AppDimensions.spaceMD),
-                      DetailsAddressCard(address: delivery.address),
                       const SizedBox(height: AppDimensions.spaceMD),
                       DetailsAmountCard(
                         amountDue: delivery.amountDue,

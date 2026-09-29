@@ -90,5 +90,8 @@
   "snackbarSuccess": "Success",
   "snackbarError": "Something went wrong",
   "snackbarWarning": "Attention",
-  "snackbarInfo": "Information"
+  "snackbarInfo": "Information",
+  "viewOnMap": "View on Map",
+  "openInGoogleMaps": "Open in Google Maps",
+  "customerLocation": "Customer Location"
 }

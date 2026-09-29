@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/delivery_entity.dart';
+import 'package:delivery_tracker/features/delivery/domain/entities/delivery_entity.dart';
 
 /// Lifecycle statuses for the delivery details screen.
 enum DeliveryDetailsStatus {

@@ -49,6 +49,9 @@ class DeliveryResponseDto {
   @JsonKey(name: 'updated_at')
   final String? updatedAt;
 
+  final double? latitude;
+  final double? longitude;
+
   const DeliveryResponseDto({
     required this.id,
     required this.orderNumber,
@@ -67,6 +70,8 @@ class DeliveryResponseDto {
     this.completedAt,
     this.failedAt,
     this.updatedAt,
+    this.latitude,
+    this.longitude,
   });
 
 

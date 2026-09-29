@@ -42,16 +42,14 @@ import '../../features/delivery/domain/use_case/get_delivery_by_id_use_case.dart
     as _i497;
 import '../../features/delivery/domain/use_case/retry_action_use_case.dart'
     as _i397;
-import '../../features/delivery/presentation/cubits/complete_delivery/complete_delivery_cubit.dart'
-    as _i140;
-import '../../features/delivery/presentation/cubits/deliveries_list/deliveries_list_cubit.dart'
-    as _i227;
-import '../../features/delivery/presentation/cubits/delivery_details/delivery_details_cubit.dart'
-    as _i550;
-import '../../features/delivery/presentation/cubits/fail_delivery/fail_delivery_cubit.dart'
-    as _i939;
-import '../../features/delivery/presentation/cubits/sync_queue/sync_queue_cubit.dart'
-    as _i220;
+import '../../features/delivery/presentation/cubit/deliveries/deliveries_cubit.dart'
+    as _i612;
+import '../../features/delivery/presentation/cubit/delivery_action/delivery_action_cubit.dart'
+    as _i543;
+import '../../features/delivery/presentation/cubit/delivery_details/delivery_details_cubit.dart'
+    as _i122;
+import '../../features/delivery/presentation/cubit/sync_queue/sync_queue_cubit.dart'
+    as _i955;
 import '../database/local_storage_service.dart' as _i824;
 import '../general_cubits/connectivity_cubit.dart' as _i20;
 import '../general_cubits/locale_cubit.dart' as _i959;
@@ -134,8 +132,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i356.DeliveryRemoteDs>(),
       ),
     );
-    gh.factory<_i220.SyncQueueCubit>(
-      () => _i220.SyncQueueCubit(
+    gh.factory<_i955.SyncQueueCubit>(
+      () => _i955.SyncQueueCubit(
         gh<_i1007.DeliveryRepository>(),
         gh<_i892.SyncManager>(),
       ),
@@ -155,31 +153,25 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i397.RetryActionUseCase>(
       () => _i397.RetryActionUseCase(gh<_i1007.DeliveryRepository>()),
     );
-    gh.factory<_i140.CompleteDeliveryCubit>(
-      () => _i140.CompleteDeliveryCubit(
+    gh.factory<_i543.DeliveryActionCubit>(
+      () => _i543.DeliveryActionCubit(
         gh<_i43.CompleteDeliveryUseCase>(),
+        gh<_i77.FailDeliveryUseCase>(),
         gh<_i698.ProofStorageService>(),
         gh<_i892.SyncManager>(),
         imagePicker: gh<_i183.ImagePicker>(),
         uuid: gh<_i706.Uuid>(),
       ),
     );
-    gh.factory<_i227.DeliveriesListCubit>(
-      () => _i227.DeliveriesListCubit(
+    gh.factory<_i612.DeliveriesCubit>(
+      () => _i612.DeliveriesCubit(
         gh<_i963.GetDeliveriesUseCase>(),
         gh<_i1007.DeliveryRepository>(),
         gh<_i47.ConnectivityService>(),
       ),
     );
-    gh.factory<_i939.FailDeliveryCubit>(
-      () => _i939.FailDeliveryCubit(
-        gh<_i77.FailDeliveryUseCase>(),
-        gh<_i892.SyncManager>(),
-        uuid: gh<_i706.Uuid>(),
-      ),
-    );
-    gh.factory<_i550.DeliveryDetailsCubit>(
-      () => _i550.DeliveryDetailsCubit(
+    gh.factory<_i122.DeliveryDetailsCubit>(
+      () => _i122.DeliveryDetailsCubit(
         gh<_i497.GetDeliveryByIdUseCase>(),
         gh<_i1007.DeliveryRepository>(),
       ),

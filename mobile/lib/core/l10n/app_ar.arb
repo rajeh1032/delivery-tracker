@@ -90,5 +90,8 @@
   "snackbarSuccess": "تم بنجاح",
   "snackbarError": "حدث خطأ",
   "snackbarWarning": "تنبيه",
-  "snackbarInfo": "معلومة"
+  "snackbarInfo": "معلومة",
+  "viewOnMap": "عرض على الخريطة",
+  "openInGoogleMaps": "فتح في خرائط جوجل",
+  "customerLocation": "موقع العميل"
 }
