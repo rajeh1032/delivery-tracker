@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 
+import '../../../core/utils/constants.dart';
 import '../../../core/utils/enums.dart';
 import '../../../features/delivery/domain/entities/delivery_entity.dart';
 
@@ -25,7 +26,7 @@ class DeliveryAdapter extends TypeAdapter<DeliveryEntity> {
       phone: fields[3] as String,
       address: fields[4] as String,
       amountDue: (fields[5] as num).toDouble(),
-      paymentMethod: fields[6] as String? ?? 'cash',
+      paymentMethod: fields[6] as String? ?? AppConstants.defaultPaymentMethod,
       status: _parseDeliveryStatus(fields[7]),
       syncStatus: _parseSyncStatus(fields[8]),
       recipientName: fields[9] as String?,

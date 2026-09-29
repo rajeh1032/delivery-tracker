@@ -64,8 +64,9 @@ class DeliveryLocalDataSourceImpl implements DeliveryLocalDataSource {
     final pendingClientActionIds =
         pendingActions.map((a) => a.clientActionId).toSet();
 
+    final cachedDeliveries = _deliveriesBox.values.toList();
     var reconciledCount = 0;
-    for (final delivery in _deliveriesBox.values) {
+    for (final delivery in cachedDeliveries) {
       if (delivery.syncStatus != SyncStatus.synced) {
         final hasPendingAction = pendingDeliveryIds.contains(delivery.id) ||
             (delivery.clientActionId != null &&
