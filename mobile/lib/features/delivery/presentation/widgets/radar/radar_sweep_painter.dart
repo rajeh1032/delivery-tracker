@@ -28,7 +28,7 @@ class RadarSweepPainter extends CustomPainter {
 
     final ringPaint = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0
+      ..strokeWidth = 1.2
       ..color = ringColor;
 
     for (final factor in [0.18, 0.38, 0.62, 0.88]) {
@@ -69,6 +69,8 @@ class RadarSweepPainter extends CustomPainter {
     canvas.drawPath(gradientTailPath, gradientTailPaint);
     canvas.restore();
 
+    final haloPaint = Paint()..color = dotColor.withValues(alpha: 0.22);
+    canvas.drawCircle(center, 15.0, haloPaint);
     final dotPaint = Paint()..color = dotColor;
     canvas.drawCircle(center, 8.0, dotPaint);
 
