@@ -36,8 +36,9 @@ mobile/ios/.symlinks/
 # Backend
 backend/node_modules/
 backend/.dart_tool/
-backend/build/
 backend/.env
+.env
+mobile/.env
 backend/uploads/*
 !backend/uploads/.gitkeep
 
