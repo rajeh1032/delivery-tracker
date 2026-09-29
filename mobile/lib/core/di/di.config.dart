@@ -18,6 +18,8 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
+import '../../features/delivery/data_sources/repositories/delivery_repo_impl.dart'
+    as _i99;
 import '../../features/delivery/data_sources/sources/local/delivery_local_ds.dart'
     as _i336;
 import '../../features/delivery/data_sources/sources/local/delivery_local_ds_impl.dart'
@@ -26,6 +28,18 @@ import '../../features/delivery/data_sources/sources/remote/delivery_remote_ds.d
     as _i356;
 import '../../features/delivery/data_sources/sources/remote/delivery_remote_ds_impl.dart'
     as _i187;
+import '../../features/delivery/domain/repositories/delivery_repository.dart'
+    as _i1007;
+import '../../features/delivery/domain/use_case/complete_delivery_use_case.dart'
+    as _i43;
+import '../../features/delivery/domain/use_case/fail_delivery_use_case.dart'
+    as _i77;
+import '../../features/delivery/domain/use_case/get_deliveries_use_case.dart'
+    as _i963;
+import '../../features/delivery/domain/use_case/get_delivery_by_id_use_case.dart'
+    as _i497;
+import '../../features/delivery/domain/use_case/retry_action_use_case.dart'
+    as _i397;
 import '../database/local_storage_service.dart' as _i824;
 import '../general_cubits/locale_cubit.dart' as _i959;
 import '../helpers/shared_pref.dart' as _i42;
@@ -33,6 +47,8 @@ import '../network/api_services.dart' as _i804;
 import '../network/external_modules.dart' as _i576;
 import '../services/connectivity_service.dart' as _i47;
 import '../services/language_interceptor.dart' as _i32;
+import '../services/proof_storage_service.dart' as _i698;
+import '../services/sync_manager.dart' as _i892;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -55,6 +71,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i161.InternetConnection>(
       () => externalModules.provideInternetConnection(),
+    );
+    gh.lazySingleton<_i698.ProofStorageService>(
+      () => _i698.ProofStorageService(),
     );
     gh.factory<_i42.SharedPrefHelper>(
       () => _i42.SharedPrefHelper(gh<_i460.SharedPreferences>()),
@@ -80,6 +99,35 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i356.DeliveryRemoteDs>(
       () => _i187.DeliveryRemoteDsImpl(gh<_i804.ApiServices>()),
+    );
+    gh.lazySingleton<_i892.SyncManager>(
+      () => _i892.SyncManager(
+        gh<_i336.DeliveryLocalDataSource>(),
+        gh<_i356.DeliveryRemoteDs>(),
+        gh<_i47.ConnectivityService>(),
+        gh<_i698.ProofStorageService>(),
+      ),
+    );
+    gh.factory<_i1007.DeliveryRepository>(
+      () => _i99.DeliveryRepositoryImpl(
+        gh<_i336.DeliveryLocalDataSource>(),
+        gh<_i356.DeliveryRemoteDs>(),
+      ),
+    );
+    gh.factory<_i43.CompleteDeliveryUseCase>(
+      () => _i43.CompleteDeliveryUseCase(gh<_i1007.DeliveryRepository>()),
+    );
+    gh.factory<_i77.FailDeliveryUseCase>(
+      () => _i77.FailDeliveryUseCase(gh<_i1007.DeliveryRepository>()),
+    );
+    gh.factory<_i963.GetDeliveriesUseCase>(
+      () => _i963.GetDeliveriesUseCase(gh<_i1007.DeliveryRepository>()),
+    );
+    gh.factory<_i497.GetDeliveryByIdUseCase>(
+      () => _i497.GetDeliveryByIdUseCase(gh<_i1007.DeliveryRepository>()),
+    );
+    gh.factory<_i397.RetryActionUseCase>(
+      () => _i397.RetryActionUseCase(gh<_i1007.DeliveryRepository>()),
     );
     return this;
   }

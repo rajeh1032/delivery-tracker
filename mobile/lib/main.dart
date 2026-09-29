@@ -7,6 +7,7 @@ import 'core/di/di.dart';
 import 'core/general_cubits/locale_cubit.dart';
 import 'core/general_cubits/locale_state.dart';
 import 'core/l10n/generated/app_localizations.dart';
+import 'core/services/sync_manager.dart';
 import 'features/delivery/data_sources/sources/local/delivery_local_ds.dart';
 
 Future<void> main() async {
@@ -14,6 +15,7 @@ Future<void> main() async {
   await configureDependencies();
   await getIt<LocalStorageService>().init();
   await getIt<DeliveryLocalDataSource>().reconcileStrandedSyncStates();
+  getIt<SyncManager>().startListening();
   runApp(const DeliveryTrackerApp());
 }
 
