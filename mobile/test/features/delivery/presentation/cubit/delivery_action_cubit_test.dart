@@ -10,12 +10,16 @@ import 'package:delivery_tracker/core/services/sync_manager.dart';
 import 'package:delivery_tracker/core/utils/enums.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_entity.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/request/complete_delivery_request_entity.dart';
+import 'package:delivery_tracker/features/delivery/domain/entities/request/fail_delivery_request_entity.dart';
 import 'package:delivery_tracker/features/delivery/domain/use_case/complete_delivery_use_case.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/complete_delivery/complete_delivery_cubit.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/complete_delivery/complete_delivery_state.dart';
+import 'package:delivery_tracker/features/delivery/domain/use_case/fail_delivery_use_case.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/delivery_action/delivery_action_cubit.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/delivery_action/delivery_action_state.dart';
 
 class MockCompleteDeliveryUseCase extends Mock
     implements CompleteDeliveryUseCase {}
+
+class MockFailDeliveryUseCase extends Mock implements FailDeliveryUseCase {}
 
 class MockProofStorageService extends Mock implements ProofStorageService {}
 
@@ -26,7 +30,8 @@ class MockImagePicker extends Mock implements ImagePicker {}
 class MockUuid extends Mock implements Uuid {}
 
 void main() {
-  late MockCompleteDeliveryUseCase mockUseCase;
+  late MockCompleteDeliveryUseCase mockCompleteUseCase;
+  late MockFailDeliveryUseCase mockFailUseCase;
   late MockProofStorageService mockStorageService;
   late MockSyncManager mockSyncManager;
   late MockImagePicker mockImagePicker;
@@ -53,12 +58,19 @@ void main() {
       clientActionId: testActionId,
       baseVersion: 1,
     ));
+    registerFallbackValue(const FailDeliveryRequestEntity(
+      deliveryId: 1,
+      reason: FailureReason.customerUnavailable,
+      clientActionId: testActionId,
+      baseVersion: 1,
+    ));
     registerFallbackValue(File('dummy.jpg'));
     registerFallbackValue(ImageSource.camera);
   });
 
   setUp(() {
-    mockUseCase = MockCompleteDeliveryUseCase();
+    mockCompleteUseCase = MockCompleteDeliveryUseCase();
+    mockFailUseCase = MockFailDeliveryUseCase();
     mockStorageService = MockProofStorageService();
     mockSyncManager = MockSyncManager();
     mockImagePicker = MockImagePicker();
@@ -68,27 +80,34 @@ void main() {
     when(() => mockSyncManager.processQueue()).thenAnswer((_) async {});
   });
 
-  CompleteDeliveryCubit buildCubit() => CompleteDeliveryCubit(
-        mockUseCase,
+  DeliveryActionCubit buildCubit() => DeliveryActionCubit(
+        mockCompleteUseCase,
+        mockFailUseCase,
         mockStorageService,
         mockSyncManager,
         imagePicker: mockImagePicker,
         uuid: mockUuid,
       );
 
-  group('CompleteDeliveryCubit', () {
+  group('DeliveryActionCubit - Common & Fields', () {
     test('initial state has correct default values and clientActionId', () {
       final cubit = buildCubit();
       expect(cubit.state.clientActionId, testActionId);
       expect(cubit.state.recipientName, isEmpty);
+      expect(cubit.state.reason, isNull);
       expect(cubit.state.photoPath, isNull);
-      expect(cubit.state.status, CompleteDeliveryStatus.editing);
+      expect(cubit.state.status, DeliveryActionStatus.initial);
     });
 
-    test('recipientNameChanged updates recipientName in state', () {
+    test('recipientNameChanged, reasonChanged, and noteChanged update state', () {
       final cubit = buildCubit();
       cubit.recipientNameChanged('Fatima');
+      cubit.reasonChanged(FailureReason.wrongAddress);
+      cubit.noteChanged('Gate code 1234');
+
       expect(cubit.state.recipientName, 'Fatima');
+      expect(cubit.state.reason, FailureReason.wrongAddress);
+      expect(cubit.state.note, 'Gate code 1234');
     });
 
     test('removePhoto clears photo from state', () {
@@ -101,7 +120,7 @@ void main() {
       expect(cubit.state.hasPhoto, isFalse);
     });
 
-    blocTest<CompleteDeliveryCubit, CompleteDeliveryState>(
+    blocTest<DeliveryActionCubit, DeliveryActionState>(
       'pickPhoto saves file durably and updates photoPath on success',
       build: () {
         when(() => mockImagePicker.pickImage(
@@ -116,77 +135,146 @@ void main() {
       },
       act: (cubit) => cubit.pickPhoto(ImageSource.camera),
       expect: () => [
-        const CompleteDeliveryState(
+        const DeliveryActionState(
           clientActionId: testActionId,
-          status: CompleteDeliveryStatus.pickingPhoto,
+          status: DeliveryActionStatus.pickingPhoto,
         ),
-        const CompleteDeliveryState(
+        const DeliveryActionState(
           clientActionId: testActionId,
-          status: CompleteDeliveryStatus.editing,
+          status: DeliveryActionStatus.initial,
           photoPath: '/durable/proof.jpg',
         ),
       ],
     );
+  });
 
-    blocTest<CompleteDeliveryCubit, CompleteDeliveryState>(
-      'confirm fails validation if recipientName is too short',
+  group('DeliveryActionCubit - Complete Delivery', () {
+    blocTest<DeliveryActionCubit, DeliveryActionState>(
+      'completeDelivery fails validation if recipientName is too short',
       build: () => buildCubit(),
       act: (cubit) async {
         cubit.recipientNameChanged(' ');
-        await cubit.confirm(testDelivery);
+        final ok = await cubit.completeDelivery(testDelivery);
+        expect(ok, isFalse);
       },
       expect: () => [
-        const CompleteDeliveryState(
+        const DeliveryActionState(
           clientActionId: testActionId,
           recipientName: ' ',
         ),
-        const CompleteDeliveryState(
+        const DeliveryActionState(
           clientActionId: testActionId,
           recipientName: ' ',
-          status: CompleteDeliveryStatus.failure,
-          submissionError: 'Recipient name is required',
+          status: DeliveryActionStatus.failure,
+          actionType: DeliveryActionType.complete,
+          errorMessage: 'Recipient name is required',
         ),
       ],
     );
 
-    blocTest<CompleteDeliveryCubit, CompleteDeliveryState>(
-      'confirm invokes use case, emits success, and triggers sync',
+    blocTest<DeliveryActionCubit, DeliveryActionState>(
+      'completeDelivery invokes usecase, emits success, and triggers sync',
       build: () {
-        when(() => mockUseCase.invoke(any()))
+        when(() => mockCompleteUseCase.invoke(any()))
             .thenAnswer((_) async => const ApiSuccessResult(testDelivery));
         return buildCubit();
       },
       act: (cubit) async {
         cubit.recipientNameChanged('Ali Hassan');
         cubit.noteChanged('Left at reception');
-        final ok = await cubit.confirm(testDelivery);
+        final ok = await cubit.completeDelivery(testDelivery);
         expect(ok, isTrue);
       },
       verify: (_) {
-        verify(() => mockUseCase.invoke(any())).called(1);
+        verify(() => mockCompleteUseCase.invoke(any())).called(1);
         verify(() => mockSyncManager.processQueue()).called(1);
       },
       expect: () => [
-        const CompleteDeliveryState(
+        const DeliveryActionState(
           clientActionId: testActionId,
           recipientName: 'Ali Hassan',
         ),
-        const CompleteDeliveryState(
+        const DeliveryActionState(
           clientActionId: testActionId,
           recipientName: 'Ali Hassan',
           note: 'Left at reception',
         ),
-        const CompleteDeliveryState(
+        const DeliveryActionState(
           clientActionId: testActionId,
           recipientName: 'Ali Hassan',
           note: 'Left at reception',
-          status: CompleteDeliveryStatus.submitting,
+          status: DeliveryActionStatus.submitting,
+          actionType: DeliveryActionType.complete,
         ),
-        const CompleteDeliveryState(
+        const DeliveryActionState(
           clientActionId: testActionId,
           recipientName: 'Ali Hassan',
           note: 'Left at reception',
-          status: CompleteDeliveryStatus.success,
+          status: DeliveryActionStatus.success,
+          actionType: DeliveryActionType.complete,
+        ),
+      ],
+    );
+  });
+
+  group('DeliveryActionCubit - Fail Delivery', () {
+    blocTest<DeliveryActionCubit, DeliveryActionState>(
+      'failDelivery fails validation if reason is null',
+      build: () => buildCubit(),
+      act: (cubit) async {
+        final ok = await cubit.failDelivery(testDelivery);
+        expect(ok, isFalse);
+      },
+      expect: () => [
+        const DeliveryActionState(
+          clientActionId: testActionId,
+          status: DeliveryActionStatus.failure,
+          actionType: DeliveryActionType.fail,
+          errorMessage: 'Please select a failure reason',
+        ),
+      ],
+    );
+
+    blocTest<DeliveryActionCubit, DeliveryActionState>(
+      'failDelivery invokes usecase, emits success, and triggers sync',
+      build: () {
+        when(() => mockFailUseCase.invoke(any()))
+            .thenAnswer((_) async => const ApiSuccessResult(testDelivery));
+        return buildCubit();
+      },
+      act: (cubit) async {
+        cubit.reasonChanged(FailureReason.customerUnavailable);
+        cubit.noteChanged('Phone switched off');
+        final ok = await cubit.failDelivery(testDelivery);
+        expect(ok, isTrue);
+      },
+      verify: (_) {
+        verify(() => mockFailUseCase.invoke(any())).called(1);
+        verify(() => mockSyncManager.processQueue()).called(1);
+      },
+      expect: () => [
+        const DeliveryActionState(
+          clientActionId: testActionId,
+          reason: FailureReason.customerUnavailable,
+        ),
+        const DeliveryActionState(
+          clientActionId: testActionId,
+          reason: FailureReason.customerUnavailable,
+          note: 'Phone switched off',
+        ),
+        const DeliveryActionState(
+          clientActionId: testActionId,
+          reason: FailureReason.customerUnavailable,
+          note: 'Phone switched off',
+          status: DeliveryActionStatus.submitting,
+          actionType: DeliveryActionType.fail,
+        ),
+        const DeliveryActionState(
+          clientActionId: testActionId,
+          reason: FailureReason.customerUnavailable,
+          note: 'Phone switched off',
+          status: DeliveryActionStatus.success,
+          actionType: DeliveryActionType.fail,
         ),
       ],
     );

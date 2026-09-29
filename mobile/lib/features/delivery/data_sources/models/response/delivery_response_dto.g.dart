@@ -25,6 +25,8 @@ DeliveryResponseDto _$DeliveryResponseDtoFromJson(Map<String, dynamic> json) =>
       completedAt: json['completed_at'] as String?,
       failedAt: json['failed_at'] as String?,
       updatedAt: json['updated_at'] as String?,
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$DeliveryResponseDtoToJson(
@@ -47,6 +49,8 @@ Map<String, dynamic> _$DeliveryResponseDtoToJson(
   'completed_at': instance.completedAt,
   'failed_at': instance.failedAt,
   'updated_at': instance.updatedAt,
+  'latitude': instance.latitude,
+  'longitude': instance.longitude,
 };
 
 DeliveryActionResponseDto _$DeliveryActionResponseDtoFromJson(

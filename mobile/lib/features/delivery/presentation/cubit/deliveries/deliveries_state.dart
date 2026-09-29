@@ -3,13 +3,16 @@ import 'package:delivery_tracker/core/utils/enums.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_entity.dart';
 
 /// Screen-level UI states for the deliveries list.
-enum DeliveriesListStatus {
+enum DeliveriesStatus {
   initial,
   loading,
   loaded,
   empty,
   error,
 }
+
+/// Backwards compatibility alias for DeliveriesListStatus
+typedef DeliveriesListStatus = DeliveriesStatus;
 
 /// Filter options for segmenting deliveries by status.
 enum DeliveryStatusFilter {
@@ -19,16 +22,16 @@ enum DeliveryStatusFilter {
   failed,
 }
 
-/// Immutable state for the DeliveriesListCubit.
-class DeliveriesListState extends Equatable {
-  final DeliveriesListStatus status;
+/// Immutable state containing deliveries, active filters, search query, and computed visible list.
+class DeliveriesState extends Equatable {
+  final DeliveriesStatus status;
   final List<DeliveryEntity> deliveries;
   final String searchQuery;
   final DeliveryStatusFilter filter;
   final String? errorMessage;
 
-  const DeliveriesListState({
-    this.status = DeliveriesListStatus.initial,
+  const DeliveriesState({
+    this.status = DeliveriesStatus.initial,
     this.deliveries = const [],
     this.searchQuery = '',
     this.filter = DeliveryStatusFilter.all,
@@ -38,7 +41,6 @@ class DeliveriesListState extends Equatable {
   /// Deliveries filtered by selected status chip and search query.
   List<DeliveryEntity> get visibleDeliveries {
     return deliveries.where((d) {
-      // 1. Status Filter
       final matchesFilter = switch (filter) {
         DeliveryStatusFilter.all => true,
         DeliveryStatusFilter.pending => d.status == DeliveryStatus.pending,
@@ -47,7 +49,6 @@ class DeliveriesListState extends Equatable {
       };
       if (!matchesFilter) return false;
 
-      // 2. Search Query (orderNumber, customerName, address)
       final query = searchQuery.trim().toLowerCase();
       if (query.isEmpty) return true;
 
@@ -66,17 +67,20 @@ class DeliveriesListState extends Equatable {
   int get failedCount =>
       deliveries.where((d) => d.status == DeliveryStatus.failed).length;
 
-  bool get isLoading => status == DeliveriesListStatus.loading;
-  bool get isInitial => status == DeliveriesListStatus.initial;
+  bool get isLoading => status == DeliveriesStatus.loading;
+  bool get isInitial => status == DeliveriesStatus.initial;
+  bool get isLoaded => status == DeliveriesStatus.loaded;
+  bool get isEmpty => status == DeliveriesStatus.empty;
+  bool get isError => status == DeliveriesStatus.error;
 
-  DeliveriesListState copyWith({
-    DeliveriesListStatus? status,
+  DeliveriesState copyWith({
+    DeliveriesStatus? status,
     List<DeliveryEntity>? deliveries,
     String? searchQuery,
     DeliveryStatusFilter? filter,
     String? errorMessage,
   }) {
-    return DeliveriesListState(
+    return DeliveriesState(
       status: status ?? this.status,
       deliveries: deliveries ?? this.deliveries,
       searchQuery: searchQuery ?? this.searchQuery,
@@ -94,3 +98,6 @@ class DeliveriesListState extends Equatable {
         errorMessage,
       ];
 }
+
+/// Backwards compatibility alias for DeliveriesListState
+typedef DeliveriesListState = DeliveriesState;

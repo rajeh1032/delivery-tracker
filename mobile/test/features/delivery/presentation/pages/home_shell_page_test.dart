@@ -8,8 +8,8 @@ import 'package:delivery_tracker/core/general_cubits/connectivity_state.dart';
 import 'package:delivery_tracker/core/general_cubits/locale_cubit.dart';
 import 'package:delivery_tracker/core/general_cubits/locale_state.dart';
 import 'package:delivery_tracker/core/l10n/generated/app_localizations.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/deliveries_list/deliveries_list_cubit.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/deliveries_list/deliveries_list_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/deliveries/deliveries_cubit.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/deliveries/deliveries_state.dart';
 import 'package:delivery_tracker/features/delivery/presentation/pages/home_shell_page.dart';
 
 class MockConnectivityCubit extends Mock implements ConnectivityCubit {}

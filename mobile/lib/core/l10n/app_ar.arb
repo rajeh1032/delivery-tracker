@@ -2,7 +2,6 @@
   "@@locale": "ar",
   "appTitle": "متتبع التوصيل",
   "navDeliveries": "الطلبات",
-  "navSyncQueue": "طابور المزامنة",
   "navSettings": "الإعدادات",
   "online": "متصل",
   "offline": "غير متصل",
@@ -55,11 +54,6 @@
   "markDelivered": "تحديد كمكتمل",
   "markFailed": "تحديد كفاشل",
   "actionsFrozenWhileSync": "جاري مزامنة العملية حالياً. يرجى الانتظار.",
-  "syncQueueTitle": "طابور المزامنة",
-  "syncQueuePendingTab": "معلق",
-  "syncQueueFailedTab": "فشل",
-  "emptyPendingQueue": "لا توجد عمليات معلقة بانتظار المزامنة 🎉",
-  "emptyFailedQueue": "لا توجد عمليات فاشلة في المزامنة",
   "settingsTitle": "الإعدادات",
   "language": "اللغة",
   "arabic": "العربية",
@@ -90,5 +84,8 @@
   "snackbarSuccess": "تم بنجاح",
   "snackbarError": "حدث خطأ",
   "snackbarWarning": "تنبيه",
-  "snackbarInfo": "معلومة"
+  "snackbarInfo": "معلومة",
+  "viewOnMap": "عرض على الخريطة",
+  "openInGoogleMaps": "فتح في خرائط جوجل",
+  "customerLocation": "موقع العميل"
 }

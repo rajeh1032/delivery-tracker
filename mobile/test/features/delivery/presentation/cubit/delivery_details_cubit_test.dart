@@ -7,8 +7,8 @@ import 'package:delivery_tracker/core/utils/enums.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_entity.dart';
 import 'package:delivery_tracker/features/delivery/domain/repositories/delivery_repository.dart';
 import 'package:delivery_tracker/features/delivery/domain/use_case/get_delivery_by_id_use_case.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/delivery_details/delivery_details_cubit.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/delivery_details/delivery_details_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/delivery_details/delivery_details_cubit.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/delivery_details/delivery_details_state.dart';
 
 class MockGetDeliveryByIdUseCase extends Mock
     implements GetDeliveryByIdUseCase {}

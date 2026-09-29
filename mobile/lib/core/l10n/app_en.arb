@@ -2,7 +2,6 @@
   "@@locale": "en",
   "appTitle": "Delivery Tracker",
   "navDeliveries": "Deliveries",
-  "navSyncQueue": "Sync Queue",
   "navSettings": "Settings",
   "online": "Online",
   "offline": "Offline",
@@ -55,11 +54,6 @@
   "markDelivered": "Mark as Delivered",
   "markFailed": "Mark as Failed",
   "actionsFrozenWhileSync": "Action is currently syncing. Please wait.",
-  "syncQueueTitle": "Sync Queue",
-  "syncQueuePendingTab": "Pending",
-  "syncQueueFailedTab": "Failed",
-  "emptyPendingQueue": "No pending sync actions 🎉",
-  "emptyFailedQueue": "No failed sync actions",
   "settingsTitle": "Settings",
   "language": "Language",
   "arabic": "العربية",
@@ -90,5 +84,8 @@
   "snackbarSuccess": "Success",
   "snackbarError": "Something went wrong",
   "snackbarWarning": "Attention",
-  "snackbarInfo": "Information"
+  "snackbarInfo": "Information",
+  "viewOnMap": "View on Map",
+  "openInGoogleMaps": "Open in Google Maps",
+  "customerLocation": "Customer Location"
 }

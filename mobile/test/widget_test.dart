@@ -5,8 +5,8 @@ import 'package:delivery_tracker/core/di/di.dart';
 import 'package:delivery_tracker/core/general_cubits/connectivity_cubit.dart';
 import 'package:delivery_tracker/core/general_cubits/locale_cubit.dart';
 import 'package:delivery_tracker/core/services/connectivity_service.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/deliveries_list/deliveries_list_cubit.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubits/deliveries_list/deliveries_list_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/deliveries/deliveries_cubit.dart';
+import 'package:delivery_tracker/features/delivery/presentation/cubit/deliveries/deliveries_state.dart';
 import 'package:delivery_tracker/main.dart';
 
 class MockConnectivityService extends Mock implements ConnectivityService {}
@@ -64,7 +64,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Delivery Tracker'), findsOneWidget);
-    expect(find.byIcon(Icons.sync_rounded), findsOneWidget);
     expect(find.byIcon(Icons.language_rounded), findsOneWidget);
   });
 }
