@@ -43,17 +43,20 @@ class ConnectivityService {
     try {
       final String probeUrl =
           '${NetworkConstants.baseUrl}${NetworkConstants.deliveries}';
-      final response = await _dio.get(
-        probeUrl,
-        options: Options(
-          sendTimeout: NetworkConstants.reachabilityTimeout,
-          receiveTimeout: NetworkConstants.reachabilityTimeout,
-          validateStatus: (status) => status != null,
-        ),
-      );
+      final response = await _dio
+          .get(
+            probeUrl,
+            options: Options(
+              sendTimeout: NetworkConstants.reachabilityTimeout,
+              receiveTimeout: NetworkConstants.reachabilityTimeout,
+              validateStatus: (status) => status != null,
+            ),
+          )
+          .timeout(NetworkConstants.reachabilityTimeout);
       return response.statusCode != null;
     } catch (_) {
       return false;
     }
   }
+
 }

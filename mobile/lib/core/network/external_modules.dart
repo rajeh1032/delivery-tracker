@@ -26,9 +26,10 @@ abstract class ExternalModules {
       ),
     );
     dio.interceptors.addAll([
-      prettyDioLogger,
       languageInterceptor,
+      prettyDioLogger,
     ]);
+
     return dio;
   }
 

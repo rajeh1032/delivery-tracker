@@ -18,8 +18,10 @@ class SharedPrefHelper {
       return sharedPreferences.setString(key, val);
     } else if (val is List<String>) {
       return sharedPreferences.setStringList(key, val);
+    } else if (val is bool) {
+      return sharedPreferences.setBool(key, val);
     } else {
-      return sharedPreferences.setBool(key, val as bool);
+      throw ArgumentError('Unsupported type: ${val.runtimeType}');
     }
   }
 

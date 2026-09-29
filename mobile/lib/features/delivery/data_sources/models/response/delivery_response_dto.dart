@@ -46,6 +46,9 @@ class DeliveryResponseDto {
   @JsonKey(name: 'failed_at')
   final String? failedAt;
 
+  @JsonKey(name: 'updated_at')
+  final String? updatedAt;
+
   const DeliveryResponseDto({
     required this.id,
     required this.orderNumber,
@@ -63,7 +66,9 @@ class DeliveryResponseDto {
     this.clientActionId,
     this.completedAt,
     this.failedAt,
+    this.updatedAt,
   });
+
 
   static double _amountDueFromJson(dynamic val) =>
       (val as num?)?.toDouble() ?? 0.0;
