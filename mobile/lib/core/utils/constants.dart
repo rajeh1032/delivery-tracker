@@ -8,4 +8,17 @@ abstract final class AppConstants {
 
   /// Standard InstaPay payment method key.
   static const String paymentMethodInstapay = 'instapay';
+
+  /// Shared preferences key for selected language code.
+  static const String languageCode = 'selected_language_code';
+
+  /// Default application language code.
+  static const String defaultLanguage = englishLanguage;
+
+  /// Arabic language code.
+  static const String arabicLanguage = 'ar';
+
+  /// English language code.
+  static const String englishLanguage = 'en';
 }
+

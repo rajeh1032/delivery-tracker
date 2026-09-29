@@ -7,7 +7,7 @@ import 'core/di/di.dart';
 import 'core/general_cubits/locale_cubit.dart';
 import 'core/general_cubits/locale_state.dart';
 import 'core/l10n/generated/app_localizations.dart';
-import 'features/delivery/data/sources/local/delivery_local_ds.dart';
+import 'features/delivery/data_sources/sources/local/delivery_local_ds.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
