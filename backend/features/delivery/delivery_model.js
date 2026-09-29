@@ -1,38 +1,58 @@
 import { deliveriesDB, idempotencyStore } from "../../config/database.js";
 
 export const getAllDeliveries = async () => {
-  return deliveriesDB;
+  return structuredClone(deliveriesDB);
 };
 
 export const getDeliveryById = async (id) => {
   const delivery = deliveriesDB.find((d) => d.id === Number(id));
-  return delivery || null;
+  return delivery ? structuredClone(delivery) : null;
 };
 
-export const markAsDelivered = async (id, { recipient_name, note, client_action_id }) => {
+export const markAsDelivered = async (id, { recipient_name, note, client_action_id, base_version }) => {
   const delivery = deliveriesDB.find((d) => d.id === Number(id));
   if (!delivery) return null;
+
+  // Optimistic concurrency & state machine check
+  if (delivery.status !== "pending") {
+    return { conflict: true, current: structuredClone(delivery) };
+  }
+  if (base_version !== undefined && base_version !== delivery.version) {
+    return { conflict: true, current: structuredClone(delivery) };
+  }
 
   delivery.status = "delivered";
   delivery.recipient_name = recipient_name;
-  if (note) delivery.note = note;
+  delivery.note = note || null;
   delivery.completed_at = new Date().toISOString();
   delivery.client_action_id = client_action_id;
+  delivery.version = (delivery.version || 1) + 1;
+  delivery.updated_at = new Date().toISOString();
 
-  return delivery;
+  return structuredClone(delivery);
 };
 
-export const markAsFailed = async (id, { reason, note, client_action_id }) => {
+export const markAsFailed = async (id, { reason, note, client_action_id, base_version }) => {
   const delivery = deliveriesDB.find((d) => d.id === Number(id));
   if (!delivery) return null;
 
+  // Optimistic concurrency & state machine check
+  if (delivery.status !== "pending") {
+    return { conflict: true, current: structuredClone(delivery) };
+  }
+  if (base_version !== undefined && base_version !== delivery.version) {
+    return { conflict: true, current: structuredClone(delivery) };
+  }
+
   delivery.status = "failed";
   delivery.failure_reason = reason;
-  if (note) delivery.note = note;
+  delivery.note = note || null;
   delivery.failed_at = new Date().toISOString();
   delivery.client_action_id = client_action_id;
+  delivery.version = (delivery.version || 1) + 1;
+  delivery.updated_at = new Date().toISOString();
 
-  return delivery;
+  return structuredClone(delivery);
 };
 
 export const attachProofUrl = async (id, proofUrl) => {
@@ -40,13 +60,16 @@ export const attachProofUrl = async (id, proofUrl) => {
   if (!delivery) return null;
 
   delivery.proof_url = proofUrl;
-  return delivery;
+  delivery.version = (delivery.version || 1) + 1;
+  delivery.updated_at = new Date().toISOString();
+
+  return structuredClone(delivery);
 };
 
-export const getHandledAction = (actionId) => {
-  return idempotencyStore.get(actionId) || null;
+export const getHandledAction = (key) => {
+  return idempotencyStore.get(key) || null;
 };
 
-export const saveHandledAction = (actionId, result) => {
-  idempotencyStore.set(actionId, result);
+export const saveHandledAction = (key, record) => {
+  idempotencyStore.set(key, record);
 };

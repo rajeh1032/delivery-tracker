@@ -15,21 +15,35 @@ export const readDeliveries = async (req, res) => {
 export const readDeliveryById = async (req, res) => {
   const delivery = await getDeliveryById(req.params.id);
   if (!delivery) {
-    return res.status(404).json({ message: "Delivery not found" });
+    return res.status(404).json({
+      code: "DELIVERY_NOT_FOUND",
+      message: "Delivery not found"
+    });
   }
   return res.status(200).json(delivery);
 };
 
 export const completeDelivery = async (req, res) => {
   const { id } = req.params;
-  const { recipient_name, note, client_action_id } = req.body;
+  const { recipient_name, note, client_action_id, base_version } = req.body;
 
   const delivery = await getDeliveryById(id);
   if (!delivery) {
-    return res.status(404).json({ message: "Delivery not found" });
+    return res.status(404).json({
+      code: "DELIVERY_NOT_FOUND",
+      message: "Delivery not found"
+    });
   }
 
-  const updated = await markAsDelivered(id, { recipient_name, note, client_action_id });
+  const updated = await markAsDelivered(id, { recipient_name, note, client_action_id, base_version });
+
+  if (updated?.conflict) {
+    return res.status(409).json({
+      code: "DELIVERY_CONFLICT",
+      message: "Delivery was modified on the server before this update",
+      current_delivery: updated.current
+    });
+  }
 
   const result = {
     message: "Delivery completed successfully",
@@ -37,7 +51,11 @@ export const completeDelivery = async (req, res) => {
   };
 
   if (client_action_id) {
-    saveHandledAction(client_action_id, result);
+    saveHandledAction(client_action_id, {
+      deliveryId: Number(id),
+      statusCode: 200,
+      response: structuredClone(result)
+    });
   }
 
   return res.status(200).json(result);
@@ -45,14 +63,25 @@ export const completeDelivery = async (req, res) => {
 
 export const failDelivery = async (req, res) => {
   const { id } = req.params;
-  const { reason, note, client_action_id } = req.body;
+  const { reason, note, client_action_id, base_version } = req.body;
 
   const delivery = await getDeliveryById(id);
   if (!delivery) {
-    return res.status(404).json({ message: "Delivery not found" });
+    return res.status(404).json({
+      code: "DELIVERY_NOT_FOUND",
+      message: "Delivery not found"
+    });
   }
 
-  const updated = await markAsFailed(id, { reason, note, client_action_id });
+  const updated = await markAsFailed(id, { reason, note, client_action_id, base_version });
+
+  if (updated?.conflict) {
+    return res.status(409).json({
+      code: "DELIVERY_CONFLICT",
+      message: "Delivery was modified on the server before this update",
+      current_delivery: updated.current
+    });
+  }
 
   const result = {
     message: "Delivery marked as failed",
@@ -60,7 +89,11 @@ export const failDelivery = async (req, res) => {
   };
 
   if (client_action_id) {
-    saveHandledAction(client_action_id, result);
+    saveHandledAction(client_action_id, {
+      deliveryId: Number(id),
+      statusCode: 200,
+      response: structuredClone(result)
+    });
   }
 
   return res.status(200).json(result);
@@ -70,12 +103,18 @@ export const uploadProof = async (req, res) => {
   const { id } = req.params;
 
   if (!req.file) {
-    return res.status(400).json({ message: "photo is required" });
+    return res.status(400).json({
+      code: "UPLOAD_ERROR",
+      message: "photo is required"
+    });
   }
 
   const delivery = await getDeliveryById(id);
   if (!delivery) {
-    return res.status(404).json({ message: "Delivery not found" });
+    return res.status(404).json({
+      code: "DELIVERY_NOT_FOUND",
+      message: "Delivery not found"
+    });
   }
 
   const proofUrl = `/uploads/${req.file.filename}`;

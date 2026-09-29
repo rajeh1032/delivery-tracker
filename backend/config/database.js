@@ -13,7 +13,9 @@ export const deliveriesDB = [
     note: null,
     proof_url: null,
     completed_at: null,
-    failed_at: null
+    failed_at: null,
+    version: 1,
+    updated_at: "2026-09-29T12:00:00.000Z"
   },
   {
     id: 1002,
@@ -29,7 +31,9 @@ export const deliveriesDB = [
     note: null,
     proof_url: null,
     completed_at: null,
-    failed_at: null
+    failed_at: null,
+    version: 1,
+    updated_at: "2026-09-29T12:00:00.000Z"
   },
   {
     id: 1003,
@@ -45,7 +49,9 @@ export const deliveriesDB = [
     note: null,
     proof_url: null,
     completed_at: null,
-    failed_at: null
+    failed_at: null,
+    version: 1,
+    updated_at: "2026-09-29T12:00:00.000Z"
   },
   {
     id: 1004,
@@ -61,7 +67,9 @@ export const deliveriesDB = [
     note: null,
     proof_url: null,
     completed_at: null,
-    failed_at: null
+    failed_at: null,
+    version: 1,
+    updated_at: "2026-09-29T12:00:00.000Z"
   }
 ];
 
