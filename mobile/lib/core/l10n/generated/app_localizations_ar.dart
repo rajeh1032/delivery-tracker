@@ -255,4 +255,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get orderPrefix => 'طلب #';
+
+  @override
+  String get viewDetails => 'عرض التفاصيل';
 }

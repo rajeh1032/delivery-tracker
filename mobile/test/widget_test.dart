@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:delivery_tracker/core/di/di.dart';
@@ -72,7 +73,7 @@ void main() {
     }
   });
 
-  testWidgets('App smoke test renders HomeShellPage and navigation bar',
+  testWidgets('App smoke test renders HomeShellPage and actions',
       (WidgetTester tester) async {
     await tester.pumpWidget(
       DeliveryTrackerApp(
@@ -83,8 +84,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Delivery Tracker'), findsOneWidget);
-    expect(find.text('Deliveries'), findsWidgets);
-    expect(find.text('Sync Queue'), findsOneWidget);
-    expect(find.text('Settings'), findsOneWidget);
+    expect(find.byIcon(Icons.sync_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.language_rounded), findsOneWidget);
   });
 }

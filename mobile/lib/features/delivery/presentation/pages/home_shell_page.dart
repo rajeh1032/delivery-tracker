@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/theme/app_dimensions.dart';
+import '../../../../config/theme/colors.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/general_cubits/connectivity_cubit.dart';
 import '../../../../core/general_cubits/connectivity_state.dart';
@@ -9,7 +10,6 @@ import '../../../../core/helpers/snackbar_utils.dart';
 import '../widgets/offline/connectivity_pill.dart';
 import '../widgets/offline/offline_banner.dart';
 import 'deliveries_list_page.dart';
-import 'settings_page.dart';
 import 'sync_queue_page.dart';
 
 /// Root shell page hosting the bottom navigation bar and reactive offline banner.
@@ -21,8 +21,6 @@ class HomeShellPage extends StatefulWidget {
 }
 
 class _HomeShellPageState extends State<HomeShellPage> {
-  int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<ConnectivityCubit, ConnectivityState>(
@@ -33,13 +31,36 @@ class _HomeShellPageState extends State<HomeShellPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            _resolveTitle(context),
-            style: const TextStyle(fontWeight: FontWeight.w700),
+            context.tr.appTitle,
+            style: const TextStyle(
+              fontWeight: FontWeight.w800,
+              fontSize: 18,
+            ),
           ),
           actions: [
             const Padding(
               padding: EdgeInsetsDirectional.only(end: AppDimensions.spaceSM),
               child: ConnectivityPill(),
+            ),
+            IconButton(
+              tooltip: context.tr.syncQueueTitle,
+              icon: const Icon(Icons.sync_rounded),
+              onPressed: () {
+                showModalBottomSheet<void>(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: AppColors.surface,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(AppDimensions.radiusXL),
+                    ),
+                  ),
+                  builder: (_) => const SizedBox(
+                    height: 520,
+                    child: SyncQueuePage(),
+                  ),
+                );
+              },
             ),
             IconButton(
               tooltip: context.tr.language,
@@ -49,60 +70,15 @@ class _HomeShellPageState extends State<HomeShellPage> {
             const SizedBox(width: AppDimensions.spaceXS),
           ],
         ),
-        body: Column(
+        body: const Column(
           children: [
-            const OfflineBanner(),
+            OfflineBanner(),
             Expanded(
-              child: IndexedStack(
-                index: _currentIndex,
-                children: [
-                  const DeliveriesListPage(),
-                  const SyncQueuePage(),
-                  const SettingsPage(),
-                ],
-              ),
-            ),
-          ],
-        ),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: _currentIndex,
-          onDestinationSelected: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          destinations: [
-            NavigationDestination(
-              icon: const Icon(Icons.local_shipping_outlined),
-              selectedIcon: const Icon(Icons.local_shipping),
-              label: context.tr.navDeliveries,
-            ),
-            NavigationDestination(
-              icon: const Icon(Icons.sync_outlined),
-              selectedIcon: const Icon(Icons.sync),
-              label: context.tr.navSyncQueue,
-            ),
-            NavigationDestination(
-              icon: const Icon(Icons.settings_outlined),
-              selectedIcon: const Icon(Icons.settings),
-              label: context.tr.navSettings,
+              child: DeliveriesListPage(),
             ),
           ],
         ),
       ),
     );
-  }
-
-  String _resolveTitle(BuildContext context) {
-    switch (_currentIndex) {
-      case 0:
-        return context.tr.appTitle;
-      case 1:
-        return context.tr.syncQueueTitle;
-      case 2:
-        return context.tr.settingsTitle;
-      default:
-        return context.tr.appTitle;
-    }
   }
 }

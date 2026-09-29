@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:delivery_tracker/config/theme/app_dimensions.dart';
 import 'package:delivery_tracker/config/theme/colors.dart';
 import 'package:delivery_tracker/core/di/di.dart';
+import 'package:delivery_tracker/core/extensions/context_extensions.dart';
 import 'package:delivery_tracker/core/helpers/snackbar_utils.dart';
 import 'package:delivery_tracker/features/delivery/presentation/cubits/sync_queue/sync_queue_cubit.dart';
 import 'package:delivery_tracker/features/delivery/presentation/cubits/sync_queue/sync_queue_state.dart';
@@ -43,6 +44,31 @@ class _SyncQueueView extends StatelessWidget {
 
           return Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppDimensions.spaceMD,
+                  AppDimensions.spaceMD,
+                  AppDimensions.spaceMD,
+                  0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      context.tr.syncQueueTitle,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close_rounded),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+              ),
               SyncQueueTabs(
                 currentTab: state.tab,
                 pendingCount: state.pendingCount,
