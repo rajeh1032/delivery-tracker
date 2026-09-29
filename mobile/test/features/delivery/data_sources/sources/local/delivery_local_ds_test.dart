@@ -4,8 +4,8 @@ import 'package:hive/hive.dart';
 import 'package:delivery_tracker/core/database/local_storage_service.dart';
 import 'package:delivery_tracker/core/utils/constants.dart';
 import 'package:delivery_tracker/core/utils/enums.dart';
-import 'package:delivery_tracker/features/delivery/data/sources/local/delivery_local_ds.dart';
-import 'package:delivery_tracker/features/delivery/data/sources/local/delivery_local_ds_impl.dart';
+import 'package:delivery_tracker/features/delivery/data_sources/sources/local/delivery_local_ds.dart';
+import 'package:delivery_tracker/features/delivery/data_sources/sources/local/delivery_local_ds_impl.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_action.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_entity.dart';
 
