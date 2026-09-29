@@ -166,4 +166,9 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
   Stream<List<DeliveryEntity>> watchDeliveries() {
     return _localDataSource.watchDeliveries();
   }
+
+  @override
+  Stream<List<DeliveryAction>> watchPendingActions() {
+    return _localDataSource.watchPendingActions();
+  }
 }
