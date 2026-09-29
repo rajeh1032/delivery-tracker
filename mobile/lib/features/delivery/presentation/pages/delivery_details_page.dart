@@ -6,6 +6,8 @@ import 'package:delivery_tracker/core/di/di.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_entity.dart';
 import 'package:delivery_tracker/features/delivery/presentation/cubits/delivery_details/delivery_details_cubit.dart';
 import 'package:delivery_tracker/features/delivery/presentation/cubits/delivery_details/delivery_details_state.dart';
+import 'package:delivery_tracker/features/delivery/presentation/widgets/action_sheets/complete_delivery_sheet.dart';
+import 'package:delivery_tracker/features/delivery/presentation/widgets/action_sheets/fail_delivery_sheet.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/delivery_details_error_state.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/delivery_details_not_found_state.dart';
 import 'package:delivery_tracker/features/delivery/presentation/widgets/details/delivery_details_skeleton.dart';
@@ -126,10 +128,10 @@ class _DeliveryDetailsView extends StatelessWidget {
               DetailsActionsBar(
                 delivery: delivery,
                 onMarkDelivered: () {
-                  // Phase D wiring: opens CompleteDeliverySheet
+                  CompleteDeliverySheet.show(context, delivery);
                 },
                 onMarkFailed: () {
-                  // Phase D wiring: opens FailDeliverySheet
+                  FailDeliverySheet.show(context, delivery);
                 },
               ),
             ],

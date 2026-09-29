@@ -228,4 +228,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get failedOrderBanner => 'This delivery was marked as failed.';
+
+  @override
+  String get deliveryCompletedLocally =>
+      'Delivery recorded and queued for sync.';
+
+  @override
+  String get deliveryFailedLocally =>
+      'Delivery failure recorded and queued for sync.';
+
+  @override
+  String get removePhoto => 'Remove photo';
+
+  @override
+  String get chooseSource => 'Choose image source';
+
+  @override
+  String get photoAttachSuccess => 'Photo attached successfully';
 }
