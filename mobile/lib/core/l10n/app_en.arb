@@ -64,5 +64,12 @@
   "language": "Language",
   "arabic": "العربية",
   "english": "English",
-  "aboutVersion": "Delivery Tracker v1.0.0"
+  "aboutVersion": "Delivery Tracker v1.0.0",
+  "deliveryNotFound": "Delivery not found",
+  "copyPhone": "Copy Phone",
+  "phoneCopied": "Phone number copied to clipboard",
+  "callCustomer": "Call",
+  "deliveredBy": "Delivered by",
+  "deliveredOrderBanner": "This order has been successfully delivered.",
+  "failedOrderBanner": "This delivery was marked as failed."
 }
