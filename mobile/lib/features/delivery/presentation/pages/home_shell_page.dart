@@ -10,6 +10,7 @@ import '../../../../core/helpers/snackbar_utils.dart';
 import '../widgets/offline/connectivity_pill.dart';
 import '../widgets/offline/offline_banner.dart';
 import 'deliveries_list_page.dart';
+import 'sync_queue_page.dart';
 
 /// Root shell page hosting the bottom navigation bar and reactive offline banner.
 class HomeShellPage extends StatefulWidget {
@@ -56,7 +57,7 @@ class _HomeShellPageState extends State<HomeShellPage> {
                 index: _currentIndex,
                 children: [
                   const DeliveriesListPage(),
-                  _buildSyncQueueTabPlaceholder(context),
+                  const SyncQueuePage(),
                   _buildSettingsTab(context),
                 ],
               ),
@@ -103,19 +104,6 @@ class _HomeShellPageState extends State<HomeShellPage> {
       default:
         return context.tr.appTitle;
     }
-  }
-
-  Widget _buildSyncQueueTabPlaceholder(BuildContext context) {
-    return Center(
-      child: Text(
-        context.tr.syncQueueTitle,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: AppColors.textSecondary,
-        ),
-      ),
-    );
   }
 
   Widget _buildSettingsTab(BuildContext context) {

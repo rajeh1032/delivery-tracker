@@ -91,6 +91,12 @@ class DeliveryLocalDataSourceImpl implements DeliveryLocalDataSource {
   }
 
   @override
+  Stream<List<DeliveryAction>> watchPendingActions() async* {
+    yield await getPendingActions();
+    yield* _actionsBox.watch().asyncMap((_) => getPendingActions());
+  }
+
+  @override
   Future<void> clearAll() async {
     await _storageService.clearAll();
   }

@@ -245,4 +245,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get photoAttachSuccess => 'Photo attached successfully';
+
+  @override
+  String get actionTypeComplete => 'Delivery Completion';
+
+  @override
+  String get actionTypeFail => 'Delivery Failure';
+
+  @override
+  String get retries => 'Retries';
+
+  @override
+  String get orderPrefix => 'Order #';
 }
