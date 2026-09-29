@@ -1,0 +1,37 @@
+# Local resources & AI references (local-only)
+task_resources/
+
+# Ignore all markdown files (specs, docs, instructions, readmes)
+*.md
+**/*.md
+
+# Mobile (Flutter)
+mobile/.dart_tool/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+mobile/build/
+mobile/.pub-cache/
+mobile/.pub/
+mobile/android/.gradle/
+mobile/android/local.properties
+mobile/android/app/build/
+mobile/ios/.generated/
+mobile/ios/Flutter/Flutter.podspec
+mobile/ios/Flutter/Generated.xcconfig
+mobile/ios/Flutter/app.framework
+mobile/ios/Flutter/Flutter.framework
+mobile/ios/Pods/
+mobile/ios/.symlinks/
+
+# Backend
+backend/node_modules/
+backend/.dart_tool/
+backend/build/
+backend/.env
+
+# IDE & OS
+.DS_Store
+.idea/
+.vscode/
+*.iml
