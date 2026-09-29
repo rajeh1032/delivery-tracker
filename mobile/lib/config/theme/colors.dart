@@ -49,4 +49,13 @@ abstract final class AppColors {
   // Shimmer / Placeholder
   static const Color shimmerBase = Color(0xFFE2E8F0);
   static const Color shimmerHighlight = Color(0xFFF8FAFC);
+
+  // Radar, Map & Overlay Semantics
+  static const Color mapBackdrop = Color(0xFFF1F5F9);
+  static const Color radarSweep = Color(0x401E56A0);
+  static const Color barrier = Color(0x66000000);
+  static const Color shadowSoft = Color(0x0F000000);
+  static const Color pickupColor = Color(0xFF2563EB);
+  static const Color metricText = Color(0xFF475569);
+  static const Color metricIcon = Color(0xFF64748B);
 }
