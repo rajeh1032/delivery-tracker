@@ -179,18 +179,12 @@ class SyncManager {
 
   Future<bool> retryAction(String clientActionId) async {
     final pendingActions = await _localDataSource.getPendingActions();
-    final matchingAction = pendingActions.where(
-      (a) => a.clientActionId == clientActionId,
-    );
-
-    if (matchingAction.isEmpty) {
-      return false;
-    }
+    final matchingAction =
+        pendingActions.where((a) => a.clientActionId == clientActionId);
+    if (matchingAction.isEmpty) return false;
 
     final isReachable = await _connectivityService.checkReachability();
-    if (!isReachable) {
-      return false;
-    }
+    if (!isReachable) return false;
 
     return await syncAction(matchingAction.first);
   }

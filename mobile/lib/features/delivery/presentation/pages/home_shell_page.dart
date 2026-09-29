@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/theme/app_dimensions.dart';
-import '../../../../config/theme/colors.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/general_cubits/connectivity_cubit.dart';
 import '../../../../core/general_cubits/connectivity_state.dart';
@@ -10,6 +9,7 @@ import '../../../../core/helpers/snackbar_utils.dart';
 import '../widgets/offline/connectivity_pill.dart';
 import '../widgets/offline/offline_banner.dart';
 import 'deliveries_list_page.dart';
+import 'settings_page.dart';
 
 /// Root shell page hosting the bottom navigation bar and reactive offline banner.
 class HomeShellPage extends StatefulWidget {
@@ -54,10 +54,9 @@ class _HomeShellPageState extends State<HomeShellPage> {
             Expanded(
               child: IndexedStack(
                 index: _currentIndex,
-                children: [
-                  const DeliveriesListPage(),
-                  _buildSyncQueueTabPlaceholder(context),
-                  _buildSettingsTab(context),
+                children: const [
+                  DeliveriesListPage(),
+                  SettingsPage(),
                 ],
               ),
             ),
@@ -77,11 +76,6 @@ class _HomeShellPageState extends State<HomeShellPage> {
               label: context.tr.navDeliveries,
             ),
             NavigationDestination(
-              icon: const Icon(Icons.sync_outlined),
-              selectedIcon: const Icon(Icons.sync),
-              label: context.tr.navSyncQueue,
-            ),
-            NavigationDestination(
               icon: const Icon(Icons.settings_outlined),
               selectedIcon: const Icon(Icons.settings),
               label: context.tr.navSettings,
@@ -97,56 +91,9 @@ class _HomeShellPageState extends State<HomeShellPage> {
       case 0:
         return context.tr.appTitle;
       case 1:
-        return context.tr.syncQueueTitle;
-      case 2:
         return context.tr.settingsTitle;
       default:
         return context.tr.appTitle;
     }
-  }
-
-  Widget _buildSyncQueueTabPlaceholder(BuildContext context) {
-    return Center(
-      child: Text(
-        context.tr.syncQueueTitle,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: AppColors.textSecondary,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSettingsTab(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(AppDimensions.spaceLG),
-      children: [
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.language_rounded, color: AppColors.primary),
-            title: Text(context.tr.language),
-            trailing: Text(
-              context.isRtl ? context.tr.arabic : context.tr.english,
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                color: AppColors.primary,
-              ),
-            ),
-            onTap: () => context.read<LocaleCubit>().toggleLocale(),
-          ),
-        ),
-        const SizedBox(height: AppDimensions.spaceMD),
-        Center(
-          child: Text(
-            context.tr.aboutVersion,
-            style: const TextStyle(
-              fontSize: 12,
-              color: AppColors.textMuted,
-            ),
-          ),
-        ),
-      ],
-    );
   }
 }
