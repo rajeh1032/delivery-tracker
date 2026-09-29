@@ -257,4 +257,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get orderPrefix => 'Order #';
+
+  @override
+  String get viewDetails => 'View Details';
 }

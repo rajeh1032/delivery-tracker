@@ -80,5 +80,6 @@
   "actionTypeComplete": "إتمام التوصيل",
   "actionTypeFail": "تعذر التوصيل",
   "retries": "محاولات",
-  "orderPrefix": "طلب #"
+  "orderPrefix": "طلب #",
+  "viewDetails": "عرض التفاصيل"
 }

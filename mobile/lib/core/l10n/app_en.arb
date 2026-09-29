@@ -80,5 +80,6 @@
   "actionTypeComplete": "Delivery Completion",
   "actionTypeFail": "Delivery Failure",
   "retries": "Retries",
-  "orderPrefix": "Order #"
+  "orderPrefix": "Order #",
+  "viewDetails": "View Details"
 }

@@ -33,7 +33,8 @@ class DeliveryTrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final activeLocaleCubit = localeCubit ??
+    final activeLocaleCubit =
+        localeCubit ??
         (getIt.isRegistered<LocaleCubit>()
             ? getIt<LocaleCubit>()
             : LocaleCubit());
@@ -51,6 +52,7 @@ class DeliveryTrackerApp extends StatelessWidget {
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, state) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Delivery Tracker',
             theme: AppTheme.lightTheme,
             locale: state.locale,

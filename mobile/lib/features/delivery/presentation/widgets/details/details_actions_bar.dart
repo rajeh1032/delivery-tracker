@@ -88,12 +88,11 @@ class DetailsActionsBar extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    flex: 3,
                     child: PillButton(
                       text: context.tr.markDelivered,
                       icon: const Icon(
                         Icons.check_circle_outline,
-                        size: AppDimensions.iconMD,
+                        size: AppDimensions.iconSM,
                         color: Colors.white,
                       ),
                       backgroundColor: AppColors.synced,
@@ -102,12 +101,11 @@ class DetailsActionsBar extends StatelessWidget {
                   ),
                   const SizedBox(width: AppDimensions.spaceSM),
                   Expanded(
-                    flex: 2,
                     child: PillButton(
                       text: context.tr.markFailed,
                       icon: const Icon(
                         Icons.highlight_off,
-                        size: AppDimensions.iconMD,
+                        size: AppDimensions.iconSM,
                         color: Colors.white,
                       ),
                       backgroundColor: AppColors.failed,
