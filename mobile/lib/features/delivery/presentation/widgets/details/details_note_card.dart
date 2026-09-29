@@ -3,8 +3,10 @@ import 'package:delivery_tracker/config/theme/app_dimensions.dart';
 import 'package:delivery_tracker/config/theme/colors.dart';
 import 'package:delivery_tracker/core/extensions/context_extensions.dart';
 import 'package:delivery_tracker/core/utils/enums.dart';
+import 'details_metadata_row.dart';
+import 'details_proof_thumbnail.dart';
 
-/// Card showing delivery resolution metadata (recipient, failure reason, note, proof).
+/// Card showing delivery resolution metadata (recipient, failure reason, note, photo proof).
 class DetailsNoteCard extends StatelessWidget {
   final String? recipientName;
   final FailureReason? failureReason;
@@ -36,7 +38,8 @@ class DetailsNoteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasRecipient = recipientName != null && recipientName!.trim().isNotEmpty;
+    final hasRecipient =
+        recipientName != null && recipientName!.trim().isNotEmpty;
     final hasReason = failureReason != null;
     final hasNote = note != null && note!.trim().isNotEmpty;
     final hasProof = proofUrl != null && proofUrl!.trim().isNotEmpty;
@@ -64,7 +67,7 @@ class DetailsNoteCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (hasRecipient) ...[
-            _MetadataRow(
+            DetailsMetadataRow(
               icon: Icons.person_outline,
               label: context.tr.deliveredBy,
               value: recipientName!,
@@ -73,7 +76,7 @@ class DetailsNoteCard extends StatelessWidget {
             const SizedBox(height: AppDimensions.spaceMD),
           ],
           if (hasReason) ...[
-            _MetadataRow(
+            DetailsMetadataRow(
               icon: Icons.error_outline,
               label: context.tr.failureReasonLabel,
               value: _resolveFailureReason(context, failureReason!),
@@ -128,72 +131,10 @@ class DetailsNoteCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: AppDimensions.spaceSM),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(AppDimensions.radiusMD),
-              child: Image.network(
-                proofUrl!,
-                height: 120,
-                width: 120,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  height: 100,
-                  width: 100,
-                  color: AppColors.surfaceVariant,
-                  alignment: Alignment.center,
-                  child: const Icon(
-                    Icons.broken_image_outlined,
-                    color: AppColors.textMuted,
-                    size: AppDimensions.iconLG,
-                  ),
-                ),
-              ),
-            ),
+            DetailsProofThumbnail(proofUrl: proofUrl!),
           ],
         ],
       ),
-    );
-  }
-}
-
-class _MetadataRow extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-  final Color valueColor;
-
-  const _MetadataRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-    required this.valueColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: AppDimensions.iconMD, color: valueColor),
-        const SizedBox(width: AppDimensions.spaceSM),
-        Text(
-          '$label: ',
-          style: const TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textSecondary,
-          ),
-        ),
-        Expanded(
-          child: Text(
-            value,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: valueColor,
-            ),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
     );
   }
 }

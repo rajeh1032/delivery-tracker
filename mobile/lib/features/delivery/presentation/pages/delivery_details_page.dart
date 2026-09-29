@@ -108,6 +108,7 @@ class _DeliveryDetailsView extends StatelessWidget {
                       DetailsAmountCard(
                         amountDue: delivery.amountDue,
                         paymentMethod: delivery.paymentMethod,
+                        orderNumber: delivery.orderNumber,
                       ),
                       if (delivery.recipientName != null ||
                           delivery.failureReason != null ||
