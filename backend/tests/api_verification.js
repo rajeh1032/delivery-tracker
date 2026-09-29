@@ -186,16 +186,14 @@ async function runTests() {
     assert(uploadData.proof_url !== undefined && uploadData.proof_url.startsWith("/uploads/"), "Photo uploaded and proof_url generated");
 
   } finally {
-    server.close();
+    server.close(() => {
+      process.exit(failed > 0 ? 1 : 0);
+    });
   }
 
   console.log("\n=========================================");
   console.log(`Results: ${passed} passed, ${failed} failed`);
   console.log("=========================================");
-
-  if (failed > 0) {
-    process.exit(1);
-  }
 }
 
 runTests().catch((err) => {
