@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'config/theme/app_theme.dart';
+import 'core/database/local_storage_service.dart';
 import 'core/di/di.dart';
 import 'core/general_cubits/locale_cubit.dart';
 import 'core/general_cubits/locale_state.dart';
 import 'core/l10n/generated/app_localizations.dart';
+import 'features/delivery/data/sources/local/delivery_local_ds.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
+  await getIt<LocalStorageService>().init();
+  await getIt<DeliveryLocalDataSource>().reconcileStrandedSyncStates();
   runApp(const DeliveryTrackerApp());
 }
 
