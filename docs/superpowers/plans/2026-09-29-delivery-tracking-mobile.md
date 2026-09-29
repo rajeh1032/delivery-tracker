@@ -246,34 +246,34 @@ mobile/lib/
 - `lib/features/delivery/data_sources/sources/remote/delivery_remote_ds.dart`
 - `lib/features/delivery/data_sources/sources/remote/delivery_remote_ds_impl.dart`
 
-- [ ] **Step 1: Implement `shared_pref.dart` and `spacing.dart` in `core/helpers/`**
+- [x] **Step 1: Implement `shared_pref.dart` and `spacing.dart` in `core/helpers/`**
   - `SharedPrefHelper` (@injectable) with typed get/save/remove.
   - `verticalSpace(double height)` and `horizontalSpace(double width)`.
-- [ ] **Step 2: Implement `language_interceptor.dart` and `external_modules.dart`**
+- [x] **Step 2: Implement `language_interceptor.dart` and `external_modules.dart`**
   - `LanguageInterceptor` (@lazySingleton) injecting `Accept-Language` header from `LocaleCubit` / `SharedPrefHelper`.
   - `ExternalModules` (@module):
     - `providePrettyDioLogger()`
     - `provideDio()`: sets `kBaseUrl`, headers, 15s timeouts, adds `PrettyDioLogger` and `LanguageInterceptor`.
     - `provideSharedPreferences` (@preResolve).
-- [ ] **Step 3: Implement `failures.dart` and `api_results.dart`**
+- [x] **Step 3: Implement `failures.dart` and `api_results.dart`**
   - Categorize failures:
     - `TransientFailure`: timeouts, 500, socket errors, connection dropouts (retryable).
     - `PermanentFailure`: 400 validation error, 404 not found, 409 conflict (non-retryable).
   - Map backend machine-readable `code` (e.g. `DELIVERY_CONFLICT`, `VALIDATION_ERROR`).
   - `safeApiCall<T>` catching `DioException` and mapping to `ServerFailure` / `TransientFailure` / `PermanentFailure`.
-- [ ] **Step 4: Create Retrofit `ApiServices` and DTOs with `json_serializable` & Mappers**
+- [x] **Step 4: Create Retrofit `ApiServices` and DTOs with `json_serializable` & Mappers**
   - `GET /deliveries`
   - `GET /deliveries/{id}`
   - `POST /deliveries/{id}/complete`
   - `POST /deliveries/{id}/fail`
   - `POST /deliveries/{id}/proof`
   - DTO to Entity and Entity to DTO mappers.
-- [ ] **Step 5: Implement `ConnectivityService`**
+- [x] **Step 5: Implement `ConnectivityService`**
   - Listen to `internet_connection_checker_plus` and `connectivity_plus`.
   - Implement active HTTP reachability probe (`GET /deliveries` with 3s timeout) before declaring real internet connection.
-- [ ] **Step 6: Implement `DeliveryRemoteDataSourceImpl`**
+- [x] **Step 6: Implement `DeliveryRemoteDataSourceImpl`**
   - Inject `ApiServices` and delegate requests wrapped in `safeApiCall`.
-- [ ] **Step 7: Run `dart run build_runner build --delete-conflicting-outputs` and write unit tests.**
+- [x] **Step 7: Run `dart run build_runner build --delete-conflicting-outputs` and write unit tests.**
 
 ---
 
