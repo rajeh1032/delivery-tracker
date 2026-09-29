@@ -9,6 +9,7 @@ import '../../../../core/general_cubits/locale_cubit.dart';
 import '../../../../core/helpers/snackbar_utils.dart';
 import '../widgets/offline/connectivity_pill.dart';
 import '../widgets/offline/offline_banner.dart';
+import 'deliveries_list_page.dart';
 
 /// Root shell page hosting the bottom navigation bar and reactive offline banner.
 class HomeShellPage extends StatefulWidget {
@@ -54,7 +55,7 @@ class _HomeShellPageState extends State<HomeShellPage> {
               child: IndexedStack(
                 index: _currentIndex,
                 children: [
-                  _buildDeliveriesTabPlaceholder(context),
+                  const DeliveriesListPage(),
                   _buildSyncQueueTabPlaceholder(context),
                   _buildSettingsTab(context),
                 ],
@@ -102,19 +103,6 @@ class _HomeShellPageState extends State<HomeShellPage> {
       default:
         return context.tr.appTitle;
     }
-  }
-
-  Widget _buildDeliveriesTabPlaceholder(BuildContext context) {
-    return Center(
-      child: Text(
-        context.tr.navDeliveries,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: AppColors.textSecondary,
-        ),
-      ),
-    );
   }
 
   Widget _buildSyncQueueTabPlaceholder(BuildContext context) {
