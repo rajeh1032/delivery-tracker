@@ -227,4 +227,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get failedOrderBanner => 'تم تحديد هذا الطلب كفاشل.';
+
+  @override
+  String get deliveryCompletedLocally =>
+      'تم تسجيل التوصيل بنجاح وجدولة المزامنة.';
+
+  @override
+  String get deliveryFailedLocally => 'تم تسجيل فشل التوصيل وجدولة المزامنة.';
+
+  @override
+  String get removePhoto => 'حذف الصورة';
+
+  @override
+  String get chooseSource => 'اختر مصدر الصورة';
+
+  @override
+  String get photoAttachSuccess => 'تم إرفاق الصورة بنجاح';
 }
