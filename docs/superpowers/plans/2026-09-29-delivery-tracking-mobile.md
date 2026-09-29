@@ -72,38 +72,46 @@ mobile/lib/
 │       └── enums.dart                    # DeliveryStatus, SyncStatus, DeliveryActionType, FailureReason
 └── features/
     └── delivery/
-        ├── data/
+        ├── data_sources/
         │   ├── mapper/
-        │   │   └── delivery_mapper.dart  # DTO <-> Entity mappers
+        │   │   ├── to_dto_mapper.dart        # Entity -> DTO mappers
+        │   │   └── to_entity_mapper.dart     # DTO -> Entity mappers
         │   ├── models/
-        │   │   ├── delivery_dto.dart     # JSON serializable DTO
-        │   │   ├── complete_request.dart # recipient_name, note, client_action_id
-        │   │   └── fail_request.dart     # reason, note, client_action_id
+        │   │   ├── request/
+        │   │   │   ├── complete_delivery_request_dto.dart
+        │   │   │   └── fail_delivery_request_dto.dart
+        │   │   └── response/
+        │   │       └── delivery_response_dto.dart
         │   ├── repositories/
-        │   │   └── delivery_repository_impl.dart # Offline-first coordinator
+        │   │   └── delivery_repo_impl.dart   # Offline-first repository implementing DeliveryRepository
         │   └── sources/
         │       ├── local/
-        │       │   ├── delivery_local_ds.dart     # Contract
-        │       │   └── delivery_local_ds_impl.dart# Hive implementation
+        │       │   ├── delivery_local_ds.dart
+        │       │   └── delivery_local_ds_impl.dart
         │       └── remote/
-        │           ├── delivery_remote_ds.dart    # Contract
-        │           └── delivery_remote_ds_impl.dart# Retrofit implementation
+        │           ├── delivery_remote_ds.dart
+        │           └── delivery_remote_ds_impl.dart
         ├── domain/
         │   ├── entities/
-        │   │   ├── delivery_entity.dart  # Delivery model (extends Equatable)
-        │   │   └── delivery_action.dart  # Durable queue action (extends Equatable)
+        │   │   ├── request/
+        │   │   │   ├── complete_delivery_request_entity.dart
+        │   │   │   └── fail_delivery_request_entity.dart
+        │   │   └── response/
+        │   │       ├── delivery_entity.dart
+        │   │       └── delivery_action.dart
         │   ├── repositories/
-        │   │   └── delivery_repository.dart
-        │   └── use_cases/
-        │       ├── get_deliveries_use_case.dart
-        │       ├── get_delivery_by_id_use_case.dart
-        │       ├── complete_delivery_use_case.dart
-        │       ├── fail_delivery_use_case.dart
-        │       └── retry_action_use_case.dart
+        │   │   └── delivery_repo.dart
+        │   └── use_case/
+        │       ├── get_deliveries_use_case.dart     # invoke() returning ApiResult
+        │       ├── get_delivery_by_id_use_case.dart # invoke() returning ApiResult
+        │       ├── complete_delivery_use_case.dart  # invoke() returning ApiResult
+        │       ├── fail_delivery_use_case.dart      # invoke() returning ApiResult
+        │       └── retry_action_use_case.dart       # invoke() returning ApiResult
         └── presentation/
             ├── manager/
-            │   ├── delivery_cubit.dart   # Main delivery state manager
-            │   └── delivery_state.dart   # Equatable states (Loading, Success, Error, ActionInProgress)
+            │   └── cubit/
+            │       ├── delivery_cubit.dart
+            │       └── delivery_state.dart
             ├── pages/
             │   ├── deliveries_list_screen.dart
             │   └── delivery_details_screen.dart
@@ -202,8 +210,8 @@ mobile/lib/
 - `lib/core/database/adapters/delivery_adapter.dart`
 - `lib/core/database/adapters/delivery_action_adapter.dart`
 - `lib/core/database/local_storage_service.dart`
-- `lib/features/delivery/data/sources/local/delivery_local_ds.dart`
-- `lib/features/delivery/data/sources/local/delivery_local_ds_impl.dart`
+- `lib/features/delivery/data_sources/sources/local/delivery_local_ds.dart`
+- `lib/features/delivery/data_sources/sources/local/delivery_local_ds_impl.dart`
 
 - [ ] **Step 1: Write `DeliveryAdapter` and `DeliveryActionAdapter` manually**
   - Handwrite `read(BinaryReader reader)` and `write(BinaryWriter writer, ...)` using primitive Hive serialization and JSON strings for nested payloads.
@@ -230,12 +238,13 @@ mobile/lib/
 - `lib/core/network/api_results.dart`
 - `lib/core/network/api_services.dart`
 - `lib/core/services/connectivity_service.dart`
-- `lib/features/delivery/data/models/delivery_dto.dart`
-- `lib/features/delivery/data/models/complete_request.dart`
-- `lib/features/delivery/data/models/fail_request.dart`
-- `lib/features/delivery/data/mapper/delivery_mapper.dart`
-- `lib/features/delivery/data/sources/remote/delivery_remote_ds.dart`
-- `lib/features/delivery/data/sources/remote/delivery_remote_ds_impl.dart`
+- `lib/features/delivery/data_sources/models/response/delivery_response_dto.dart`
+- `lib/features/delivery/data_sources/models/request/complete_delivery_request_dto.dart`
+- `lib/features/delivery/data_sources/models/request/fail_delivery_request_dto.dart`
+- `lib/features/delivery/data_sources/mapper/to_dto_mapper.dart`
+- `lib/features/delivery/data_sources/mapper/to_entity_mapper.dart`
+- `lib/features/delivery/data_sources/sources/remote/delivery_remote_ds.dart`
+- `lib/features/delivery/data_sources/sources/remote/delivery_remote_ds_impl.dart`
 
 - [ ] **Step 1: Implement `shared_pref.dart` and `spacing.dart` in `core/helpers/`**
   - `SharedPrefHelper` (@injectable) with typed get/save/remove.
@@ -276,18 +285,18 @@ mobile/lib/
 - `lib/config/routing/app_routes.dart`
 - `lib/config/routing/route_generator.dart`
 - `lib/config/routing/routing_extensions.dart`
-- `lib/core/components/app_text_field.dart`
+- `lib/core/components/app_textfield.dart`
 - `lib/core/components/custom_elevated_button.dart`
 - `lib/core/components/custom_text_button.dart`
-- `lib/core/helpers/dialog_utils.dart`
-- `lib/core/helpers/toast_utils.dart`
+- `lib/core/helpers/dialogue_utils.dart`
+- `lib/core/helpers/flutter_toast.dart`
 - `lib/core/helpers/validators.dart`
 - `lib/features/delivery/presentation/widgets/sync_status_badge.dart`
 - `lib/features/delivery/presentation/widgets/delivery_card.dart`
 - `lib/features/delivery/presentation/pages/deliveries_list_screen.dart`
 - `lib/features/delivery/presentation/pages/delivery_details_screen.dart`
-- `lib/features/delivery/presentation/manager/delivery_cubit.dart`
-- `lib/features/delivery/presentation/manager/delivery_state.dart`
+- `lib/features/delivery/presentation/manager/cubit/delivery_cubit.dart`
+- `lib/features/delivery/presentation/manager/cubit/delivery_state.dart`
 
 - [ ] **Step 1: Setup Routing & App Navigation**
   - `AppRoutes.deliveriesList`, `AppRoutes.deliveryDetails`.
@@ -297,8 +306,8 @@ mobile/lib/
   - `AppTextField` with label, hint, prefix/suffix icon, error text.
   - `CustomElevatedButton` with loading indicator and disabled state.
   - `CustomTextButton`.
-  - `DialogUtils` (alert, confirmation dialogs).
-  - `ToastUtils` (success, error toast snackbars).
+  - `DialogueUtils` (alert, confirmation dialogs).
+  - `FlutterToast` (success, error toast snackbars).
   - `Validators` (phone, name, required fields).
 - [ ] **Step 3: Build `SyncStatusBadge` widget**
   - `Synced ✅` (Subtle green badge)
@@ -324,8 +333,8 @@ mobile/lib/
 ### Files to Create:
 - `lib/features/delivery/presentation/widgets/complete_delivery_sheet.dart`
 - `lib/features/delivery/presentation/widgets/fail_delivery_sheet.dart`
-- `lib/features/delivery/domain/use_cases/complete_delivery_use_case.dart`
-- `lib/features/delivery/domain/use_cases/fail_delivery_use_case.dart`
+- `lib/features/delivery/domain/use_case/complete_delivery_use_case.dart`
+- `lib/features/delivery/domain/use_case/fail_delivery_use_case.dart`
 
 - [ ] **Step 1: Build `CompleteDeliverySheet`**
   - Input: `recipient_name` (Required, trimmed, min 2 chars).
@@ -352,7 +361,7 @@ mobile/lib/
 
 ### Files to Create / Modify:
 - `lib/core/services/sync_manager.dart`
-- `lib/features/delivery/domain/use_cases/retry_action_use_case.dart`
+- `lib/features/delivery/domain/use_case/retry_action_use_case.dart`
 
 - [ ] **Step 1: Implement `SyncManager` Singleton with Mutex Lock**
   - Sequential FIFO queue processing (`for (final action in actions)`).
@@ -387,7 +396,7 @@ mobile/lib/
 
 ### Files to Create / Modify:
 - `lib/features/delivery/presentation/widgets/photo_proof_picker.dart`
-- `lib/features/delivery/data/sources/remote/delivery_remote_ds_impl.dart`
+- `lib/features/delivery/data_sources/sources/remote/delivery_remote_ds_impl.dart`
 
 - [ ] **Step 1: Implement photo capture via `image_picker`**
   - Capture photo and immediately copy file to `getApplicationDocumentsDirectory() / proofs / <action_id>.jpg` (prevents OS cache cleanup).

@@ -1,7 +1,7 @@
 import 'package:delivery_tracker/core/database/local_storage_service.dart';
 import 'package:delivery_tracker/core/di/di.dart';
 import 'package:delivery_tracker/core/general_cubits/locale_cubit.dart';
-import 'package:delivery_tracker/features/delivery/data/sources/local/delivery_local_ds.dart';
+import 'package:delivery_tracker/features/delivery/data_sources/sources/local/delivery_local_ds.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
