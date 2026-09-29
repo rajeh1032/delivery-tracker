@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/theme/app_dimensions.dart';
-import '../../../../config/theme/colors.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/general_cubits/connectivity_cubit.dart';
 import '../../../../core/general_cubits/connectivity_state.dart';
@@ -10,6 +9,7 @@ import '../../../../core/helpers/snackbar_utils.dart';
 import '../widgets/offline/connectivity_pill.dart';
 import '../widgets/offline/offline_banner.dart';
 import 'deliveries_list_page.dart';
+import 'settings_page.dart';
 import 'sync_queue_page.dart';
 
 /// Root shell page hosting the bottom navigation bar and reactive offline banner.
@@ -58,7 +58,7 @@ class _HomeShellPageState extends State<HomeShellPage> {
                 children: [
                   const DeliveriesListPage(),
                   const SyncQueuePage(),
-                  _buildSettingsTab(context),
+                  const SettingsPage(),
                 ],
               ),
             ),
@@ -104,37 +104,5 @@ class _HomeShellPageState extends State<HomeShellPage> {
       default:
         return context.tr.appTitle;
     }
-  }
-
-  Widget _buildSettingsTab(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(AppDimensions.spaceLG),
-      children: [
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.language_rounded, color: AppColors.primary),
-            title: Text(context.tr.language),
-            trailing: Text(
-              context.isRtl ? context.tr.arabic : context.tr.english,
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                color: AppColors.primary,
-              ),
-            ),
-            onTap: () => context.read<LocaleCubit>().toggleLocale(),
-          ),
-        ),
-        const SizedBox(height: AppDimensions.spaceMD),
-        Center(
-          child: Text(
-            context.tr.aboutVersion,
-            style: const TextStyle(
-              fontSize: 12,
-              color: AppColors.textMuted,
-            ),
-          ),
-        ),
-      ],
-    );
   }
 }
