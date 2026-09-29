@@ -6,6 +6,7 @@ import {
   attachProofUrl,
   saveHandledAction
 } from "./delivery_model.js";
+import { ERROR_CODES } from "../../config/constants.js";
 
 export const readDeliveries = async (req, res) => {
   const deliveries = await getAllDeliveries();
@@ -16,7 +17,7 @@ export const readDeliveryById = async (req, res) => {
   const delivery = await getDeliveryById(req.params.id);
   if (!delivery) {
     return res.status(404).json({
-      code: "DELIVERY_NOT_FOUND",
+      code: ERROR_CODES.DELIVERY_NOT_FOUND,
       message: "Delivery not found"
     });
   }
@@ -25,23 +26,21 @@ export const readDeliveryById = async (req, res) => {
 
 export const completeDelivery = async (req, res) => {
   const { id } = req.params;
-  const { recipient_name, note, client_action_id, base_version } = req.body;
+  const { recipient_name, note, client_action_id } = req.body;
 
   const delivery = await getDeliveryById(id);
   if (!delivery) {
     return res.status(404).json({
-      code: "DELIVERY_NOT_FOUND",
+      code: ERROR_CODES.DELIVERY_NOT_FOUND,
       message: "Delivery not found"
     });
   }
 
-  const updated = await markAsDelivered(id, { recipient_name, note, client_action_id, base_version });
-
-  if (updated?.conflict) {
+  const updated = await markAsDelivered(id, { recipient_name, note, client_action_id });
+  if (updated.conflict) {
     return res.status(409).json({
-      code: "DELIVERY_CONFLICT",
-      message: "Delivery was modified on the server before this update",
-      current_delivery: updated.current
+      code: ERROR_CODES.DELIVERY_CONFLICT,
+      message: "Delivery has already been finalized"
     });
   }
 
@@ -51,11 +50,7 @@ export const completeDelivery = async (req, res) => {
   };
 
   if (client_action_id) {
-    saveHandledAction(client_action_id, {
-      deliveryId: Number(id),
-      statusCode: 200,
-      response: structuredClone(result)
-    });
+    saveHandledAction(client_action_id, result, id);
   }
 
   return res.status(200).json(result);
@@ -63,23 +58,21 @@ export const completeDelivery = async (req, res) => {
 
 export const failDelivery = async (req, res) => {
   const { id } = req.params;
-  const { reason, note, client_action_id, base_version } = req.body;
+  const { reason, note, client_action_id } = req.body;
 
   const delivery = await getDeliveryById(id);
   if (!delivery) {
     return res.status(404).json({
-      code: "DELIVERY_NOT_FOUND",
+      code: ERROR_CODES.DELIVERY_NOT_FOUND,
       message: "Delivery not found"
     });
   }
 
-  const updated = await markAsFailed(id, { reason, note, client_action_id, base_version });
-
-  if (updated?.conflict) {
+  const updated = await markAsFailed(id, { reason, note, client_action_id });
+  if (updated.conflict) {
     return res.status(409).json({
-      code: "DELIVERY_CONFLICT",
-      message: "Delivery was modified on the server before this update",
-      current_delivery: updated.current
+      code: ERROR_CODES.DELIVERY_CONFLICT,
+      message: "Delivery has already been finalized"
     });
   }
 
@@ -89,11 +82,7 @@ export const failDelivery = async (req, res) => {
   };
 
   if (client_action_id) {
-    saveHandledAction(client_action_id, {
-      deliveryId: Number(id),
-      statusCode: 200,
-      response: structuredClone(result)
-    });
+    saveHandledAction(client_action_id, result, id);
   }
 
   return res.status(200).json(result);
@@ -103,16 +92,13 @@ export const uploadProof = async (req, res) => {
   const { id } = req.params;
 
   if (!req.file) {
-    return res.status(400).json({
-      code: "UPLOAD_ERROR",
-      message: "photo is required"
-    });
+    return res.status(400).json({ message: "photo is required" });
   }
 
   const delivery = await getDeliveryById(id);
   if (!delivery) {
     return res.status(404).json({
-      code: "DELIVERY_NOT_FOUND",
+      code: ERROR_CODES.DELIVERY_NOT_FOUND,
       message: "Delivery not found"
     });
   }
