@@ -30,6 +30,8 @@ class _HomeShellPageState extends State<HomeShellPage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
+          surfaceTintColor: Colors.transparent,
           title: Text(
             context.tr.appTitle,
             style: const TextStyle(
@@ -50,9 +52,10 @@ class _HomeShellPageState extends State<HomeShellPage> {
                   context: context,
                   isScrollControlled: true,
                   backgroundColor: AppColors.surface,
+                  clipBehavior: Clip.antiAlias,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(AppDimensions.radiusXL),
+                      top: Radius.circular(AppDimensions.radiusBottomSheet),
                     ),
                   ),
                   builder: (_) => const SizedBox(

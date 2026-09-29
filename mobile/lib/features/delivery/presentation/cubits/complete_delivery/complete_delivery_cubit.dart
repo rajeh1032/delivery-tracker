@@ -45,7 +45,9 @@ class CompleteDeliveryCubit extends Cubit<CompleteDeliveryState> {
     try {
       final picked = await _imagePicker.pickImage(
         source: source,
-        imageQuality: 85,
+        maxWidth: 1024,
+        maxHeight: 1024,
+        imageQuality: 70,
       );
 
       if (picked != null) {

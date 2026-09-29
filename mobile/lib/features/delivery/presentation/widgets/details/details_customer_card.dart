@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:delivery_tracker/config/theme/app_dimensions.dart';
 import 'package:delivery_tracker/config/theme/colors.dart';
 import 'package:delivery_tracker/core/extensions/context_extensions.dart';
+import 'package:delivery_tracker/core/helpers/phone_launcher_utils.dart';
 import 'package:delivery_tracker/core/helpers/snackbar_utils.dart';
 
 /// Card presenting customer name, phone number, and quick copy/call action triggers.
@@ -19,6 +20,13 @@ class DetailsCustomerCard extends StatelessWidget {
   void _copyPhone(BuildContext context) {
     Clipboard.setData(ClipboardData(text: phone));
     SnackBarUtils.showSuccess(context, context.tr.phoneCopied);
+  }
+
+  void _callCustomer(BuildContext context) {
+    PhoneLauncherUtils.makePhoneCall(
+      context: context,
+      phoneNumber: phone,
+    );
   }
 
   @override
@@ -109,7 +117,7 @@ class DetailsCustomerCard extends StatelessWidget {
                 tooltip: context.tr.copyPhone,
               ),
               IconButton(
-                onPressed: () => _copyPhone(context),
+                onPressed: () => _callCustomer(context),
                 icon: const Icon(
                   Icons.phone_outlined,
                   size: AppDimensions.iconMD,

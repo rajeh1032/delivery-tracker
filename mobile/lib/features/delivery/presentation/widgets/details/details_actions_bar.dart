@@ -95,21 +95,35 @@ class DetailsActionsBar extends StatelessWidget {
                         size: AppDimensions.iconSM,
                         color: Colors.white,
                       ),
-                      backgroundColor: AppColors.synced,
+                      backgroundColor: AppColors.primary,
                       onPressed: delivery.canAct ? onMarkDelivered : null,
                     ),
                   ),
                   const SizedBox(width: AppDimensions.spaceSM),
                   Expanded(
-                    child: PillButton(
-                      text: context.tr.markFailed,
-                      icon: const Icon(
-                        Icons.highlight_off,
-                        size: AppDimensions.iconSM,
-                        color: Colors.white,
+                    child: SizedBox(
+                      height: AppDimensions.buttonHeight,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(color: AppColors.border),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.radiusFull,
+                            ),
+                          ),
+                        ),
+                        onPressed: delivery.canAct ? onMarkFailed : null,
+                        child: Text(
+                          context.tr.markFailed,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
                       ),
-                      backgroundColor: AppColors.failed,
-                      onPressed: delivery.canAct ? onMarkFailed : null,
                     ),
                   ),
                 ],

@@ -81,5 +81,14 @@
   "actionTypeFail": "تعذر التوصيل",
   "retries": "محاولات",
   "orderPrefix": "طلب #",
-  "viewDetails": "عرض التفاصيل"
+  "viewDetails": "عرض التفاصيل",
+  "phoneInvalid": "رقم الهاتف غير صالح",
+  "viewPhoto": "عرض الصورة",
+  "cannotMakeCall": "لا يمكن إجراء المكالمات من هذا الجهاز",
+  "orderSummary": "تفاصيل المنتج والطلب",
+  "compressingImage": "جارٍ ضغط وتحسين الصورة...",
+  "snackbarSuccess": "تم بنجاح",
+  "snackbarError": "حدث خطأ",
+  "snackbarWarning": "تنبيه",
+  "snackbarInfo": "معلومة"
 }

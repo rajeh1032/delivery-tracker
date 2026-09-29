@@ -106,6 +106,8 @@ void main() {
       build: () {
         when(() => mockImagePicker.pickImage(
               source: any(named: 'source'),
+              maxWidth: any(named: 'maxWidth'),
+              maxHeight: any(named: 'maxHeight'),
               imageQuality: any(named: 'imageQuality'),
             )).thenAnswer((_) async => XFile('/temp/picked.jpg'));
         when(() => mockStorageService.saveProofFile(any(), testActionId))
