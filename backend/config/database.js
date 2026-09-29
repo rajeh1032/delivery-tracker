@@ -1,3 +1,5 @@
+import { DELIVERY_STATUS } from "./constants.js";
+
 export const deliveriesDB = [
   {
     id: 1001,
@@ -7,15 +9,14 @@ export const deliveriesDB = [
     address: "Salmiya, Block 4, Street 12",
     amount_due: 18.75,
     payment_method: "cash",
-    status: "pending",
+    status: DELIVERY_STATUS.PENDING,
+    version: 1,
     recipient_name: null,
     failure_reason: null,
     note: null,
     proof_url: null,
     completed_at: null,
-    failed_at: null,
-    version: 1,
-    updated_at: "2026-09-29T12:00:00.000Z"
+    failed_at: null
   },
   {
     id: 1002,
@@ -25,15 +26,14 @@ export const deliveriesDB = [
     address: "Hawally, Block 2, Street 5, Building 14",
     amount_due: 34.5,
     payment_method: "cash",
-    status: "pending",
+    status: DELIVERY_STATUS.PENDING,
+    version: 1,
     recipient_name: null,
     failure_reason: null,
     note: null,
     proof_url: null,
     completed_at: null,
-    failed_at: null,
-    version: 1,
-    updated_at: "2026-09-29T12:00:00.000Z"
+    failed_at: null
   },
   {
     id: 1003,
@@ -43,15 +43,14 @@ export const deliveriesDB = [
     address: "Kuwait City, Sharq, Block 1, Tower 3",
     amount_due: 12.0,
     payment_method: "cash",
-    status: "pending",
+    status: DELIVERY_STATUS.PENDING,
+    version: 1,
     recipient_name: null,
     failure_reason: null,
     note: null,
     proof_url: null,
     completed_at: null,
-    failed_at: null,
-    version: 1,
-    updated_at: "2026-09-29T12:00:00.000Z"
+    failed_at: null
   },
   {
     id: 1004,
@@ -61,15 +60,14 @@ export const deliveriesDB = [
     address: "Farwaniya, Block 3, Street 20",
     amount_due: 25.0,
     payment_method: "cash",
-    status: "pending",
+    status: DELIVERY_STATUS.PENDING,
+    version: 1,
     recipient_name: null,
     failure_reason: null,
     note: null,
     proof_url: null,
     completed_at: null,
-    failed_at: null,
-    version: 1,
-    updated_at: "2026-09-29T12:00:00.000Z"
+    failed_at: null
   }
 ];
 
