@@ -76,5 +76,10 @@
   "deliveryFailedLocally": "تم تسجيل فشل التوصيل وجدولة المزامنة.",
   "removePhoto": "حذف الصورة",
   "chooseSource": "اختر مصدر الصورة",
-  "photoAttachSuccess": "تم إرفاق الصورة بنجاح"
+  "photoAttachSuccess": "تم إرفاق الصورة بنجاح",
+  "actionTypeComplete": "إتمام التوصيل",
+  "actionTypeFail": "تعذر التوصيل",
+  "retries": "محاولات",
+  "orderPrefix": "طلب #",
+  "viewDetails": "عرض التفاصيل"
 }

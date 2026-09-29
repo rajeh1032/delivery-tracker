@@ -17,10 +17,16 @@ class DeliveriesSearchingRadar extends StatefulWidget {
 
 class _DeliveriesSearchingRadarState extends State<DeliveriesSearchingRadar>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 2200),
-  )..repeat();
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2200),
+    )..repeat();
+  }
 
   @override
   void dispose() {

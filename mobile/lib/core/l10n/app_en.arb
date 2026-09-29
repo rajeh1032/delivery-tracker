@@ -76,5 +76,10 @@
   "deliveryFailedLocally": "Delivery failure recorded and queued for sync.",
   "removePhoto": "Remove photo",
   "chooseSource": "Choose image source",
-  "photoAttachSuccess": "Photo attached successfully"
+  "photoAttachSuccess": "Photo attached successfully",
+  "actionTypeComplete": "Delivery Completion",
+  "actionTypeFail": "Delivery Failure",
+  "retries": "Retries",
+  "orderPrefix": "Order #",
+  "viewDetails": "View Details"
 }

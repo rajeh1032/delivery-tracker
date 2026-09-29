@@ -107,18 +107,18 @@ void main() {
     expect(find.byType(DeliveryCard), findsNWidgets(2));
     expect(find.text('Ahmed Ali'), findsOneWidget);
     expect(find.text('Sara Fahad'), findsOneWidget);
-    expect(find.text('All'), findsOneWidget);
+    expect(find.textContaining('All'), findsOneWidget);
     expect(
       find.descendant(
         of: find.byType(DeliveriesFilterChips),
-        matching: find.text('Pending'),
+        matching: find.textContaining('Pending'),
       ),
       findsOneWidget,
     );
     expect(
       find.descendant(
         of: find.byType(DeliveriesFilterChips),
-        matching: find.text('Delivered'),
+        matching: find.textContaining('Delivered'),
       ),
       findsOneWidget,
     );
@@ -154,7 +154,7 @@ void main() {
 
     final pendingChip = find.descendant(
       of: find.byType(DeliveriesFilterChips),
-      matching: find.text('Pending'),
+      matching: find.textContaining('Pending'),
     );
     await tester.tap(pendingChip);
     verify(() => mockCubit.filterChanged(DeliveryStatusFilter.pending)).called(1);

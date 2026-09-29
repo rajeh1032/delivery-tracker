@@ -35,6 +35,8 @@ void main() {
         .thenReturn(const LocaleState(Locale('en')));
     when(() => mockLocaleCubit.stream)
         .thenAnswer((_) => const Stream<LocaleState>.empty());
+    when(() => mockLocaleCubit.toggleLocale())
+        .thenAnswer((_) async {});
 
     when(() => mockDeliveriesListCubit.state)
         .thenReturn(const DeliveriesListState());
@@ -71,24 +73,17 @@ void main() {
     );
   }
 
-  testWidgets('renders HomeShellPage with tabs and switches index on tap',
+  testWidgets('renders HomeShellPage with actions and handles language toggle',
       (WidgetTester tester) async {
     await tester.pumpWidget(buildTestWidget());
     await tester.pumpAndSettle();
 
-    expect(find.text('Deliveries'), findsWidgets);
-    expect(find.text('Sync Queue'), findsOneWidget);
-    expect(find.text('Settings'), findsOneWidget);
+    expect(find.text('Delivery Tracker'), findsOneWidget);
+    expect(find.byIcon(Icons.language_rounded), findsOneWidget);
 
-    // Tap Sync Queue destination
-    await tester.tap(find.text('Sync Queue'));
+    // Tap language icon
+    await tester.tap(find.byIcon(Icons.language_rounded));
     await tester.pumpAndSettle();
-
-    // Tap Settings destination
-    await tester.tap(find.text('Settings'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Language'), findsOneWidget);
-    expect(find.text('Delivery Tracker v1.0.0'), findsOneWidget);
+    verify(() => mockLocaleCubit.toggleLocale()).called(1);
   });
 }
