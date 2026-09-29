@@ -20,12 +20,13 @@ class DeliveryTrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
-          localeCubit ??
-          (getIt.isRegistered<LocaleCubit>()
-              ? getIt<LocaleCubit>()
-              : LocaleCubit()),
+    final cubit = localeCubit ??
+        (getIt.isRegistered<LocaleCubit>()
+            ? getIt<LocaleCubit>()
+            : LocaleCubit());
+
+    return BlocProvider.value(
+      value: cubit,
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, state) {
           return MaterialApp(

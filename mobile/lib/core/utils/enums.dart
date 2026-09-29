@@ -15,16 +15,22 @@ enum DeliveryStatus {
     }
   }
 
-  static DeliveryStatus fromApiKey(String? key) {
-    switch (key?.toLowerCase().trim()) {
+  static DeliveryStatus? fromApiKeyOrNull(String? key) {
+    if (key == null || key.trim().isEmpty) return null;
+    switch (key.toLowerCase().trim()) {
       case 'delivered':
         return DeliveryStatus.delivered;
       case 'failed':
         return DeliveryStatus.failed;
       case 'pending':
-      default:
         return DeliveryStatus.pending;
+      default:
+        return null;
     }
+  }
+
+  static DeliveryStatus fromApiKey(String? key) {
+    return fromApiKeyOrNull(key) ?? DeliveryStatus.pending;
   }
 }
 
@@ -53,14 +59,20 @@ enum DeliveryActionType {
     }
   }
 
-  static DeliveryActionType fromApiKey(String? key) {
-    switch (key?.toLowerCase().trim()) {
+  static DeliveryActionType? fromApiKeyOrNull(String? key) {
+    if (key == null || key.trim().isEmpty) return null;
+    switch (key.toLowerCase().trim()) {
       case 'complete':
         return DeliveryActionType.complete;
       case 'fail':
-      default:
         return DeliveryActionType.fail;
+      default:
+        return null;
     }
+  }
+
+  static DeliveryActionType fromApiKey(String? key) {
+    return fromApiKeyOrNull(key) ?? DeliveryActionType.fail;
   }
 }
 
@@ -87,8 +99,9 @@ enum FailureReason {
     }
   }
 
-  static FailureReason fromApiKey(String? key) {
-    switch (key?.toLowerCase().trim()) {
+  static FailureReason? fromApiKeyOrNull(String? key) {
+    if (key == null || key.trim().isEmpty) return null;
+    switch (key.toLowerCase().trim()) {
       case 'customer_unavailable':
         return FailureReason.customerUnavailable;
       case 'wrong_address':
@@ -101,5 +114,9 @@ enum FailureReason {
       default:
         return FailureReason.other;
     }
+  }
+
+  static FailureReason fromApiKey(String? key) {
+    return fromApiKeyOrNull(key) ?? FailureReason.other;
   }
 }

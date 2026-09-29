@@ -16,6 +16,24 @@ void main() {
       expect(DeliveryStatus.fromApiKey('unknown'), DeliveryStatus.pending);
       expect(DeliveryStatus.fromApiKey(null), DeliveryStatus.pending);
     });
+
+    test('fromApiKeyOrNull returns null for null or invalid keys', () {
+      expect(
+        DeliveryStatus.fromApiKeyOrNull('delivered'),
+        DeliveryStatus.delivered,
+      );
+      expect(
+        DeliveryStatus.fromApiKeyOrNull('failed'),
+        DeliveryStatus.failed,
+      );
+      expect(
+        DeliveryStatus.fromApiKeyOrNull('pending'),
+        DeliveryStatus.pending,
+      );
+      expect(DeliveryStatus.fromApiKeyOrNull(null), isNull);
+      expect(DeliveryStatus.fromApiKeyOrNull(''), isNull);
+      expect(DeliveryStatus.fromApiKeyOrNull('unknown'), isNull);
+    });
   });
 
   group('SyncStatus', () {
@@ -41,6 +59,20 @@ void main() {
       expect(DeliveryActionType.fromApiKey('fail'), DeliveryActionType.fail);
       expect(DeliveryActionType.fromApiKey('unknown'), DeliveryActionType.fail);
       expect(DeliveryActionType.fromApiKey(null), DeliveryActionType.fail);
+    });
+
+    test('fromApiKeyOrNull returns null for null or invalid keys', () {
+      expect(
+        DeliveryActionType.fromApiKeyOrNull('complete'),
+        DeliveryActionType.complete,
+      );
+      expect(
+        DeliveryActionType.fromApiKeyOrNull('fail'),
+        DeliveryActionType.fail,
+      );
+      expect(DeliveryActionType.fromApiKeyOrNull(null), isNull);
+      expect(DeliveryActionType.fromApiKeyOrNull(''), isNull);
+      expect(DeliveryActionType.fromApiKeyOrNull('unknown'), isNull);
     });
   });
 
@@ -76,6 +108,30 @@ void main() {
       expect(FailureReason.fromApiKey('other'), FailureReason.other);
       expect(FailureReason.fromApiKey('random_val'), FailureReason.other);
       expect(FailureReason.fromApiKey(null), FailureReason.other);
+    });
+
+    test('fromApiKeyOrNull returns null for null, empty or non-failed values', () {
+      expect(
+        FailureReason.fromApiKeyOrNull('customer_unavailable'),
+        FailureReason.customerUnavailable,
+      );
+      expect(
+        FailureReason.fromApiKeyOrNull('wrong_address'),
+        FailureReason.wrongAddress,
+      );
+      expect(
+        FailureReason.fromApiKeyOrNull('customer_refused'),
+        FailureReason.customerRefused,
+      );
+      expect(
+        FailureReason.fromApiKeyOrNull('damaged_package'),
+        FailureReason.damagedPackage,
+      );
+      expect(FailureReason.fromApiKeyOrNull('other'), FailureReason.other);
+      expect(FailureReason.fromApiKeyOrNull('random_val'), FailureReason.other);
+      expect(FailureReason.fromApiKeyOrNull(null), isNull);
+      expect(FailureReason.fromApiKeyOrNull(''), isNull);
+      expect(FailureReason.fromApiKeyOrNull('   '), isNull);
     });
   });
 }
