@@ -1,5 +1,7 @@
 # Local resources & AI references (local-only)
 task_resources/
+alshamel-task-references/
+docs/
 
 # Ignore all markdown files (specs, docs, instructions, readmes)
 *.md
