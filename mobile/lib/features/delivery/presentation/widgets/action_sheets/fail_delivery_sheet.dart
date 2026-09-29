@@ -93,7 +93,7 @@ class _FailDeliverySheetState extends State<FailDeliverySheet> {
                   const SizedBox(height: AppDimensions.spaceLG),
                   PillButton(
                     text: context.tr.confirmFailure,
-                    backgroundColor: AppColors.failed,
+                    backgroundColor: AppColors.primary,
                     isLoading: state.isSubmitting,
                     icon: const Icon(
                       Icons.highlight_off,
