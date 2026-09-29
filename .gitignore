@@ -2,6 +2,10 @@
 task_resources/
 alshamel-task-references/
 docs/
+references/
+rules/
+*.pdf
+*.pages
 
 # Ignore all markdown files (specs, docs, instructions, readmes)
 *.md
