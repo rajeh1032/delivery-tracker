@@ -47,6 +47,11 @@ abstract final class NetworkConstants {
   static const String keyBaseVersion = 'base_version';
   static const String keyClientActionId = 'client_action_id';
   static const String keyUpdatedAt = 'updated_at';
+  static const String keyLocalPhotoPath = 'local_photo_path';
+
+  // HTTP Status Codes
+  static const int statusConflict = 409;
+  static const int statusInternalServerError = 500;
 
 
   // Machine-Readable Error Codes

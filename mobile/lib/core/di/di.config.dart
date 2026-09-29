@@ -47,6 +47,8 @@ import '../network/api_services.dart' as _i804;
 import '../network/external_modules.dart' as _i576;
 import '../services/connectivity_service.dart' as _i47;
 import '../services/language_interceptor.dart' as _i32;
+import '../services/proof_storage_service.dart' as _i698;
+import '../services/sync_manager.dart' as _i892;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -69,6 +71,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i161.InternetConnection>(
       () => externalModules.provideInternetConnection(),
+    );
+    gh.lazySingleton<_i698.ProofStorageService>(
+      () => _i698.ProofStorageService(),
     );
     gh.factory<_i42.SharedPrefHelper>(
       () => _i42.SharedPrefHelper(gh<_i460.SharedPreferences>()),
@@ -94,6 +99,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i356.DeliveryRemoteDs>(
       () => _i187.DeliveryRemoteDsImpl(gh<_i804.ApiServices>()),
+    );
+    gh.lazySingleton<_i892.SyncManager>(
+      () => _i892.SyncManager(
+        gh<_i336.DeliveryLocalDataSource>(),
+        gh<_i356.DeliveryRemoteDs>(),
+        gh<_i47.ConnectivityService>(),
+        gh<_i698.ProofStorageService>(),
+      ),
     );
     gh.factory<_i1007.DeliveryRepository>(
       () => _i99.DeliveryRepositoryImpl(
