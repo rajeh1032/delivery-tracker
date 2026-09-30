@@ -23,30 +23,22 @@ class DetailsCustomerCard extends StatelessWidget {
   }
 
   void _callCustomer(BuildContext context) {
-    PhoneLauncherUtils.makePhoneCall(
-      context: context,
-      phoneNumber: phone,
-    );
+    PhoneLauncherUtils.makePhoneCall(context: context, phoneNumber: phone);
   }
 
   @override
   Widget build(BuildContext context) {
-    final initial = customerName.isNotEmpty ? customerName[0].toUpperCase() : 'C';
+    final initial = customerName.isNotEmpty
+        ? customerName[0].toUpperCase()
+        : 'C';
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppDimensions.spaceLG),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(AppDimensions.radiusXXL),
+        borderRadius: BorderRadius.circular(AppDimensions.radiusLG),
         border: Border.all(color: AppColors.border.withValues(alpha: 0.8)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,6 +90,7 @@ class DetailsCustomerCard extends StatelessWidget {
                     const SizedBox(height: AppDimensions.spaceXXS),
                     Text(
                       phone,
+                      textDirection: TextDirection.ltr,
                       style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,

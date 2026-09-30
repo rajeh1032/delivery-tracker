@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:delivery_tracker/config/routing/app_routes.dart';
@@ -28,8 +29,33 @@ class DeliveriesListPage extends StatelessWidget {
   }
 }
 
-class _DeliveriesListViewWrapper extends StatelessWidget {
+class _DeliveriesListViewWrapper extends StatefulWidget {
   const _DeliveriesListViewWrapper();
+
+  @override
+  State<_DeliveriesListViewWrapper> createState() =>
+      _DeliveriesListViewWrapperState();
+}
+
+class _DeliveriesListViewWrapperState
+    extends State<_DeliveriesListViewWrapper> {
+  late final Timer _startupTimer;
+  bool _showStartupRadar = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Keep the startup animation visible even when cached data arrives immediately.
+    _startupTimer = Timer(const Duration(milliseconds: 450), () {
+      setState(() => _showStartupRadar = false);
+    });
+  }
+
+  @override
+  void dispose() {
+    _startupTimer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,45 +75,44 @@ class _DeliveriesListViewWrapper extends StatelessWidget {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Column(
             children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppDimensions.spaceMD,
-                AppDimensions.spaceSM,
-                AppDimensions.spaceMD,
-                AppDimensions.spaceSM,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppDimensions.spaceMD,
+                  AppDimensions.spaceSM,
+                  AppDimensions.spaceMD,
+                  AppDimensions.spaceSM,
+                ),
+                child: DeliveriesSearchBar(
+                  initialQuery: state.searchQuery,
+                  onChanged: (q) =>
+                      context.read<DeliveriesListCubit>().searchChanged(q),
+                ),
               ),
-              child: DeliveriesSearchBar(
-                initialQuery: state.searchQuery,
-                onChanged: (q) =>
-                    context.read<DeliveriesListCubit>().searchChanged(q),
+              DeliveriesFilterChips(
+                selectedFilter: state.filter,
+                totalCount: state.totalCount,
+                pendingCount: state.pendingCount,
+                deliveredCount: state.deliveredCount,
+                failedCount: state.failedCount,
+                onFilterSelected: (DeliveryStatusFilter filter) =>
+                    context.read<DeliveriesListCubit>().filterChanged(filter),
               ),
-            ),
-            DeliveriesFilterChips(
-              selectedFilter: state.filter,
-              totalCount: state.totalCount,
-              pendingCount: state.pendingCount,
-              deliveredCount: state.deliveredCount,
-              failedCount: state.failedCount,
-              onFilterSelected: (DeliveryStatusFilter filter) =>
-                  context.read<DeliveriesListCubit>().filterChanged(filter),
-            ),
-            const SizedBox(height: AppDimensions.spaceSM),
-            Expanded(
-              child: _buildListBody(context, state),
-            ),
-          ],
-        ),
-      );
-    },
+              const SizedBox(height: AppDimensions.spaceSM),
+              Expanded(child: _buildListBody(context, state)),
+            ],
+          ),
+        );
+      },
     );
   }
 
   Widget _buildListBody(BuildContext context, DeliveriesListState state) {
-    if (state.isLoading && state.deliveries.isEmpty) {
+    if (_showStartupRadar || (state.isLoading && state.deliveries.isEmpty)) {
       return const DeliveriesSearchingRadar();
     }
 
-    if (state.status == DeliveriesListStatus.error && state.deliveries.isEmpty) {
+    if (state.status == DeliveriesListStatus.error &&
+        state.deliveries.isEmpty) {
       return DeliveriesErrorState(
         message: state.errorMessage,
         onRetry: () => context.read<DeliveriesListCubit>().loadDeliveries(),
@@ -106,10 +131,7 @@ class _DeliveriesListViewWrapper extends StatelessWidget {
       deliveries: state.visibleDeliveries,
       onRefresh: () => context.read<DeliveriesListCubit>().refresh(),
       onDeliveryTap: (delivery) {
-        context.pushNamed(
-          AppRoutes.deliveryDetails,
-          arguments: delivery.id,
-        );
+        context.pushNamed(AppRoutes.deliveryDetails, arguments: delivery.id);
       },
     );
   }

@@ -1,34 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:delivery_tracker/config/theme/app_dimensions.dart';
 import 'package:delivery_tracker/config/theme/colors.dart';
-import 'letter_badge.dart';
 
-/// Single delivery stop address row with a letter badge ('A') and 2-line wrapped address.
+/// Delivery address with its location icon at the reading-order end.
 class DeliveryAddressRow extends StatelessWidget {
-  const DeliveryAddressRow({
-    super.key,
-    required this.address,
-    this.letter = 'A',
-    this.badgeColor = AppColors.pickupColor,
-  });
+  const DeliveryAddressRow({super.key, required this.address});
 
   final String address;
-  final String letter;
-  final Color badgeColor;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 2.0),
-          child: LetterBadge(
-            label: letter,
-            backgroundColor: badgeColor,
-          ),
-        ),
-        const SizedBox(width: AppDimensions.spaceSM),
         Expanded(
           child: Text(
             address,
@@ -41,6 +25,12 @@ class DeliveryAddressRow extends StatelessWidget {
               height: 1.35,
             ),
           ),
+        ),
+        const SizedBox(width: AppDimensions.spaceSM),
+        const Icon(
+          Icons.location_on_outlined,
+          size: 18,
+          color: AppColors.textMuted,
         ),
       ],
     );

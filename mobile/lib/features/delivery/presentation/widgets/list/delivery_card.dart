@@ -53,10 +53,14 @@ class DeliveryCard extends StatelessWidget {
                     height: 40,
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppDimensions.spaceSM,
+                        ),
                         side: const BorderSide(color: AppColors.border),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusMD,
+                          ),
                         ),
                       ),
                       onPressed: delivery.canAct
@@ -83,10 +87,14 @@ class DeliveryCard extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.buttonDark,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppDimensions.spaceSM,
+                        ),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusMD,
+                          ),
                         ),
                       ),
                       onPressed: onTap,
@@ -96,7 +104,7 @@ class DeliveryCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: 13,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                           color: Colors.white,
                         ),
                       ),
@@ -113,20 +121,13 @@ class DeliveryCard extends StatelessWidget {
     final cardBody = Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(AppDimensions.radiusXL),
+        borderRadius: BorderRadius.circular(AppDimensions.radiusLG),
         border: Border.all(color: AppColors.border),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
       ),
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
-          borderRadius: BorderRadius.circular(AppDimensions.radiusXL),
+          borderRadius: BorderRadius.circular(AppDimensions.radiusLG),
           onTap: onTap,
           child: cardContent,
         ),
@@ -147,10 +148,8 @@ class DeliveryCard extends StatelessWidget {
         padding: const EdgeInsetsDirectional.only(end: AppDimensions.spaceLG),
         decoration: BoxDecoration(
           color: const Color(0xFFFDECEB),
-          borderRadius: BorderRadius.circular(AppDimensions.radiusXL),
-          border: Border.all(
-            color: AppColors.primary.withValues(alpha: 0.12),
-          ),
+          borderRadius: BorderRadius.circular(AppDimensions.radiusLG),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.12)),
         ),
         child: const Icon(
           Icons.close_rounded,

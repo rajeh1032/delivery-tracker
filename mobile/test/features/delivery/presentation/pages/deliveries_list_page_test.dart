@@ -90,6 +90,8 @@ void main() {
     await tester.pump();
 
     expect(find.byType(DeliveriesSearchingRadar), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 450));
+    expect(find.byType(DeliveriesSearchingRadar), findsOneWidget);
   });
 
   testWidgets('renders cards, search bar, and filter chips when loaded',
