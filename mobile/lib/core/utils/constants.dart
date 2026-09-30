@@ -20,5 +20,8 @@ abstract final class AppConstants {
 
   /// English language code.
   static const String englishLanguage = 'en';
+
+  /// Environment variable key for Google Maps API Key.
+  static const String googleMapsApiKey = 'GOOGLE_MAPS_API_KEY';
 }
 

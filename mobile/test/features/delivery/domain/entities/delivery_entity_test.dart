@@ -61,5 +61,16 @@ void main() {
       expect(entity.status, DeliveryStatus.pending);
       expect(entity.recipientName, isNull);
     });
+
+    test('customerLatitude and customerLongitude resolve based on address and explicit values', () {
+      // Salmiya resolution from address
+      expect(entity.customerLatitude, 29.3344);
+      expect(entity.customerLongitude, 48.0828);
+
+      // Explicit coordinates override
+      final withCoords = entity.copyWith(latitude: 30.123, longitude: 45.456);
+      expect(withCoords.customerLatitude, 30.123);
+      expect(withCoords.customerLongitude, 45.456);
+    });
   });
 }
