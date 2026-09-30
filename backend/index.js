@@ -3,19 +3,21 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
-import path from "path";
 import multer from "multer";
-import { fileURLToPath } from "url";
+import { uploadsDir } from "./config/upload_paths.js";
 import deliveryRouter from "./features/delivery/delivery_router.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 let app = express();
 
 app.use(cors());
 app.use(express.json({ limit: "1mb" }));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.get("/uploads/:filename", (req, res, next) => {
+  res.sendFile(req.params.filename, { root: uploadsDir, dotfiles: "deny" }, (err) => {
+    if (!err) return;
+    if (err.status === 404) return res.status(404).json({ message: "Photo not found" });
+    next(err);
+  });
+});
 
 app.get("/", (req, res) => {
   res.json({ status: "online" });
@@ -41,7 +43,7 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || "0.0.0.0";
 
-if (process.env.NODE_ENV !== "test") {
+if (process.env.NODE_ENV !== "test" && !process.env.VERCEL) {
   app.listen(PORT, HOST, () => {
     console.log(`server is running on ${HOST}:${PORT}`);
   });

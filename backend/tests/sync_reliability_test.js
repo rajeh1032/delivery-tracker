@@ -4,7 +4,7 @@ import { after, before, test } from 'node:test';
 import express from 'express';
 import deliveryRouter from '../features/delivery/delivery_router.js';
 import { deliveriesDB, idempotencyStore } from '../config/database.js';
-import { getDeliveryById } from '../features/delivery/delivery_model.js';
+import { getDeliveryById, attachProofUrl } from '../features/delivery/delivery_model.js';
 
 let server;
 let baseUrl;
@@ -118,4 +118,18 @@ test('idempotent replay precedes version checking', async () => {
   assert.equal(replay.headers.get('x-idempotent-replay'), 'true');
   assert.equal((await replay.json()).delivery.version, 2);
   assert.equal((await getDeliveryById(91003)).recipient_name, 'Review Test');
+});
+
+
+test('idempotent response remains a snapshot after attaching proof', async () => {
+  const before = await post('/deliveries/91003/complete', {
+    recipient_name: 'Review Test', client_action_id: replayActionId, base_version: 1,
+  });
+  const snapshot = await before.json();
+  await attachProofUrl(91003, '/uploads/snapshot-test.jpg');
+  const replay = await post('/deliveries/91003/complete', {
+    recipient_name: 'Review Test', client_action_id: replayActionId, base_version: 1,
+  });
+  assert.deepEqual(await replay.json(), snapshot);
+  assert.equal((await getDeliveryById(91003)).proof_url, '/uploads/snapshot-test.jpg');
 });
