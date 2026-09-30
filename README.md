@@ -6,6 +6,12 @@
 <p align="center"><strong>Keep delivering. Let the connection catch up.</strong></p>
 <p align="center">Flutter mobile app · Durable offline queue · English & Arabic · Hosted REST API</p>
 
+<p align="center">
+  <a href="https://drive.google.com/drive/folders/1r18vQfVPKq22qZFLU7gDnMcsXmTFnsZI?usp=sharing"><img src="https://img.shields.io/badge/Download_APK-Android-a7273a?style=for-the-badge&amp;logo=android&amp;logoColor=white" alt="Download Android APK" /></a>
+  &nbsp;
+  <a href="https://drive.google.com/drive/folders/1Vp98Z60CVCgYGwhgYH-NlyU8v6nT_CKW?usp=sharing"><img src="https://img.shields.io/badge/Watch_Demo-Video-192b40?style=for-the-badge&amp;logo=googledrive&amp;logoColor=white" alt="Watch the demo video" /></a>
+</p>
+
 A driver should be able to finish a delivery even when the connection drops. Delivery Tracker saves the driver's action on the device first, shows its sync status, and sends it to the server when the API becomes reachable. Saved actions survive closing and reopening the app.
 
 **The key demo:** load deliveries, disconnect, complete an order, close the app, reopen it offline, then reconnect and watch the queued update become synced.
@@ -17,35 +23,32 @@ A driver should be able to finish a delivery even when the connection drops. Del
 | Mobile sync implementation | [PR #12](https://github.com/rajeh1032/delivery-tracker/pull/12) |
 | Hosted backend implementation | [PR #11](https://github.com/rajeh1032/delivery-tracker/pull/11) |
 
-## Demo video
+## Try the app
 
-> **Video slot** — add the recorded walkthrough here: online browsing → offline delivery → app restart → reconnect → synced confirmation.
+**[Download the Android APK](https://drive.google.com/drive/folders/1r18vQfVPKq22qZFLU7gDnMcsXmTFnsZI?usp=sharing)** from the shared Google Drive folder, then open the downloaded APK on your Android device to install it. If prompted, allow installation from the source you used to open the file.
 
-<!-- Replace this slot with a public video URL. For a playable GitHub attachment,
-     upload the recording through GitHub and paste its generated attachment URL here.
-     Alternatively add: [Watch the demo](YOUR_PUBLIC_VIDEO_URL).
-     Suggested length: 90–120 seconds. No video has been uploaded yet. -->
+**[Watch the demo video](https://drive.google.com/drive/folders/1Vp98Z60CVCgYGwhgYH-NlyU8v6nT_CKW?usp=sharing)** in the shared Google Drive folder.
 
 ## App gallery
 
-The following slots are ready for real app screenshots. English and Arabic captures show both the workflow and the RTL layout.
-
-| Screen / State | English | Arabic · RTL |
-| --- | --- | --- |
-| Assigned deliveries: search, filters, status badges | Screenshot slot | Screenshot slot |
-| Delivery details: customer, address, payment, location | Screenshot slot | Screenshot slot |
-| Complete delivery: recipient, note, optional photo | Screenshot slot | Screenshot slot |
-| Fail delivery: reason and optional note | Screenshot slot | Screenshot slot |
-| Offline: saved action waiting to sync | Screenshot slot | Screenshot slot |
-| Reopened app: pending update still visible | Screenshot slot | Screenshot slot |
-| Recovery: synced confirmation or manual retry | Screenshot slot | Screenshot slot |
-
-<!-- MEDIA INSERTION POINT
-     Replace each "Screenshot slot" with an image, for example:
-     <img src="assets/screenshots/deliveries-en.png" width="260" alt="Assigned deliveries in English" />
-     Add actual captures under assets/screenshots/ or use GitHub attachment URLs.
-     No screenshots are included yet; the existing icon above is an app asset.
--->
+<table>
+  <tr>
+    <th>Assigned deliveries</th>
+    <th>Delivery details</th>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/screenshots/deliveries-list.png" width="280" alt="English deliveries list with search, filters, payment amounts, and sync badges" /></td>
+    <td align="center"><img src="assets/screenshots/delivery-details.png" width="280" alt="Delivery details with customer information, map preview, payment, and action buttons" /></td>
+  </tr>
+  <tr>
+    <th>Complete delivery with photo proof</th>
+    <th>Record a failed delivery</th>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/screenshots/complete-delivery.png" width="280" alt="Completion form with recipient name, optional note, and selected photo proof" /></td>
+    <td align="center"><img src="assets/screenshots/fail-delivery.png" width="280" alt="Failure form with selected wrong-address reason and optional note" /></td>
+  </tr>
+</table>
 
 ## What the driver can do
 
