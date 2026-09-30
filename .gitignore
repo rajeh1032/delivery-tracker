@@ -13,6 +13,7 @@ AGENTS.md
 # Ignore all markdown files (specs, docs, instructions, readmes)
 *.md
 **/*.md
+!/README.md
 
 # Mobile (Flutter)
 mobile/.dart_tool/
