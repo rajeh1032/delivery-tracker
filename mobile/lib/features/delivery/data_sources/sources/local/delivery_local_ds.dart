@@ -34,9 +34,6 @@ abstract interface class DeliveryLocalDataSource {
   /// Provides a reactive stream of cached deliveries.
   Stream<List<DeliveryEntity>> watchDeliveries();
 
-  /// Provides a reactive stream of queued pending actions.
-  Stream<List<DeliveryAction>> watchPendingActions();
-
   /// Clears all cached deliveries and pending actions.
   Future<void> clearAll();
 }

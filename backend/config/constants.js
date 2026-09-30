@@ -18,3 +18,7 @@ export const ERROR_CODES = {
   IDEMPOTENCY_KEY_REUSE: "IDEMPOTENCY_KEY_REUSE",
   DELIVERY_CONFLICT: "DELIVERY_CONFLICT"
 };
+
+export const ERROR_MESSAGES = {
+  DELIVERY_CONFLICT: "Delivery status or version changed on server"
+};

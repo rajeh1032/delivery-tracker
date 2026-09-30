@@ -7,25 +7,20 @@ import 'package:delivery_tracker/core/general_cubits/locale_cubit.dart';
 import 'package:delivery_tracker/core/services/connectivity_service.dart';
 import 'package:delivery_tracker/features/delivery/presentation/cubit/deliveries/deliveries_cubit.dart';
 import 'package:delivery_tracker/features/delivery/presentation/cubit/deliveries/deliveries_state.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubit/sync_queue/sync_queue_cubit.dart';
-import 'package:delivery_tracker/features/delivery/presentation/cubit/sync_queue/sync_queue_state.dart';
 import 'package:delivery_tracker/main.dart';
 
 class MockConnectivityService extends Mock implements ConnectivityService {}
 class MockDeliveriesListCubit extends Mock implements DeliveriesListCubit {}
-class MockSyncQueueCubit extends Mock implements SyncQueueCubit {}
 
 void main() {
   late MockConnectivityService mockConnectivityService;
   late MockDeliveriesListCubit mockDeliveriesListCubit;
-  late MockSyncQueueCubit mockSyncQueueCubit;
   late ConnectivityCubit connectivityCubit;
   late LocaleCubit localeCubit;
 
   setUp(() {
     mockConnectivityService = MockConnectivityService();
     mockDeliveriesListCubit = MockDeliveriesListCubit();
-    mockSyncQueueCubit = MockSyncQueueCubit();
 
     when(() => mockConnectivityService.checkReachability())
         .thenAnswer((_) async => true);
@@ -41,22 +36,10 @@ void main() {
     when(() => mockDeliveriesListCubit.close())
         .thenAnswer((_) async {});
 
-    when(() => mockSyncQueueCubit.state)
-        .thenReturn(const SyncQueueState());
-    when(() => mockSyncQueueCubit.stream)
-        .thenAnswer((_) => const Stream<SyncQueueState>.empty());
-    when(() => mockSyncQueueCubit.close())
-        .thenAnswer((_) async {});
-
     if (getIt.isRegistered<DeliveriesListCubit>()) {
       getIt.unregister<DeliveriesListCubit>();
     }
     getIt.registerFactory<DeliveriesListCubit>(() => mockDeliveriesListCubit);
-
-    if (getIt.isRegistered<SyncQueueCubit>()) {
-      getIt.unregister<SyncQueueCubit>();
-    }
-    getIt.registerFactory<SyncQueueCubit>(() => mockSyncQueueCubit);
 
     connectivityCubit = ConnectivityCubit(mockConnectivityService);
     localeCubit = LocaleCubit();
@@ -67,9 +50,6 @@ void main() {
     localeCubit.close();
     if (getIt.isRegistered<DeliveriesListCubit>()) {
       getIt.unregister<DeliveriesListCubit>();
-    }
-    if (getIt.isRegistered<SyncQueueCubit>()) {
-      getIt.unregister<SyncQueueCubit>();
     }
   });
 
@@ -84,7 +64,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Delivery Tracker'), findsOneWidget);
-    expect(find.byIcon(Icons.sync_rounded), findsOneWidget);
     expect(find.byIcon(Icons.language_rounded), findsOneWidget);
   });
 }

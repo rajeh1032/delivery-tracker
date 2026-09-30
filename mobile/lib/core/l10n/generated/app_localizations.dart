@@ -110,12 +110,6 @@ abstract class AppLocalizations {
   /// **'Deliveries'**
   String get navDeliveries;
 
-  /// No description provided for @navSyncQueue.
-  ///
-  /// In en, this message translates to:
-  /// **'Sync Queue'**
-  String get navSyncQueue;
-
   /// No description provided for @navSettings.
   ///
   /// In en, this message translates to:
@@ -427,36 +421,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Action is currently syncing. Please wait.'**
   String get actionsFrozenWhileSync;
-
-  /// No description provided for @syncQueueTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sync Queue'**
-  String get syncQueueTitle;
-
-  /// No description provided for @syncQueuePendingTab.
-  ///
-  /// In en, this message translates to:
-  /// **'Pending'**
-  String get syncQueuePendingTab;
-
-  /// No description provided for @syncQueueFailedTab.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed'**
-  String get syncQueueFailedTab;
-
-  /// No description provided for @emptyPendingQueue.
-  ///
-  /// In en, this message translates to:
-  /// **'No pending sync actions 🎉'**
-  String get emptyPendingQueue;
-
-  /// No description provided for @emptyFailedQueue.
-  ///
-  /// In en, this message translates to:
-  /// **'No failed sync actions'**
-  String get emptyFailedQueue;
 
   /// No description provided for @settingsTitle.
   ///
