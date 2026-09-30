@@ -15,13 +15,21 @@ import '../network/failures.dart';
 import '../network/network_constants.dart';
 import '../utils/enums.dart';
 import 'proof_storage_service.dart';
+import 'sync_retry_policy.dart';
 
 class DeliveryActionSyncer {
   final DeliveryLocalDataSource _local;
   final DeliveryRemoteDs _remote;
   final ProofStorageService _proofs;
 
-  const DeliveryActionSyncer(this._local, this._remote, this._proofs);
+  final SyncRetryPolicy _retryPolicy;
+
+  const DeliveryActionSyncer(
+    this._local,
+    this._remote,
+    this._proofs,
+    this._retryPolicy,
+  );
 
   Future<bool> sync(DeliveryAction action) async {
     final current = await _local.getDeliveryById(action.deliveryId);
@@ -147,17 +155,7 @@ class DeliveryActionSyncer {
     DeliveryAction action,
     ApiErrorResult<T> result,
   ) async {
-    final transient =
-        result.failure.isRetryable ||
-        result.statusCode == NetworkConstants.statusInternalServerError ||
-        result.statusCode == null;
-    await _local.savePendingAction(
-      action.copyWith(
-        retryCount: transient ? action.retryCount + 1 : action.retryCount,
-        status: SyncStatus.failed,
-        lastError: result.message,
-      ),
-    );
+    await _local.savePendingAction(_retryPolicy.afterFailure(action, result));
     final cached = await _local.getDeliveryById(action.deliveryId);
     if (cached != null) {
       await _local.updateDelivery(

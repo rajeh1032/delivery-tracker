@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:delivery_tracker/core/services/sync_manager.dart';
 import 'package:delivery_tracker/core/network/api_results.dart';
 import 'package:delivery_tracker/core/services/connectivity_service.dart';
 import 'package:delivery_tracker/features/delivery/domain/entities/delivery_entity.dart';
@@ -14,6 +15,7 @@ class DeliveriesCubit extends Cubit<DeliveriesState> {
   final GetDeliveriesUseCase _getDeliveriesUseCase;
   final DeliveryRepository _deliveryRepository;
   final ConnectivityService connectivityService;
+  final SyncManager _syncManager;
 
   StreamSubscription<List<DeliveryEntity>>? _deliveriesSubscription;
 
@@ -21,14 +23,15 @@ class DeliveriesCubit extends Cubit<DeliveriesState> {
     this._getDeliveriesUseCase,
     this._deliveryRepository,
     this.connectivityService,
+    this._syncManager,
   ) : super(const DeliveriesState()) {
     _startWatchingDeliveries();
   }
 
   void _startWatchingDeliveries() {
-    _deliveriesSubscription = _deliveryRepository
-        .watchDeliveries()
-        .listen(_onDeliveriesUpdated);
+    _deliveriesSubscription = _deliveryRepository.watchDeliveries().listen(
+      _onDeliveriesUpdated,
+    );
   }
 
   void _onDeliveriesUpdated(List<DeliveryEntity> updatedList) {
@@ -36,19 +39,23 @@ class DeliveriesCubit extends Cubit<DeliveriesState> {
 
     if (state.status == DeliveriesStatus.initial ||
         state.status == DeliveriesStatus.loading) {
-      emit(state.copyWith(
-        status: updatedList.isEmpty
-            ? DeliveriesStatus.empty
-            : DeliveriesStatus.loaded,
-        deliveries: updatedList,
-      ));
+      emit(
+        state.copyWith(
+          status: updatedList.isEmpty
+              ? DeliveriesStatus.empty
+              : DeliveriesStatus.loaded,
+          deliveries: updatedList,
+        ),
+      );
     } else {
-      emit(state.copyWith(
-        deliveries: updatedList,
-        status: updatedList.isEmpty
-            ? DeliveriesStatus.empty
-            : DeliveriesStatus.loaded,
-      ));
+      emit(
+        state.copyWith(
+          deliveries: updatedList,
+          status: updatedList.isEmpty
+              ? DeliveriesStatus.empty
+              : DeliveriesStatus.loaded,
+        ),
+      );
     }
   }
 
@@ -63,24 +70,32 @@ class DeliveriesCubit extends Cubit<DeliveriesState> {
     if (isClosed) return;
 
     if (result case ApiSuccessResult<List<DeliveryEntity>>(:final data)) {
-      emit(state.copyWith(
-        status: data.isEmpty
-            ? DeliveriesStatus.empty
-            : DeliveriesStatus.loaded,
-        deliveries: data,
-        errorMessage: null,
-      ));
-    } else if (result case ApiErrorResult<List<DeliveryEntity>>(:final failure)) {
+      emit(
+        state.copyWith(
+          status: data.isEmpty
+              ? DeliveriesStatus.empty
+              : DeliveriesStatus.loaded,
+          deliveries: data,
+          errorMessage: null,
+        ),
+      );
+    } else if (result case ApiErrorResult<List<DeliveryEntity>>(
+      :final failure,
+    )) {
       if (state.deliveries.isNotEmpty) {
-        emit(state.copyWith(
-          status: DeliveriesStatus.loaded,
-          errorMessage: failure.errorMessage,
-        ));
+        emit(
+          state.copyWith(
+            status: DeliveriesStatus.loaded,
+            errorMessage: failure.errorMessage,
+          ),
+        );
       } else {
-        emit(state.copyWith(
-          status: DeliveriesStatus.error,
-          errorMessage: failure.errorMessage,
-        ));
+        emit(
+          state.copyWith(
+            status: DeliveriesStatus.error,
+            errorMessage: failure.errorMessage,
+          ),
+        );
       }
     }
   }
@@ -91,14 +106,22 @@ class DeliveriesCubit extends Cubit<DeliveriesState> {
     if (isClosed) return;
 
     if (result case ApiSuccessResult<List<DeliveryEntity>>(:final data)) {
-      emit(state.copyWith(
-        deliveries: data,
-        status: data.isEmpty
-            ? DeliveriesStatus.empty
-            : DeliveriesStatus.loaded,
-        errorMessage: null,
-      ));
+      emit(
+        state.copyWith(
+          deliveries: data,
+          status: data.isEmpty
+              ? DeliveriesStatus.empty
+              : DeliveriesStatus.loaded,
+          errorMessage: null,
+        ),
+      );
     }
+  }
+
+  Future<bool> retrySync(DeliveryEntity delivery) async {
+    final actionId = delivery.clientActionId;
+    if (actionId == null) return false;
+    return _syncManager.retryAction(actionId);
   }
 
   /// Updates active search query for real-time filtering.

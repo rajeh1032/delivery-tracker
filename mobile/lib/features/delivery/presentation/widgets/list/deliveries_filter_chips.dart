@@ -27,9 +27,18 @@ class DeliveriesFilterChips extends StatelessWidget {
   Widget build(BuildContext context) {
     final tabs = [
       (DeliveryStatusFilter.all, '${context.tr.filterAll} ($totalCount)'),
-      (DeliveryStatusFilter.pending, '${context.tr.filterPending} ($pendingCount)'),
-      (DeliveryStatusFilter.delivered, '${context.tr.filterDelivered} ($deliveredCount)'),
-      (DeliveryStatusFilter.failed, '${context.tr.filterFailed} ($failedCount)'),
+      (
+        DeliveryStatusFilter.pending,
+        '${context.tr.filterPending} ($pendingCount)',
+      ),
+      (
+        DeliveryStatusFilter.delivered,
+        '${context.tr.filterDelivered} ($deliveredCount)',
+      ),
+      (
+        DeliveryStatusFilter.failed,
+        '${context.tr.filterFailed} ($failedCount)',
+      ),
     ];
 
     return Container(
@@ -75,8 +84,12 @@ class DeliveriesFilterChips extends StatelessWidget {
                       maxLines: 1,
                       style: TextStyle(
                         fontSize: 12,
-                        fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                        color: isSelected ? Colors.white : AppColors.textSecondary,
+                        fontWeight: isSelected
+                            ? FontWeight.w700
+                            : FontWeight.w500,
+                        color: isSelected
+                            ? Colors.white
+                            : AppColors.textSecondary,
                       ),
                     ),
                   ),
@@ -89,4 +102,3 @@ class DeliveriesFilterChips extends StatelessWidget {
     );
   }
 }
-
