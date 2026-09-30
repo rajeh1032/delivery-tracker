@@ -1,4 +1,5 @@
 import { DELIVERY_STATUS } from "./constants.js";
+import { testDeliverySeed } from "./test_delivery_seed.js";
 
 export const deliveriesDB = [
   {
@@ -170,7 +171,8 @@ export const deliveriesDB = [
     proof_url: null,
     completed_at: null,
     failed_at: null
-  }
+  },
+  ...testDeliverySeed
 ];
 
 export const idempotencyStore = new Map();

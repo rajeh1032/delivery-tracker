@@ -1,10 +1,11 @@
+import { actionResponse } from "./delivery_action_response.js";
+import { saveProof } from "./delivery_proof_storage.js";
 import {
   getAllDeliveries,
   getDeliveryById,
   markAsDelivered,
   markAsFailed,
-  attachProofUrl,
-  saveHandledAction
+  attachProofUrl
 } from "./delivery_model.js";
 import { ERROR_CODES, ERROR_MESSAGES } from "../../config/constants.js";
 
@@ -37,6 +38,14 @@ export const completeDelivery = async (req, res) => {
   }
 
   const updated = await markAsDelivered(id, { recipient_name, note, client_action_id, base_version });
+  if (updated?.keyReuse) {
+    return res.status(409).json({ code: ERROR_CODES.IDEMPOTENCY_KEY_REUSE,
+      message: "Action ID already used for a different delivery" });
+  }
+  if (updated?.replay) {
+    res.setHeader("X-Idempotent-Replay", "true");
+    return res.status(200).json(updated.response);
+  }
   if (updated.conflict) {
     return res.status(409).json({
       code: ERROR_CODES.DELIVERY_CONFLICT,
@@ -45,16 +54,7 @@ export const completeDelivery = async (req, res) => {
     });
   }
 
-  const result = {
-    message: "Delivery completed successfully",
-    delivery: updated
-  };
-
-  if (client_action_id) {
-    saveHandledAction(client_action_id, result, id);
-  }
-
-  return res.status(200).json(result);
+  return res.status(200).json(actionResponse(updated));
 };
 
 export const failDelivery = async (req, res) => {
@@ -70,6 +70,14 @@ export const failDelivery = async (req, res) => {
   }
 
   const updated = await markAsFailed(id, { reason, note, client_action_id, base_version });
+  if (updated?.keyReuse) {
+    return res.status(409).json({ code: ERROR_CODES.IDEMPOTENCY_KEY_REUSE,
+      message: "Action ID already used for a different delivery" });
+  }
+  if (updated?.replay) {
+    res.setHeader("X-Idempotent-Replay", "true");
+    return res.status(200).json(updated.response);
+  }
   if (updated.conflict) {
     return res.status(409).json({
       code: ERROR_CODES.DELIVERY_CONFLICT,
@@ -78,16 +86,7 @@ export const failDelivery = async (req, res) => {
     });
   }
 
-  const result = {
-    message: "Delivery marked as failed",
-    delivery: updated
-  };
-
-  if (client_action_id) {
-    saveHandledAction(client_action_id, result, id);
-  }
-
-  return res.status(200).json(result);
+  return res.status(200).json(actionResponse(updated));
 };
 
 export const uploadProof = async (req, res) => {
@@ -105,7 +104,7 @@ export const uploadProof = async (req, res) => {
     });
   }
 
-  const proofUrl = `/uploads/${req.file.filename}`;
+  const proofUrl = await saveProof(id, req.file);
   const updated = await attachProofUrl(id, proofUrl);
 
   return res.status(200).json({
