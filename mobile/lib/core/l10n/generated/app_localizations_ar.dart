@@ -34,7 +34,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get backOnline => 'عاد الاتصال. جارٍ إرسال التحديثات المحفوظة…';
 
   @override
-  String get deliveriesSearching => 'لا توجد طلبات للعرض حاليًا';
+  String get deliveriesSearching => 'جارٍ البحث عن الطلبات…';
 
   @override
   String get searchHint => 'رقم الطلب أو اسم العميل';
