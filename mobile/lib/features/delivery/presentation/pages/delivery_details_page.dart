@@ -32,15 +32,18 @@ class DeliveryDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<DeliveryDetailsCubit>(
-      create: (_) => getIt<DeliveryDetailsCubit>()
-        ..loadDelivery(deliveryId, preloaded: preloaded),
-      child: const _DeliveryDetailsView(),
+      create: (_) =>
+          getIt<DeliveryDetailsCubit>()
+            ..loadDelivery(deliveryId, preloaded: preloaded),
+      child: _DeliveryDetailsView(deliveryId: deliveryId),
     );
   }
 }
 
 class _DeliveryDetailsView extends StatelessWidget {
-  const _DeliveryDetailsView();
+  const _DeliveryDetailsView({required this.deliveryId});
+
+  final int deliveryId;
 
   @override
   Widget build(BuildContext context) {
@@ -62,10 +65,7 @@ class _DeliveryDetailsView extends StatelessWidget {
             final cubit = context.read<DeliveryDetailsCubit>();
             return DeliveryDetailsErrorState(
               errorMessage: state.errorMessage,
-              onRetry: () {
-                final id = cubit.state.delivery?.id;
-                if (id != null) cubit.loadDelivery(id);
-              },
+              onRetry: () => cubit.loadDelivery(deliveryId),
             );
           }
 

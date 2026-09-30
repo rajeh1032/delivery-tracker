@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:delivery_tracker/core/network/api_results.dart';
 import 'package:delivery_tracker/core/network/failures.dart';
 import 'package:delivery_tracker/core/network/network_constants.dart';
@@ -124,12 +123,13 @@ void main() {
     expect(photo.existsSync(), isTrue);
     verifyNever(() => remote.completeDelivery(4, any()));
     verifyNever(() => proofs.deleteProofFile(photo.path));
-
     when(() => remote.uploadProof(4, photo)).thenAnswer(
       (_) async => ApiSuccessResult(
         ProofUploadResponseDto(message: 'ok', proofUrl: '/proof'),
       ),
     );
+    expect(await manager.retryAction(action.clientActionId), isFalse);
+    queued = [queued.single.copyWith(nextRetryAt: DateTime.utc(2026))];
     expect(await manager.retryAction(action.clientActionId), isTrue);
     expect(queued, isEmpty);
     verify(

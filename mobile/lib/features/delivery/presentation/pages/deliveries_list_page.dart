@@ -46,7 +46,7 @@ class _DeliveriesListViewWrapperState
   void initState() {
     super.initState();
     // Keep the startup animation visible even when cached data arrives immediately.
-    _startupTimer = Timer(const Duration(milliseconds: 450), () {
+    _startupTimer = Timer(const Duration(milliseconds: 1500), () {
       setState(() => _showStartupRadar = false);
     });
   }
@@ -130,6 +130,9 @@ class _DeliveriesListViewWrapperState
     return DeliveriesListView(
       deliveries: state.visibleDeliveries,
       onRefresh: () => context.read<DeliveriesListCubit>().refresh(),
+      onRetrySync: (delivery) {
+        unawaited(context.read<DeliveriesListCubit>().retrySync(delivery));
+      },
       onDeliveryTap: (delivery) {
         context.pushNamed(AppRoutes.deliveryDetails, arguments: delivery.id);
       },

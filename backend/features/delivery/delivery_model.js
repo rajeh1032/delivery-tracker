@@ -1,68 +1,15 @@
-import { deliveriesDB, idempotencyStore } from "../../config/database.js";
-import { DELIVERY_STATUS } from "../../config/constants.js";
+import "dotenv/config";
 
-export const getAllDeliveries = async () => {
-  return deliveriesDB;
-};
+if (process.env.VERCEL && !process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is required on Vercel to persist delivery state");
+}
+const store = process.env.DATABASE_URL
+  ? await import("./delivery_postgres_store.js")
+  : await import("./delivery_memory_store.js");
 
-export const getDeliveryById = async (id) => {
-  const delivery = deliveriesDB.find((d) => d.id === Number(id));
-  return delivery || null;
-};
-
-export const markAsDelivered = async (id, { recipient_name, note, client_action_id, base_version }) => {
-  const delivery = deliveriesDB.find((d) => d.id === Number(id));
-  if (!delivery) return null;
-
-  if (delivery.status !== DELIVERY_STATUS.PENDING ||
-      (base_version !== undefined && base_version !== delivery.version)) {
-    return { conflict: true };
-  }
-
-  delivery.status = DELIVERY_STATUS.DELIVERED;
-  delivery.recipient_name = recipient_name;
-  if (note) delivery.note = note;
-  delivery.version = (delivery.version || 1) + 1;
-  delivery.completed_at = new Date().toISOString();
-  delivery.client_action_id = client_action_id;
-
-  return delivery;
-};
-
-export const markAsFailed = async (id, { reason, note, client_action_id, base_version }) => {
-  const delivery = deliveriesDB.find((d) => d.id === Number(id));
-  if (!delivery) return null;
-
-  if (delivery.status !== DELIVERY_STATUS.PENDING ||
-      (base_version !== undefined && base_version !== delivery.version)) {
-    return { conflict: true };
-  }
-
-  delivery.status = DELIVERY_STATUS.FAILED;
-  delivery.failure_reason = reason;
-  if (note) delivery.note = note;
-  delivery.version = (delivery.version || 1) + 1;
-  delivery.failed_at = new Date().toISOString();
-  delivery.client_action_id = client_action_id;
-
-  return delivery;
-};
-
-export const attachProofUrl = async (id, proofUrl) => {
-  const delivery = deliveriesDB.find((d) => d.id === Number(id));
-  if (!delivery) return null;
-
-  delivery.proof_url = proofUrl;
-  return delivery;
-};
-
-export const getHandledAction = (actionId) => {
-  return idempotencyStore.get(actionId) || null;
-};
-
-export const saveHandledAction = (actionId, result, deliveryId) => {
-  idempotencyStore.set(actionId, {
-    response: result,
-    deliveryId: Number(deliveryId)
-  });
-};
+export const getAllDeliveries = store.getAllDeliveries;
+export const getDeliveryById = store.getDeliveryById;
+export const markAsDelivered = store.markAsDelivered;
+export const markAsFailed = store.markAsFailed;
+export const attachProofUrl = store.attachProofUrl;
+export const getHandledAction = store.getHandledAction;
