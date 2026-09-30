@@ -241,4 +241,18 @@ void main() {
 
     expect(repository.watchDeliveries(), emits([tDeliveryEntity]));
   });
+
+  test('watchPendingActions delegates directly to local data source stream', () {
+    final tAction = DeliveryAction(
+      clientActionId: 'action-test',
+      deliveryId: 1,
+      type: DeliveryActionType.complete,
+      payload: const {},
+      createdAt: DateTime(2026, 1, 1),
+    );
+    when(() => mockLocalDs.watchPendingActions())
+        .thenAnswer((_) => Stream.value([tAction]));
+
+    expect(repository.watchPendingActions(), emits([tAction]));
+  });
 }

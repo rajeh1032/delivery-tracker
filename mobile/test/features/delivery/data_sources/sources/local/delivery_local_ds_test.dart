@@ -253,6 +253,28 @@ void main() {
       await subscription.cancel();
     });
 
+    test('watchPendingActions emits current queue and subsequent updates', () async {
+      final emittedLists = <List<DeliveryAction>>[];
+      final subscription = dataSource.watchPendingActions().listen(emittedLists.add);
+
+      await Future<void>.delayed(Duration.zero);
+      expect(emittedLists.first, isEmpty);
+
+      final action = DeliveryAction(
+        clientActionId: 'watch-act-1',
+        deliveryId: 101,
+        type: DeliveryActionType.complete,
+        payload: const {},
+        createdAt: DateTime.now(),
+      );
+      await dataSource.savePendingAction(action);
+      await Future<void>.delayed(Duration.zero);
+      expect(emittedLists.last.length, equals(1));
+      expect(emittedLists.last.first.clientActionId, equals('watch-act-1'));
+
+      await subscription.cancel();
+    });
+
     test('clearAll clears deliveries and actions', () async {
       await dataSource.cacheDeliveries([sampleDelivery1]);
       await dataSource.savePendingAction(
