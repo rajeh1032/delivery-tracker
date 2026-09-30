@@ -1,13 +1,9 @@
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { fileURLToPath } from "url";
+import { uploadsDir } from "../../config/upload_paths.js";
 import { getHandledAction } from "./delivery_model.js";
 import { ERROR_CODES } from "../../config/constants.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const uploadsDir = path.resolve(__dirname, "../../uploads");
 
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
@@ -29,12 +25,12 @@ export const validation = (schema) => {
   };
 };
 
-export const checkIdempotency = (req, res, next) => {
+export const checkIdempotency = async (req, res, next) => {
   const actionId = req.body?.client_action_id;
   const deliveryId = Number(req.params.id);
 
-  if (actionId) {
-    const cached = getHandledAction(actionId);
+  if (typeof actionId === "string" && /^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(actionId)) {
+    const cached = await getHandledAction(actionId);
     if (cached) {
       if (cached.deliveryId && cached.deliveryId !== deliveryId) {
         return res.status(409).json({
@@ -57,4 +53,8 @@ const storage = multer.diskStorage({
   }
 });
 
-export const upload = multer({ storage });
+export const upload = multer({
+  storage: (process.env.BLOB_STORE_ID || process.env.BLOB_READ_WRITE_TOKEN)
+    ? multer.memoryStorage() : storage,
+  limits: { fileSize: 3 * 1024 * 1024 }
+});
