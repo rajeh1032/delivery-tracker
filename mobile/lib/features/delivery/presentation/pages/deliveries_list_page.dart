@@ -46,7 +46,7 @@ class _DeliveriesListViewWrapperState
   void initState() {
     super.initState();
     // Keep the startup animation visible even when cached data arrives immediately.
-    _startupTimer = Timer(const Duration(milliseconds: 450), () {
+    _startupTimer = Timer(const Duration(milliseconds: 800), () {
       setState(() => _showStartupRadar = false);
     });
   }
