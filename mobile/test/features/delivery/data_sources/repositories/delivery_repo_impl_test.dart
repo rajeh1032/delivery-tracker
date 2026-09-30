@@ -72,6 +72,10 @@ void main() {
           .thenAnswer((_) async => ApiSuccessResult([tDeliveryDto]));
       when(() => mockLocalDs.cacheDeliveries(any()))
           .thenAnswer((_) async {});
+      when(() => mockLocalDs.getDeliveries())
+          .thenAnswer((_) async => [tDeliveryEntity]);
+      when(() => mockLocalDs.getPendingActions())
+          .thenAnswer((_) async => []);
 
       final result = await repository.getDeliveries();
 
@@ -123,14 +127,14 @@ void main() {
       when(() => mockLocalDs.getDeliveryById(1)).thenAnswer((_) async => null);
       when(() => mockRemoteDs.getDeliveryById(1))
           .thenAnswer((_) async => ApiSuccessResult(tDeliveryDto));
-      when(() => mockLocalDs.updateDelivery(any()))
+      when(() => mockLocalDs.cacheDeliveries(any()))
           .thenAnswer((_) async {});
 
       final result = await repository.getDeliveryById(1);
 
       expect(result.isSuccess, isTrue);
       expect(result.dataOrNull?.id, 1);
-      verify(() => mockLocalDs.updateDelivery(any())).called(1);
+      verify(() => mockLocalDs.cacheDeliveries(any())).called(1);
     });
 
     test('falls back to cached delivery when remote fails', () async {
