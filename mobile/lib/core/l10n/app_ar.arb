@@ -8,7 +8,7 @@
   "offlineBannerTitle": "لا يوجد اتصال بالإنترنت",
   "offlineBannerBody": "تعديلاتك محفوظة على الجهاز. سنرسلها تلقائيًا عند عودة الاتصال.",
   "backOnline": "عاد الاتصال. جارٍ إرسال التحديثات المحفوظة…",
-  "deliveriesSearching": "لا توجد طلبات للعرض حاليًا",
+  "deliveriesSearching": "جارٍ البحث عن الطلبات…",
   "searchHint": "رقم الطلب أو اسم العميل",
   "filterAll": "الكل",
   "filterPending": "بانتظار التسليم",
