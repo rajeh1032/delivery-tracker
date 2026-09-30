@@ -61,12 +61,12 @@ abstract final class NetworkConstants {
   static const int statusConflict = 409;
   static const int statusInternalServerError = 500;
 
-
   // Machine-Readable Error Codes
   static const String deliveryNotFound = 'DELIVERY_NOT_FOUND';
   static const String validationError = 'VALIDATION_ERROR';
   static const String idempotencyKeyReuse = 'IDEMPOTENCY_KEY_REUSE';
   static const String deliveryConflict = 'DELIVERY_CONFLICT';
+  static const String proofFileMissing = 'PROOF_FILE_MISSING';
   static const String noInternet = 'NO_INTERNET';
   static const String unknownError = 'UNKNOWN_ERROR';
   static const String defaultErrorCode = 'NO_STATUS_CODE';
@@ -96,4 +96,3 @@ abstract final class NetworkConstants {
 
 /// Global convenience getter for quick access matching plan specification.
 String get kBaseUrl => NetworkConstants.baseUrl;
-

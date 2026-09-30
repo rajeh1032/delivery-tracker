@@ -19,10 +19,7 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
   final DeliveryLocalDataSource _localDataSource;
   final DeliveryRemoteDs _remoteDataSource;
 
-  DeliveryRepositoryImpl(
-    this._localDataSource,
-    this._remoteDataSource,
-  );
+  DeliveryRepositoryImpl(this._localDataSource, this._remoteDataSource);
 
   @override
   Future<ApiResult<List<DeliveryEntity>>> getDeliveries() async {
@@ -30,7 +27,23 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
     if (remoteResult is ApiSuccessResult<List<DeliveryResponseDto>>) {
       final entities = remoteResult.data.toEntities();
       await _localDataSource.cacheDeliveries(entities);
-      return ApiSuccessResult(entities);
+      final cached = await _localDataSource.getDeliveries();
+      final byId = {for (final delivery in cached) delivery.id: delivery};
+      final effective = [
+        for (final entity in entities) byId[entity.id] ?? entity,
+      ];
+      final remoteIds = entities.map((delivery) => delivery.id).toSet();
+      final pendingIds = (await _localDataSource.getPendingActions())
+          .map((action) => action.deliveryId)
+          .toSet();
+      effective.addAll(
+        cached.where(
+          (delivery) =>
+              pendingIds.contains(delivery.id) &&
+              !remoteIds.contains(delivery.id),
+        ),
+      );
+      return ApiSuccessResult(effective);
     }
 
     final cached = await _localDataSource.getDeliveries();
@@ -58,8 +71,10 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
 
     if (remoteResult is ApiSuccessResult<DeliveryResponseDto>) {
       final entity = remoteResult.data.toEntity();
-      await _localDataSource.updateDelivery(entity);
-      return ApiSuccessResult(entity);
+      await _localDataSource.cacheDeliveries([entity]);
+      return ApiSuccessResult(
+        await _localDataSource.getDeliveryById(id) ?? entity,
+      );
     }
 
     if (cached != null) {
@@ -165,10 +180,5 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
   @override
   Stream<List<DeliveryEntity>> watchDeliveries() {
     return _localDataSource.watchDeliveries();
-  }
-
-  @override
-  Stream<List<DeliveryAction>> watchPendingActions() {
-    return _localDataSource.watchPendingActions();
   }
 }

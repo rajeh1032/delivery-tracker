@@ -20,6 +20,4 @@ abstract interface class DeliveryRepository {
   );
 
   Stream<List<DeliveryEntity>> watchDeliveries();
-
-  Stream<List<DeliveryAction>> watchPendingActions();
 }

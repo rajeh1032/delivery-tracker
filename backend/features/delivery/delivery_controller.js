@@ -6,7 +6,7 @@ import {
   attachProofUrl,
   saveHandledAction
 } from "./delivery_model.js";
-import { ERROR_CODES } from "../../config/constants.js";
+import { ERROR_CODES, ERROR_MESSAGES } from "../../config/constants.js";
 
 export const readDeliveries = async (req, res) => {
   const deliveries = await getAllDeliveries();
@@ -26,7 +26,7 @@ export const readDeliveryById = async (req, res) => {
 
 export const completeDelivery = async (req, res) => {
   const { id } = req.params;
-  const { recipient_name, note, client_action_id } = req.body;
+  const { recipient_name, note, client_action_id, base_version } = req.body;
 
   const delivery = await getDeliveryById(id);
   if (!delivery) {
@@ -36,11 +36,12 @@ export const completeDelivery = async (req, res) => {
     });
   }
 
-  const updated = await markAsDelivered(id, { recipient_name, note, client_action_id });
+  const updated = await markAsDelivered(id, { recipient_name, note, client_action_id, base_version });
   if (updated.conflict) {
     return res.status(409).json({
       code: ERROR_CODES.DELIVERY_CONFLICT,
-      message: "Delivery has already been finalized"
+      message: ERROR_MESSAGES.DELIVERY_CONFLICT,
+      current_delivery: await getDeliveryById(id)
     });
   }
 
@@ -58,7 +59,7 @@ export const completeDelivery = async (req, res) => {
 
 export const failDelivery = async (req, res) => {
   const { id } = req.params;
-  const { reason, note, client_action_id } = req.body;
+  const { reason, note, client_action_id, base_version } = req.body;
 
   const delivery = await getDeliveryById(id);
   if (!delivery) {
@@ -68,11 +69,12 @@ export const failDelivery = async (req, res) => {
     });
   }
 
-  const updated = await markAsFailed(id, { reason, note, client_action_id });
+  const updated = await markAsFailed(id, { reason, note, client_action_id, base_version });
   if (updated.conflict) {
     return res.status(409).json({
       code: ERROR_CODES.DELIVERY_CONFLICT,
-      message: "Delivery has already been finalized"
+      message: ERROR_MESSAGES.DELIVERY_CONFLICT,
+      current_delivery: await getDeliveryById(id)
     });
   }
 

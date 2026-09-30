@@ -72,6 +72,10 @@ void main() {
           .thenAnswer((_) async => ApiSuccessResult([tDeliveryDto]));
       when(() => mockLocalDs.cacheDeliveries(any()))
           .thenAnswer((_) async {});
+      when(() => mockLocalDs.getDeliveries())
+          .thenAnswer((_) async => [tDeliveryEntity]);
+      when(() => mockLocalDs.getPendingActions())
+          .thenAnswer((_) async => []);
 
       final result = await repository.getDeliveries();
 
@@ -123,14 +127,14 @@ void main() {
       when(() => mockLocalDs.getDeliveryById(1)).thenAnswer((_) async => null);
       when(() => mockRemoteDs.getDeliveryById(1))
           .thenAnswer((_) async => ApiSuccessResult(tDeliveryDto));
-      when(() => mockLocalDs.updateDelivery(any()))
+      when(() => mockLocalDs.cacheDeliveries(any()))
           .thenAnswer((_) async {});
 
       final result = await repository.getDeliveryById(1);
 
       expect(result.isSuccess, isTrue);
       expect(result.dataOrNull?.id, 1);
-      verify(() => mockLocalDs.updateDelivery(any())).called(1);
+      verify(() => mockLocalDs.cacheDeliveries(any())).called(1);
     });
 
     test('falls back to cached delivery when remote fails', () async {
@@ -240,19 +244,5 @@ void main() {
         .thenAnswer((_) => Stream.value([tDeliveryEntity]));
 
     expect(repository.watchDeliveries(), emits([tDeliveryEntity]));
-  });
-
-  test('watchPendingActions delegates directly to local data source stream', () {
-    final tAction = DeliveryAction(
-      clientActionId: 'action-test',
-      deliveryId: 1,
-      type: DeliveryActionType.complete,
-      payload: const {},
-      createdAt: DateTime(2026, 1, 1),
-    );
-    when(() => mockLocalDs.watchPendingActions())
-        .thenAnswer((_) => Stream.value([tAction]));
-
-    expect(repository.watchPendingActions(), emits([tAction]));
   });
 }
