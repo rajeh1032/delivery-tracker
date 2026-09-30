@@ -157,7 +157,7 @@ The hosted implementation runs on **Vercel**, uses **PostgreSQL** for delivery r
 
 Local development can use an in-memory store when `DATABASE_URL` is absent. That fallback resets with the server process; the hosted implementation requires database configuration for persistence.
 
-> **Source status:** the hosted backend changes are in [PR #11](https://github.com/rajeh1032/delivery-tracker/pull/11). The backend explanation here describes that deployment implementation. Until it is merged, the backend on `dev` still uses the earlier in-memory implementation.
+The repository includes the hosted backend implementation described here. PostgreSQL persistence is selected when `DATABASE_URL` is configured; local development without it uses the in-memory store.
 
 ### Implemented endpoints
 
@@ -199,7 +199,7 @@ For an iOS simulator use `http://127.0.0.1:3000`; a physical device needs a reac
 
 ### Run the hosted backend implementation locally
 
-Use the backend source from PR #11 for PostgreSQL and Blob support. Verified with **Node.js 24.18.0**.
+The included backend supports PostgreSQL and Blob storage. Verified with **Node.js 24.18.0**.
 
 ```bash
 cd backend
