@@ -1,19 +1,10 @@
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
-
 /// Network configuration constants, endpoints, timeouts, and error codes.
 abstract final class NetworkConstants {
-  /// Base API URL configurable dynamically at build/run time via:
-  /// `--dart-define=BASE_URL=http://...`
-  /// Defaults to 10.0.2.2:3000 on Android emulator and 127.0.0.1:3000 on iOS simulator / desktop.
-  static String get baseUrl {
-    const fromEnv = String.fromEnvironment('BASE_URL');
-    if (fromEnv.isNotEmpty) return fromEnv;
-    if (!kIsWeb && Platform.isAndroid) {
-      return 'http://10.0.2.2:3000';
-    }
-    return 'http://127.0.0.1:3000';
-  }
+  /// Override with `--dart-define=BASE_URL=http://...` for a local API.
+  static const String baseUrl = String.fromEnvironment(
+    'BASE_URL',
+    defaultValue: 'https://alshamel-delivery-api.vercel.app',
+  );
 
   // Endpoints & Path Formats
   static const String deliveries = '/deliveries';
@@ -42,6 +33,7 @@ abstract final class NetworkConstants {
   // Headers
   static const String headerContentType = 'Content-Type';
   static const String contentTypeJson = 'application/json';
+  static const String retryAfter = 'retry-after';
   static const String acceptLanguage = 'Accept-Language';
   static const String multipartFormData = 'multipart/form-data';
 

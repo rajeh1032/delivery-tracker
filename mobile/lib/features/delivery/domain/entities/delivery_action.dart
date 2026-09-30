@@ -12,6 +12,8 @@ class DeliveryAction extends Equatable {
   final DateTime createdAt;
   final int retryCount;
   final String? lastError;
+  final bool autoRetryAllowed;
+  final DateTime? nextRetryAt;
 
   const DeliveryAction({
     required this.clientActionId,
@@ -22,6 +24,8 @@ class DeliveryAction extends Equatable {
     required this.createdAt,
     this.retryCount = 0,
     this.lastError,
+    this.autoRetryAllowed = true,
+    this.nextRetryAt,
   });
 
   String get payloadJson => jsonEncode(payload);
@@ -40,6 +44,9 @@ class DeliveryAction extends Equatable {
     DateTime? createdAt,
     int? retryCount,
     String? lastError,
+    bool? autoRetryAllowed,
+    DateTime? nextRetryAt,
+    bool clearNextRetryAt = false,
   }) {
     return DeliveryAction(
       clientActionId: clientActionId ?? this.clientActionId,
@@ -50,18 +57,22 @@ class DeliveryAction extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       retryCount: retryCount ?? this.retryCount,
       lastError: lastError ?? this.lastError,
+      autoRetryAllowed: autoRetryAllowed ?? this.autoRetryAllowed,
+      nextRetryAt: clearNextRetryAt ? null : nextRetryAt ?? this.nextRetryAt,
     );
   }
 
   @override
   List<Object?> get props => [
-        clientActionId,
-        deliveryId,
-        type,
-        payload,
-        status,
-        createdAt,
-        retryCount,
-        lastError,
-      ];
+    clientActionId,
+    deliveryId,
+    type,
+    payload,
+    status,
+    createdAt,
+    retryCount,
+    lastError,
+    autoRetryAllowed,
+    nextRetryAt,
+  ];
 }

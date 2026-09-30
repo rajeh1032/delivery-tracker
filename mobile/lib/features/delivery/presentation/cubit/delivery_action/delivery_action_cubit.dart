@@ -31,7 +31,7 @@ class DeliveryActionCubit extends Cubit<DeliveryActionState> {
     this._failDeliveryUseCase,
     this._proofStorageService,
     this._syncManager, {
-    ImagePicker? imagePicker,
+    @ignoreParam ImagePicker? imagePicker,
     Uuid uuid = const Uuid(),
   })  : _imagePicker = imagePicker ?? ImagePicker(),
         _uuid = uuid,

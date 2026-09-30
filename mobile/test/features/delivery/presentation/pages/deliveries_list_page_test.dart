@@ -90,7 +90,7 @@ void main() {
     await tester.pump();
 
     expect(find.byType(DeliveriesSearchingRadar), findsOneWidget);
-    await tester.pump(const Duration(milliseconds: 450));
+    await tester.pump(const Duration(milliseconds: 1500));
     expect(find.byType(DeliveriesSearchingRadar), findsOneWidget);
   });
 

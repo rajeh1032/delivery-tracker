@@ -33,13 +33,13 @@ void main() {
   );
 
   for (final language in ['ar', 'en']) {
-    testWidgets('$language startup radar lasts 450ms with immediate data', (
+    testWidgets('$language startup radar lasts 1500ms with immediate data', (
       tester,
     ) async {
       await tester.pumpWidget(app(language));
       verify(() => cubit.loadDeliveries()).called(1);
       expect(find.byType(DeliveriesSearchingRadar), findsOneWidget);
-      await tester.pump(const Duration(milliseconds: 449));
+      await tester.pump(const Duration(milliseconds: 1499));
       expect(find.byType(DeliveriesSearchingRadar), findsOneWidget);
       await tester.pump(const Duration(milliseconds: 1));
       expect(find.byType(DeliveriesSearchingRadar), findsNothing);
@@ -53,7 +53,7 @@ void main() {
   testWidgets('leaving during startup cancels the radar timer', (tester) async {
     await tester.pumpWidget(app('ar'));
     await tester.pumpWidget(const SizedBox());
-    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pump(const Duration(milliseconds: 1600));
     expect(tester.takeException(), isNull);
   });
 }
