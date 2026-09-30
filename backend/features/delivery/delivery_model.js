@@ -10,11 +10,12 @@ export const getDeliveryById = async (id) => {
   return delivery || null;
 };
 
-export const markAsDelivered = async (id, { recipient_name, note, client_action_id }) => {
+export const markAsDelivered = async (id, { recipient_name, note, client_action_id, base_version }) => {
   const delivery = deliveriesDB.find((d) => d.id === Number(id));
   if (!delivery) return null;
 
-  if (delivery.status !== DELIVERY_STATUS.PENDING) {
+  if (delivery.status !== DELIVERY_STATUS.PENDING ||
+      (base_version !== undefined && base_version !== delivery.version)) {
     return { conflict: true };
   }
 
@@ -28,11 +29,12 @@ export const markAsDelivered = async (id, { recipient_name, note, client_action_
   return delivery;
 };
 
-export const markAsFailed = async (id, { reason, note, client_action_id }) => {
+export const markAsFailed = async (id, { reason, note, client_action_id, base_version }) => {
   const delivery = deliveriesDB.find((d) => d.id === Number(id));
   if (!delivery) return null;
 
-  if (delivery.status !== DELIVERY_STATUS.PENDING) {
+  if (delivery.status !== DELIVERY_STATUS.PENDING ||
+      (base_version !== undefined && base_version !== delivery.version)) {
     return { conflict: true };
   }
 
