@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:delivery_tracker/config/theme/app_dimensions.dart';
 import 'package:delivery_tracker/config/theme/colors.dart';
+import 'package:delivery_tracker/core/extensions/context_extensions.dart';
 import 'package:delivery_tracker/core/utils/enums.dart';
 import 'package:delivery_tracker/core/helpers/phone_launcher_utils.dart';
 import '../badges/delivery_status_badge.dart';
 import '../badges/sync_status_badge.dart';
 
-/// Footer of the delivery card showing phone number and status badges.
 class DeliveryCardFooter extends StatelessWidget {
   const DeliveryCardFooter({
     super.key,
@@ -22,49 +22,52 @@ class DeliveryCardFooter extends StatelessWidget {
   final VoidCallback? onRetrySync;
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        InkWell(
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Tooltip(
+        message: context.tr.callCustomer,
+        child: InkWell(
           borderRadius: BorderRadius.circular(AppDimensions.radiusSM),
           onTap: () => PhoneLauncherUtils.makePhoneCall(
             context: context,
             phoneNumber: customerPhone,
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: AppDimensions.spaceXXS,
-              horizontal: AppDimensions.spaceXXS,
-            ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 48),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                Flexible(
+                  child: Text(
+                    customerPhone,
+                    textDirection: TextDirection.ltr,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: AppDimensions.spaceSM),
                 const Icon(
                   Icons.phone_outlined,
                   size: AppDimensions.iconSM,
-                  color: AppColors.synced,
-                ),
-                const SizedBox(width: AppDimensions.spaceXS),
-                Text(
-                  customerPhone,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
+                  color: AppColors.textSecondary,
                 ),
               ],
             ),
           ),
         ),
-        const Spacer(),
-        DeliveryStatusBadge(status: deliveryStatus),
-        const SizedBox(width: AppDimensions.spaceXS),
-        SyncStatusBadge(
-          syncStatus: syncStatus,
-          onRetry: onRetrySync,
-        ),
-      ],
-    );
-  }
+      ),
+      Wrap(
+        spacing: AppDimensions.spaceSM,
+        runSpacing: AppDimensions.spaceSM,
+        children: [
+          DeliveryStatusBadge(status: deliveryStatus),
+          SyncStatusBadge(syncStatus: syncStatus, onRetry: onRetrySync),
+        ],
+      ),
+    ],
+  );
 }

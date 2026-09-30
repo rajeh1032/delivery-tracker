@@ -28,12 +28,13 @@ class DeliveryFareSummary extends StatelessWidget {
         children: [
           Text(
             amountLabel,
+            textDirection: TextDirection.ltr,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 15,
-              fontWeight: FontWeight.w800,
-              color: AppColors.primary,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 3),
@@ -48,12 +49,13 @@ class DeliveryFareSummary extends StatelessWidget {
       children: [
         Text(
           amountLabel,
+          textDirection: TextDirection.ltr,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: AppColors.primary,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
           ),
         ),
         const SizedBox(height: AppDimensions.spaceXS),

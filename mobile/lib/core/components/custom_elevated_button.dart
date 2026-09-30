@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config/theme/app_dimensions.dart';
 import '../../config/theme/colors.dart';
+import 'trailing_icon_label.dart';
 
 /// Primary action button supporting loading indicator and disabled state.
 class CustomElevatedButton extends StatelessWidget {
@@ -54,23 +55,14 @@ class CustomElevatedButton extends StatelessWidget {
                   valueColor: AlwaysStoppedAnimation<Color>(effectiveText),
                 ),
               )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (icon != null) ...[
-                    icon!,
-                    const SizedBox(width: AppDimensions.spaceSM),
-                  ],
-                  Text(
-                    text,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: effectiveText,
-                    ),
-                  ),
-                ],
+            : TrailingIconLabel(
+                label: text,
+                icon: icon,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: effectiveText,
+                ),
               ),
       ),
     );
