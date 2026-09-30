@@ -42,13 +42,15 @@ class DeliveryActionAdapter extends TypeAdapter<DeliveryAction> {
       createdAt: _parseDateTime(fields[5]) ?? DateTime.now(),
       retryCount: fields[6] as int? ?? 0,
       lastError: fields[7] as String?,
+      autoRetryAllowed: fields[8] as bool? ?? true,
+      nextRetryAt: _parseDateTime(fields[9]),
     );
   }
 
   @override
   void write(BinaryWriter writer, DeliveryAction obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.clientActionId)
       ..writeByte(1)
@@ -64,11 +66,17 @@ class DeliveryActionAdapter extends TypeAdapter<DeliveryAction> {
       ..writeByte(6)
       ..write(obj.retryCount)
       ..writeByte(7)
-      ..write(obj.lastError);
+      ..write(obj.lastError)
+      ..writeByte(8)
+      ..write(obj.autoRetryAllowed)
+      ..writeByte(9)
+      ..write(obj.nextRetryAt?.toIso8601String());
   }
 
   static DeliveryActionType _parseDeliveryActionType(dynamic value) {
-    if (value is int && value >= 0 && value < DeliveryActionType.values.length) {
+    if (value is int &&
+        value >= 0 &&
+        value < DeliveryActionType.values.length) {
       return DeliveryActionType.values[value];
     }
     if (value is String) {
