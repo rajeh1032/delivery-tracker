@@ -23,13 +23,13 @@ class DeliveryCustomerSummary extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 17,
-          backgroundColor: AppColors.primary.withValues(alpha: 0.12),
+          backgroundColor: AppColors.surfaceVariant,
           child: Text(
             initial,
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w700,
-              color: AppColors.primary,
+              color: AppColors.textSecondary,
             ),
           ),
         ),
@@ -50,21 +50,12 @@ class DeliveryCustomerSummary extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 2),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusSM),
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: Text(
-                  orderNumber,
-                  style: const TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textSecondary,
-                    letterSpacing: 0.5,
-                  ),
+              Text(
+                orderNumber,
+                textDirection: TextDirection.ltr,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: AppColors.textSecondary,
                 ),
               ),
             ],

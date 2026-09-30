@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:delivery_tracker/core/components/trailing_icon_label.dart';
 import 'package:delivery_tracker/config/theme/app_dimensions.dart';
 import 'package:delivery_tracker/config/theme/colors.dart';
 import 'package:delivery_tracker/core/extensions/context_extensions.dart';
@@ -7,11 +8,7 @@ import 'package:delivery_tracker/core/utils/enums.dart';
 /// Interactive offline-first synchronization badge with states for syncing,
 /// waiting, synced, and retryable failed state.
 class SyncStatusBadge extends StatelessWidget {
-  const SyncStatusBadge({
-    super.key,
-    required this.syncStatus,
-    this.onRetry,
-  });
+  const SyncStatusBadge({super.key, required this.syncStatus, this.onRetry});
 
   final SyncStatus syncStatus;
   final VoidCallback? onRetry;
@@ -20,44 +17,44 @@ class SyncStatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final (label, fgColor, bgColor, iconWidget) = switch (syncStatus) {
       SyncStatus.synced => (
-          context.tr.syncStatusSynced,
-          AppColors.synced,
-          AppColors.syncedBg,
-          const Icon(Icons.cloud_done_rounded, size: 13, color: AppColors.synced),
-        ),
+        context.tr.syncStatusSynced,
+        AppColors.synced,
+        AppColors.syncedBg,
+        const Icon(Icons.cloud_done_rounded, size: 13, color: AppColors.synced),
+      ),
       SyncStatus.waitingToSync => (
-          context.tr.syncStatusWaitingToSync,
-          AppColors.waitingToSync,
-          AppColors.waitingToSyncBg,
-          const Icon(
-            Icons.hourglass_top_rounded,
-            size: 13,
-            color: AppColors.waitingToSync,
-          ),
+        context.tr.syncStatusWaitingToSync,
+        AppColors.waitingToSync,
+        AppColors.waitingToSyncBg,
+        const Icon(
+          Icons.hourglass_top_rounded,
+          size: 13,
+          color: AppColors.waitingToSync,
         ),
+      ),
       SyncStatus.syncing => (
-          context.tr.syncStatusSyncing,
-          AppColors.syncing,
-          AppColors.syncingBg,
-          const SizedBox(
-            width: 11,
-            height: 11,
-            child: CircularProgressIndicator(
-              strokeWidth: 1.8,
-              valueColor: AlwaysStoppedAnimation<Color>(AppColors.syncing),
-            ),
+        context.tr.syncStatusSyncing,
+        AppColors.syncing,
+        AppColors.syncingBg,
+        const SizedBox(
+          width: 11,
+          height: 11,
+          child: CircularProgressIndicator(
+            strokeWidth: 1.8,
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.syncing),
           ),
         ),
+      ),
       SyncStatus.failed => (
-          context.tr.syncStatusFailedToSync,
-          AppColors.syncFailed,
-          AppColors.syncFailedBg,
-          const Icon(
-            Icons.refresh_rounded,
-            size: 13,
-            color: AppColors.syncFailed,
-          ),
+        context.tr.syncStatusFailedToSync,
+        AppColors.syncFailed,
+        AppColors.syncFailedBg,
+        const Icon(
+          Icons.refresh_rounded,
+          size: 13,
+          color: AppColors.syncFailed,
         ),
+      ),
     };
 
     final content = Container(
@@ -67,23 +64,16 @@ class SyncStatusBadge extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
-        border: Border.all(color: fgColor.withValues(alpha: 0.3)),
+        borderRadius: BorderRadius.circular(AppDimensions.radiusSM),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          iconWidget,
-          const SizedBox(width: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-              color: fgColor,
-            ),
-          ),
-        ],
+      child: TrailingIconLabel(
+        label: label,
+        icon: iconWidget,
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          color: fgColor,
+        ),
       ),
     );
 
@@ -91,7 +81,7 @@ class SyncStatusBadge extends StatelessWidget {
       return Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
+          borderRadius: BorderRadius.circular(AppDimensions.radiusSM),
           onTap: onRetry,
           child: content,
         ),
