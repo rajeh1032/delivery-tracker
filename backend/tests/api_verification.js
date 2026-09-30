@@ -184,6 +184,9 @@ async function runTests() {
     const uploadData = await uploadRes.json();
     assert(uploadRes.status === 200, "Status is 200");
     assert(uploadData.proof_url !== undefined && uploadData.proof_url.startsWith("/uploads/"), "Photo uploaded and proof_url generated");
+    const photoRes = await fetch(`${baseUrl}${uploadData.proof_url}`);
+    assert(photoRes.status === 200, "Uploaded photo can be retrieved");
+    assert(Buffer.from(await photoRes.arrayBuffer()).equals(dummyImageBytes), "Retrieved photo matches the upload");
 
   } finally {
     server.close(() => {
