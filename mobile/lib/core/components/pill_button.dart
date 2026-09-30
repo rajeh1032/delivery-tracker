@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../config/theme/app_dimensions.dart';
 import '../../config/theme/colors.dart';
+import 'trailing_icon_label.dart';
 
-/// Full-width rounded pill button adapted from reference driver action designs.
+/// Full-width primary action with loading and disabled states.
 class PillButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
@@ -31,13 +32,14 @@ class PillButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          padding: padding ??
+          padding:
+              padding ??
               const EdgeInsets.symmetric(horizontal: AppDimensions.spaceSM),
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
           disabledBackgroundColor: backgroundColor.withValues(alpha: 0.5),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
+            borderRadius: BorderRadius.circular(AppDimensions.radiusMD),
           ),
           elevation: 0,
         ),
@@ -50,27 +52,14 @@ class PillButton extends StatelessWidget {
                   valueColor: AlwaysStoppedAnimation<Color>(textColor),
                 ),
               )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (icon != null) ...[
-                    icon!,
-                    const SizedBox(width: AppDimensions.spaceXS),
-                  ],
-                  Flexible(
-                    child: Text(
-                      text,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: textColor,
-                      ),
-                    ),
-                  ),
-                ],
+            : TrailingIconLabel(
+                label: text,
+                icon: icon,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: textColor,
+                ),
               ),
       ),
     );

@@ -26,10 +26,7 @@ class DetailsCustomerLocationCard extends StatelessWidget {
   });
 
   void _callCustomer(BuildContext context) {
-    PhoneLauncherUtils.makePhoneCall(
-      context: context,
-      phoneNumber: phone,
-    );
+    PhoneLauncherUtils.makePhoneCall(context: context, phoneNumber: phone);
   }
 
   void _copyPhone(BuildContext context) {
@@ -44,15 +41,8 @@ class DetailsCustomerLocationCard extends StatelessWidget {
       padding: const EdgeInsets.all(AppDimensions.spaceLG),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(AppDimensions.radiusXXL),
+        borderRadius: BorderRadius.circular(AppDimensions.radiusLG),
         border: Border.all(color: AppColors.border.withValues(alpha: 0.8)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,28 +65,31 @@ class DetailsCustomerLocationCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: Row(
                 children: [
-                  const Icon(
-                    Icons.phone_outlined,
-                    size: 18,
-                    color: AppColors.primary,
-                  ),
-                  const SizedBox(width: AppDimensions.spaceSM),
-                  Text(
-                    phone,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textSecondary,
+                  Expanded(
+                    child: Text(
+                      phone,
+                      textDirection: TextDirection.ltr,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                   ),
-                  const Spacer(),
+                  IconButton(
+                    onPressed: () => _copyPhone(context),
+                    tooltip: context.tr.copyPhone,
+                    icon: const Icon(Icons.copy_outlined, size: 18),
+                    color: AppColors.textSecondary,
+                  ),
                   IconButton(
                     icon: const Icon(Icons.call_rounded, size: 20),
                     color: AppColors.primary,
                     style: IconButton.styleFrom(
-                      backgroundColor: AppColors.primary.withValues(alpha: 0.08),
+                      backgroundColor: AppColors.primary.withValues(
+                        alpha: 0.08,
+                      ),
                       padding: const EdgeInsets.all(AppDimensions.spaceXS),
-                      minimumSize: const Size(36, 36),
+                      minimumSize: const Size(48, 48),
                     ),
                     tooltip: context.tr.callCustomer,
                     onPressed: () => _callCustomer(context),
@@ -109,15 +102,6 @@ class DetailsCustomerLocationCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 2.0),
-                child: Icon(
-                  Icons.location_on_outlined,
-                  size: 18,
-                  color: AppColors.primary,
-                ),
-              ),
-              const SizedBox(width: AppDimensions.spaceSM),
               Expanded(
                 child: Text(
                   address,
@@ -127,6 +111,12 @@ class DetailsCustomerLocationCard extends StatelessWidget {
                     height: 1.3,
                   ),
                 ),
+              ),
+              const SizedBox(width: AppDimensions.spaceSM),
+              const Icon(
+                Icons.location_on_outlined,
+                size: 18,
+                color: AppColors.textMuted,
               ),
             ],
           ),
@@ -147,6 +137,7 @@ class DetailsCustomerLocationCard extends StatelessWidget {
                 longitude: longitude,
               ),
               icon: const Icon(Icons.map_outlined, size: 18),
+              iconAlignment: IconAlignment.end,
               label: Text(
                 context.tr.viewOnMap,
                 style: const TextStyle(

@@ -109,7 +109,7 @@ void main() {
 
       await tester.pumpWidget(buildTestApp());
 
-      expect(find.text('ORD-101'), findsOneWidget);
+      expect(find.text('ORD-101'), findsNWidgets(2));
       expect(find.text('Fatima Zahra'), findsOneWidget);
       expect(find.text('+965 9876 5432'), findsOneWidget);
       expect(find.text('Salmiya, Block 4, Street 12, Building 8'), findsOneWidget);

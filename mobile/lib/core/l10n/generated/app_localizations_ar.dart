@@ -9,7 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appTitle => 'متتبع التوصيل';
+  String get appTitle => 'طلبات التوصيل';
 
   @override
   String get navDeliveries => 'الطلبات';
@@ -24,112 +24,110 @@ class AppLocalizationsAr extends AppLocalizations {
   String get offline => 'غير متصل';
 
   @override
-  String get offlineBannerTitle => 'أنت غير متصل بالإنترنت';
+  String get offlineBannerTitle => 'لا يوجد اتصال بالإنترنت';
 
   @override
   String get offlineBannerBody =>
-      'لا يوجد اتصال بالإنترنت. يتم حفظ تعديلاتك محلياً وستتم المزامنة تلقائياً فور عودة الاتصال.';
+      'تعديلاتك محفوظة على الجهاز. سنرسلها تلقائيًا عند عودة الاتصال.';
 
   @override
-  String get backOnline =>
-      'تمت استعادة الاتصال — جاري مزامنة العمليات المعلقة...';
+  String get backOnline => 'عاد الاتصال. جارٍ إرسال التحديثات المحفوظة…';
 
   @override
-  String get deliveriesSearching => 'جاري البحث عن طلبات قريبة ....';
+  String get deliveriesSearching => 'لا توجد طلبات للعرض حاليًا';
 
   @override
-  String get searchHint => 'ابحث برقم الطلب أو اسم العميل...';
+  String get searchHint => 'رقم الطلب أو اسم العميل';
 
   @override
   String get filterAll => 'الكل';
 
   @override
-  String get filterPending => 'قيد التوصيل';
+  String get filterPending => 'بانتظار التسليم';
 
   @override
-  String get filterDelivered => 'تم التوصيل';
+  String get filterDelivered => 'تم التسليم';
 
   @override
-  String get filterFailed => 'فشل التوصيل';
+  String get filterFailed => 'لم يتم التسليم';
 
   @override
-  String get deliveryStatusPending => 'قيد التوصيل';
+  String get deliveryStatusPending => 'بانتظار التسليم';
 
   @override
-  String get deliveryStatusDelivered => 'تم التوصيل';
+  String get deliveryStatusDelivered => 'تم التسليم';
 
   @override
-  String get deliveryStatusFailed => 'فشل التوصيل';
+  String get deliveryStatusFailed => 'تعذّر التسليم';
 
   @override
-  String get syncStatusSynced => 'متزامن';
+  String get syncStatusSynced => 'تم حفظ التحديث';
 
   @override
-  String get syncStatusWaitingToSync => 'بانتظار المزامنة';
+  String get syncStatusWaitingToSync => 'بانتظار الإرسال';
 
   @override
-  String get syncStatusSyncing => 'جاري المزامنة...';
+  String get syncStatusSyncing => 'جارٍ إرسال التحديث…';
 
   @override
-  String get syncStatusFailedToSync => 'فشلت المزامنة';
+  String get syncStatusFailedToSync => 'لم يُرسل التحديث';
 
   @override
-  String get paymentCash => 'كاش';
+  String get paymentCash => 'نقدًا';
 
   @override
-  String get paymentInstapay => 'انستاباي';
+  String get paymentInstapay => 'إنستا باي';
 
   @override
-  String get emptyDeliveriesTitle => 'لا توجد طلبات معينة';
+  String get emptyDeliveriesTitle => 'لا توجد طلبات مسندة إليك';
 
   @override
-  String get emptyDeliveriesBody =>
-      'ليس لديك أي طلبات توصيل نشطة في الوقت الحالي.';
+  String get emptyDeliveriesBody => 'ستظهر طلباتك هنا عند إسنادها إليك.';
 
   @override
-  String get noSearchResults => 'لا توجد طلبات مطابقة للبحث أو الفلتر المحدد.';
+  String get noSearchResults => 'لا توجد طلبات تطابق البحث أو التصفية.';
 
   @override
-  String get errorLoadDeliveries => 'تعذر تحميل الطلبات. اضغط لإعادة المحاولة.';
+  String get errorLoadDeliveries => 'لم نتمكن من تحميل الطلبات. حاول مرة أخرى.';
 
   @override
-  String get retry => 'إعادة المحاولة';
+  String get retry => 'حاول مرة أخرى';
 
   @override
-  String get retryAll => 'إعادة محاولة الكل';
+  String get retryAll => 'إعادة إرسال الكل';
 
   @override
   String get detailsTitle => 'تفاصيل الطلب';
 
   @override
-  String get customerInfo => 'معلومات العميل';
+  String get customerInfo => 'بيانات العميل';
 
   @override
   String get deliveryAddress => 'عنوان التوصيل';
 
   @override
-  String get amountDue => 'المبلغ المطلوب تحصيله';
+  String get amountDue => 'المبلغ المستحق';
 
   @override
   String get recipientNameLabel => 'اسم المستلم';
 
   @override
-  String get recipientNameHint => 'أدخل اسم الشخص المستلم';
+  String get recipientNameHint => 'اسم من استلم الطلب';
 
   @override
-  String get recipientNameRequired => 'اسم المستلم مطلوب (حرفين على الأقل)';
+  String get recipientNameRequired => 'اكتب اسم المستلم، حرفين على الأقل.';
 
   @override
-  String get noteLabel => 'ملاحظات (اختياري)';
+  String get noteLabel => 'ملاحظة (اختياري)';
 
   @override
-  String get noteHint => 'أضف ملاحظة أو علامة مميزة...';
+  String get noteHint => 'أضف تفاصيل تساعد على توثيق التسليم';
 
   @override
-  String get photoTitle => 'صورة الإثبات';
+  String get photoTitle => 'صورة التسليم';
 
   @override
-  String get photoHint => 'التقاط صورة إثبات التوصيل (اختياري)';
+  String get photoHint => 'أرفق صورة للتسليم (اختياري)';
 
   @override
   String get camera => 'الكاميرا';
@@ -138,25 +136,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get gallery => 'معرض الصور';
 
   @override
-  String get confirmDelivery => 'تأكيد التوصيل';
+  String get confirmDelivery => 'تأكيد التسليم';
 
   @override
-  String get confirmFailure => 'تأكيد فشل التوصيل';
+  String get confirmFailure => 'تأكيد عدم التسليم';
 
   @override
   String get failureReasonLabel => 'سبب عدم التوصيل';
 
   @override
-  String get failureReasonRequired => 'يرجى تحديد سبب عدم التوصيل';
+  String get failureReasonRequired => 'اختر سبب عدم التسليم.';
 
   @override
-  String get reasonCustomerUnavailable => 'العميل غير متاح';
+  String get reasonCustomerUnavailable => 'لم نتمكن من الوصول إلى العميل';
 
   @override
   String get reasonWrongAddress => 'العنوان غير صحيح';
 
   @override
-  String get reasonCustomerRefused => 'العميل رفض الاستلام';
+  String get reasonCustomerRefused => 'رفض العميل الاستلام';
 
   @override
   String get reasonDamagedPackage => 'الشحنة تالفة';
@@ -165,14 +163,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get reasonOther => 'سبب آخر';
 
   @override
-  String get markDelivered => 'تحديد كمكتمل';
+  String get markDelivered => 'تم التسليم';
 
   @override
-  String get markFailed => 'تحديد كفاشل';
+  String get markFailed => 'تعذّر التسليم';
 
   @override
-  String get actionsFrozenWhileSync =>
-      'جاري مزامنة العملية حالياً. يرجى الانتظار.';
+  String get actionsFrozenWhileSync => 'جارٍ إرسال التحديث. انتظر قليلًا.';
 
   @override
   String get settingsTitle => 'الإعدادات';
@@ -187,56 +184,57 @@ class AppLocalizationsAr extends AppLocalizations {
   String get english => 'English';
 
   @override
-  String get aboutVersion => 'متتبع التوصيل v1.0.0';
+  String get aboutVersion => 'طلبات التوصيل — الإصدار 1.0.0';
 
   @override
-  String get deliveryNotFound => 'لم يتم العثور على الطلب';
+  String get deliveryNotFound => 'هذا الطلب غير موجود';
 
   @override
   String get copyPhone => 'نسخ رقم الهاتف';
 
   @override
-  String get phoneCopied => 'تم نسخ رقم الهاتف للحافظة';
+  String get phoneCopied => 'تم نسخ رقم الهاتف';
 
   @override
   String get callCustomer => 'اتصال';
 
   @override
-  String get deliveredBy => 'تم الاستلام بواسطة';
+  String get deliveredBy => 'استلم الطلب';
 
   @override
-  String get deliveredOrderBanner => 'تم تسليم هذا الطلب بنجاح.';
+  String get deliveredOrderBanner => 'تم تسليم الطلب.';
 
   @override
-  String get failedOrderBanner => 'تم تحديد هذا الطلب كفاشل.';
+  String get failedOrderBanner => 'لم يتم تسليم الطلب.';
 
   @override
   String get deliveryCompletedLocally =>
-      'تم تسجيل التوصيل بنجاح وجدولة المزامنة.';
+      'تم تسجيل التسليم. سنرسل التحديث عند توفر الاتصال.';
 
   @override
-  String get deliveryFailedLocally => 'تم تسجيل فشل التوصيل وجدولة المزامنة.';
+  String get deliveryFailedLocally =>
+      'تم تسجيل عدم التسليم. سنرسل التحديث عند توفر الاتصال.';
 
   @override
   String get removePhoto => 'حذف الصورة';
 
   @override
-  String get chooseSource => 'اختر مصدر الصورة';
+  String get chooseSource => 'إضافة صورة';
 
   @override
-  String get photoAttachSuccess => 'تم إرفاق الصورة بنجاح';
+  String get photoAttachSuccess => 'تمت إضافة الصورة';
 
   @override
-  String get actionTypeComplete => 'إتمام التوصيل';
+  String get actionTypeComplete => 'تسليم الطلب';
 
   @override
-  String get actionTypeFail => 'تعذر التوصيل';
+  String get actionTypeFail => 'عدم تسليم الطلب';
 
   @override
-  String get retries => 'محاولات';
+  String get retries => 'عدد المحاولات';
 
   @override
-  String get orderPrefix => 'طلب #';
+  String get orderPrefix => 'الطلب ';
 
   @override
   String get viewDetails => 'عرض التفاصيل';
@@ -251,28 +249,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get cannotMakeCall => 'لا يمكن إجراء المكالمات من هذا الجهاز';
 
   @override
-  String get orderSummary => 'تفاصيل المنتج والطلب';
+  String get orderSummary => 'ملخص الطلب';
 
   @override
-  String get compressingImage => 'جارٍ ضغط وتحسين الصورة...';
+  String get compressingImage => 'جارٍ تجهيز الصورة…';
 
   @override
-  String get snackbarSuccess => 'تم بنجاح';
+  String get snackbarSuccess => 'تم';
 
   @override
-  String get snackbarError => 'حدث خطأ';
+  String get snackbarError => 'تعذّر إكمال العملية';
 
   @override
   String get snackbarWarning => 'تنبيه';
 
   @override
-  String get snackbarInfo => 'معلومة';
+  String get snackbarInfo => 'ملاحظة';
 
   @override
-  String get viewOnMap => 'عرض على الخريطة';
+  String get viewOnMap => 'عرض الموقع';
 
   @override
-  String get openInGoogleMaps => 'فتح في خرائط جوجل';
+  String get openInGoogleMaps => 'فتح خرائط Google';
 
   @override
   String get customerLocation => 'موقع العميل';
