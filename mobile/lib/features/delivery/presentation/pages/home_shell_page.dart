@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/theme/app_dimensions.dart';
-import '../../../../config/theme/colors.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../core/general_cubits/connectivity_cubit.dart';
 import '../../../../core/general_cubits/connectivity_state.dart';
