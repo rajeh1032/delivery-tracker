@@ -94,9 +94,15 @@ void main() {
         ),
       );
 
-      await tester.pumpWidget(buildTestApp());
+      await tester.pumpWidget(buildTestApp(deliveryId: 1005));
       expect(find.byType(DeliveryDetailsErrorState), findsOneWidget);
       expect(find.text('Server Error'), findsOneWidget);
+
+      clearInteractions(mockCubit);
+      await tester.tap(find.text('Retry'));
+      await tester.pump();
+
+      verify(() => mockCubit.loadDelivery(1005)).called(1);
     });
 
     testWidgets('renders full details content when loaded', (tester) async {

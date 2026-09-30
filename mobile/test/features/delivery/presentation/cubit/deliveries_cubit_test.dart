@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:delivery_tracker/core/services/sync_manager.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -10,6 +11,8 @@ import 'package:delivery_tracker/features/delivery/domain/repositories/delivery_
 import 'package:delivery_tracker/features/delivery/domain/use_case/get_deliveries_use_case.dart';
 import 'package:delivery_tracker/features/delivery/presentation/cubit/deliveries/deliveries_cubit.dart';
 import 'package:delivery_tracker/features/delivery/presentation/cubit/deliveries/deliveries_state.dart';
+
+class MockSyncManager extends Mock implements SyncManager {}
 
 class MockGetDeliveriesUseCase extends Mock implements GetDeliveriesUseCase {}
 
@@ -78,6 +81,7 @@ void main() {
       mockGetDeliveriesUseCase,
       mockDeliveryRepository,
       mockConnectivityService,
+      MockSyncManager(),
     );
   }
 

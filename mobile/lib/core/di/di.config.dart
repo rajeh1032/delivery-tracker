@@ -116,18 +116,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i20.ConnectivityCubit>(
       () => _i20.ConnectivityCubit(gh<_i47.ConnectivityService>()),
     );
+    gh.factory<_i1007.DeliveryRepository>(
+      () => _i99.DeliveryRepositoryImpl(
+        gh<_i336.DeliveryLocalDataSource>(),
+        gh<_i356.DeliveryRemoteDs>(),
+      ),
+    );
     gh.lazySingleton<_i892.SyncManager>(
       () => _i892.SyncManager(
         gh<_i336.DeliveryLocalDataSource>(),
         gh<_i356.DeliveryRemoteDs>(),
         gh<_i47.ConnectivityService>(),
         gh<_i698.ProofStorageService>(),
-      ),
-    );
-    gh.factory<_i1007.DeliveryRepository>(
-      () => _i99.DeliveryRepositoryImpl(
-        gh<_i336.DeliveryLocalDataSource>(),
-        gh<_i356.DeliveryRemoteDs>(),
       ),
     );
     gh.factory<_i43.CompleteDeliveryUseCase>(
@@ -151,7 +151,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i77.FailDeliveryUseCase>(),
         gh<_i698.ProofStorageService>(),
         gh<_i892.SyncManager>(),
-        imagePicker: gh<_i183.ImagePicker>(),
         uuid: gh<_i706.Uuid>(),
       ),
     );
@@ -160,6 +159,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i963.GetDeliveriesUseCase>(),
         gh<_i1007.DeliveryRepository>(),
         gh<_i47.ConnectivityService>(),
+        gh<_i892.SyncManager>(),
       ),
     );
     gh.factory<_i122.DeliveryDetailsCubit>(

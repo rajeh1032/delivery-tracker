@@ -31,11 +31,11 @@ class DeliveryActionCubit extends Cubit<DeliveryActionState> {
     this._failDeliveryUseCase,
     this._proofStorageService,
     this._syncManager, {
-    ImagePicker? imagePicker,
+    @ignoreParam ImagePicker? imagePicker,
     Uuid uuid = const Uuid(),
-  })  : _imagePicker = imagePicker ?? ImagePicker(),
-        _uuid = uuid,
-        super(DeliveryActionState(clientActionId: uuid.v4()));
+  }) : _imagePicker = imagePicker ?? ImagePicker(),
+       _uuid = uuid,
+       super(DeliveryActionState(clientActionId: uuid.v4()));
 
   void recipientNameChanged(String value) {
     emit(state.copyWith(recipientName: value));
@@ -67,19 +67,23 @@ class DeliveryActionCubit extends Cubit<DeliveryActionState> {
           File(picked.path),
           state.clientActionId,
         );
-        emit(state.copyWith(
-          status: DeliveryActionStatus.initial,
-          photoPath: durablePath,
-          photoError: null,
-        ));
+        emit(
+          state.copyWith(
+            status: DeliveryActionStatus.initial,
+            photoPath: durablePath,
+            photoError: null,
+          ),
+        );
       } else {
         emit(state.copyWith(status: DeliveryActionStatus.initial));
       }
     } catch (e) {
-      emit(state.copyWith(
-        status: DeliveryActionStatus.initial,
-        photoError: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: DeliveryActionStatus.initial,
+          photoError: e.toString(),
+        ),
+      );
     }
   }
 
@@ -92,18 +96,22 @@ class DeliveryActionCubit extends Cubit<DeliveryActionState> {
 
     final trimmedName = state.recipientName.trim();
     if (trimmedName.length < 2) {
-      emit(state.copyWith(
-        status: DeliveryActionStatus.failure,
-        actionType: DeliveryActionType.complete,
-        errorMessage: 'Recipient name is required',
-      ));
+      emit(
+        state.copyWith(
+          status: DeliveryActionStatus.failure,
+          actionType: DeliveryActionType.complete,
+          errorMessage: 'Recipient name is required',
+        ),
+      );
       return false;
     }
 
-    emit(state.copyWith(
-      status: DeliveryActionStatus.submitting,
-      actionType: DeliveryActionType.complete,
-    ));
+    emit(
+      state.copyWith(
+        status: DeliveryActionStatus.submitting,
+        actionType: DeliveryActionType.complete,
+      ),
+    );
 
     final request = CompleteDeliveryRequestEntity(
       deliveryId: delivery.id,
@@ -118,18 +126,22 @@ class DeliveryActionCubit extends Cubit<DeliveryActionState> {
 
     switch (result) {
       case ApiSuccessResult<DeliveryEntity>():
-        emit(state.copyWith(
-          status: DeliveryActionStatus.success,
-          actionType: DeliveryActionType.complete,
-        ));
+        emit(
+          state.copyWith(
+            status: DeliveryActionStatus.success,
+            actionType: DeliveryActionType.complete,
+          ),
+        );
         unawaited(_syncManager.processQueue());
         return true;
       case ApiErrorResult<DeliveryEntity>(:final failure):
-        emit(state.copyWith(
-          status: DeliveryActionStatus.failure,
-          actionType: DeliveryActionType.complete,
-          errorMessage: failure.errorMessage,
-        ));
+        emit(
+          state.copyWith(
+            status: DeliveryActionStatus.failure,
+            actionType: DeliveryActionType.complete,
+            errorMessage: failure.errorMessage,
+          ),
+        );
         return false;
     }
   }
@@ -138,18 +150,22 @@ class DeliveryActionCubit extends Cubit<DeliveryActionState> {
     if (state.isSubmitting) return false;
 
     if (state.reason == null) {
-      emit(state.copyWith(
-        status: DeliveryActionStatus.failure,
-        actionType: DeliveryActionType.fail,
-        errorMessage: 'Please select a failure reason',
-      ));
+      emit(
+        state.copyWith(
+          status: DeliveryActionStatus.failure,
+          actionType: DeliveryActionType.fail,
+          errorMessage: 'Please select a failure reason',
+        ),
+      );
       return false;
     }
 
-    emit(state.copyWith(
-      status: DeliveryActionStatus.submitting,
-      actionType: DeliveryActionType.fail,
-    ));
+    emit(
+      state.copyWith(
+        status: DeliveryActionStatus.submitting,
+        actionType: DeliveryActionType.fail,
+      ),
+    );
 
     final request = FailDeliveryRequestEntity(
       deliveryId: delivery.id,
@@ -163,18 +179,22 @@ class DeliveryActionCubit extends Cubit<DeliveryActionState> {
 
     switch (result) {
       case ApiSuccessResult<DeliveryEntity>():
-        emit(state.copyWith(
-          status: DeliveryActionStatus.success,
-          actionType: DeliveryActionType.fail,
-        ));
+        emit(
+          state.copyWith(
+            status: DeliveryActionStatus.success,
+            actionType: DeliveryActionType.fail,
+          ),
+        );
         unawaited(_syncManager.processQueue());
         return true;
       case ApiErrorResult<DeliveryEntity>(:final failure):
-        emit(state.copyWith(
-          status: DeliveryActionStatus.failure,
-          actionType: DeliveryActionType.fail,
-          errorMessage: failure.errorMessage,
-        ));
+        emit(
+          state.copyWith(
+            status: DeliveryActionStatus.failure,
+            actionType: DeliveryActionType.fail,
+            errorMessage: failure.errorMessage,
+          ),
+        );
         return false;
     }
   }

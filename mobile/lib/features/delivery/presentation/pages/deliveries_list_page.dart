@@ -130,6 +130,9 @@ class _DeliveriesListViewWrapperState
     return DeliveriesListView(
       deliveries: state.visibleDeliveries,
       onRefresh: () => context.read<DeliveriesListCubit>().refresh(),
+      onRetrySync: (delivery) {
+        unawaited(context.read<DeliveriesListCubit>().retrySync(delivery));
+      },
       onDeliveryTap: (delivery) {
         context.pushNamed(AppRoutes.deliveryDetails, arguments: delivery.id);
       },

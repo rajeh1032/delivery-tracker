@@ -127,6 +127,9 @@ void main() {
       expect(delivery.syncStatus, SyncStatus.failed);
 
       expect(await manager.retryAction(action.clientActionId), isFalse);
+      expect(queue, hasLength(1));
+      queue = [queue.single.copyWith(nextRetryAt: DateTime.utc(2026))];
+      expect(await manager.retryAction(action.clientActionId), isFalse);
       expect(queue, isEmpty);
       expect(delivery.status, DeliveryStatus.failed);
       expect(delivery.version, 9);
